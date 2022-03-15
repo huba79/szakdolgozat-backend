@@ -22,19 +22,17 @@ public class BlogEntry {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO)
     Long id;
     
-    @Column(name="COMPANY_ID",length=128)
+    @Column(name="COMPANY_ID,length=128")
     Long companyId;
     
-    @Column(name="ENRTY_TITLE",columnDefinition="VARCHAR2 NOT NULL",length=256)
+    @Column(name="ENRTY_TITLE,length=128")
     String title;
     
-    @Column(name="ENRTY_CONTENT",columnDefinition="VARCHAR2 NOT NULL",length=3072)
+    @Column(name="ENRTY_CONTENT,length=4096")
     String content;
-    
-    @Column(name="POST_DATE",columnDefinition="DATETIME NOT NULL")
+
     Date postDate;
 
-    @Column(name="USER_NAME",columnDefinition="VARCHAR2 NOT NULL",length=64)
     String userName;
 
     public Long getId() {

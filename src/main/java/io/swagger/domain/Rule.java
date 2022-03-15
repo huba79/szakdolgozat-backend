@@ -7,7 +7,6 @@ package io.swagger.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import javax.annotation.Generated;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,19 +21,19 @@ import javax.persistence.Table;
 @Table(name="RULES_OF_CONDUCT")
 public class Rule {
  
-
+//@JsonProperty("id")
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
     
-    @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
+    //@JsonProperty("lakeId")
     Long lakeid;
 
-    @Column(name="RULE_NR",columnDefinition="BIGINT NOT NULL")
-    Long ruleNr;
+    //@JsonProperty("ruleTitle")
+    String serviceName;
 
-    @Column(name="RULE_TEXT",columnDefinition="VARCHAR2 NOT NULL", length=1024)
-    String ruleText;
+    //@JsonProperty("ruleText")
+    String unitOfMeasure;
 
-    @Column(name="ACTIVE_FROM",columnDefinition="DATETIME NOT NULL")
+    //@JsonProperty("activeFrom")
     Date activeFrom;
 
 //    public Rule(Long lakeid, String serviceName, String unitOfMeasure, Date activeFrom) {
@@ -60,30 +59,21 @@ public class Rule {
         this.lakeid = lakeid;
     }
 
-    public Long getId() {
-        return id;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
-    public Long getRuleNr() {
-        return ruleNr;
+    public String getUnitOfMeasure() {
+        return unitOfMeasure;
     }
 
-    public void setRuleNr(Long ruleNr) {
-        this.ruleNr = ruleNr;
+    public void setUnitOfMeasure(String unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
     }
-
-    public String getRuleText() {
-        return ruleText;
-    }
-
-    public void setRuleText(String ruleText) {
-        this.ruleText = ruleText;
-    }
-
 
     public Date getActiveFrom() {
         return activeFrom;

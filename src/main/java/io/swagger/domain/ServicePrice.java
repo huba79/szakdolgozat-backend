@@ -4,7 +4,6 @@
  */
 package io.swagger.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,16 +17,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name="SERVICES_AND_PRICES")
 public class ServicePrice {
-    
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
-    @Column(name="SERVICE_NAME",columnDefinition="VARCHAR2 NOT NULL", length=32)
+    //@JsonProperty("serviceName")
     String serviceName;
 
-    @Column(name="UNIT_OF_MEASURE",columnDefinition="VARCHAR2 NOT NULL", length=16)
+    //@JsonProperty("unitOfMeasure")
     String unitOfMeasure;
 
-    @Column(name="PRICE_PER_UNIT",columnDefinition="DOUBLE NOT NULL", length=10, precision=2)
+    //@JsonProperty("pricePerUnit")
     Double pricePerUnit;
 
 //    public ServicePrice(Long id, String serviceName, String unitOfMeasure, Double pricePerUnit) {

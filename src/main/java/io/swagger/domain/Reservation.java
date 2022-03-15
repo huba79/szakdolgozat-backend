@@ -7,12 +7,10 @@ package io.swagger.domain;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -25,28 +23,27 @@ import javax.persistence.Transient;
 public class Reservation {
 
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
-    
-    @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
+
+    //JsonProperty("lakeId")
     Long lakeId;
 
-    @Column(name="STAGE_ID",columnDefinition="BIGINT NOT NULL")
+    //JsonProperty("stageId")
     Long stageId;
-    
-    @Column(name="USER_ID",columnDefinition="BIGINT NOT NULL")
+
+    //JsonProperty("userId")
     Long userId;
 
-    @Column(name="DATE_FROM",columnDefinition="DATETIME NOT NULL")
+    //JsonProperty("dateFrom")
     Date dateFrom;
-    
-    //ide kellhet egy after insert trigger hogy szamolja a date_to-t
-    @Column(name="DURATION_HR",columnDefinition="DATETIME NOT NULL")
+
+    //JsonProperty("dateTo")
     Integer durationInHr;
 
-    @OneToMany
-    //TODO UTANANEZNI!!!!!!@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //JsonProperty("requestedServices")
     List<ServicePrice> requestedServices;
 
-    @Column(name="PRICE",columnDefinition="DOUBLE NOT NULL", precision=2)
+    //az ar nem perzisztalt, csak szamolt, kell arszamolas, talan epp a konstruktorba
+    @Transient
     Double price;
 
     public Long getId() {

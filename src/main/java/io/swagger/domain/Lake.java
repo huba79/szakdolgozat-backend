@@ -6,7 +6,6 @@ package io.swagger.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.annotation.Generated;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,21 +20,23 @@ import javax.persistence.Table;
 @Table(name="LAKES")
 public class Lake {
     
+    //@JsonProperty("id")
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
         
-    @Column(name="LAKE_NAME",columnDefinition="VARCHAR2 NOT NULL",length=64)
+    //@JsonProperty("lakeName")
     String lakeName;
+
     
-    @Column(name="COMPANY_ID",columnDefinition="BIGINT NOT NULL",length=16)
+    //@JsonProperty("companyId")
     Long companyId;
 
-    @Column(name="LAKE_ADDRESS",columnDefinition="VARCHAR2 NOT NULL",length=256)
+    //@JsonProperty("lakeAddress")
     String lakeAddress;
 
-    @Column(name="RESERVATION_SYSTEM",columnDefinition="VARCHAR2 NOT NULL",length=16)
+    //@JsonProperty("reservationsSystem")
     String reservationsSystem;
 
-    @Column(name="LAKE_SIZE",columnDefinition="DOUBLE",length=10,precision=2)
+    //@JsonProperty("lakeSize")
     Double lakeSize;
 
     public Lake(String lakeName, Long companyId, String lakeAddress, String reservationsSystem, Double lakeSize) {
