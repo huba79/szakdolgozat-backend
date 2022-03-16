@@ -2,61 +2,41 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package io.swagger.domain.users;
+package io.swagger.messages;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
-import java.util.logging.Logger;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  *
  * @author huba
  */
-@Entity
-@Table(name="USERS")
-public class User {
+public class RegistrationResponse {
     
-    private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
+    @JsonProperty
+    private Long id;
     
-    //@JsonProperty("displayName")
+    @JsonProperty("displayName")
     String displayName;
 
-    //@JsonProperty("nickName")
+    @JsonProperty("nickName")
     String nickName;
 
-    //@JsonProperty("emailAddress")
+    @JsonProperty("emailAddress")
     String emailAddress;
-    
-    //@JsonProperty("password")
-    String password;
 
-    //@JsonProperty("groupId")
+    @JsonProperty("groupId")
     String groupId;
 
-    //@JsonProperty("companyId")
+    @JsonProperty("companyId")
     Long companyId;
 
-    //@JsonProperty("sessionID")
+    @JsonProperty("sessionID")
     String sessionID;
-
-    //@JsonProperty("createdDate")
-    Date createdDate;
-
-    //@JsonProperty("lastLoginDate")
-    Date lastLoginDate;
-    
-    private static final Logger LOG = Logger.getLogger(User.class.getName());    
-    
 
     public Long getId() {
         return id;
     }
-    
 
     public void setId(Long id) {
         this.id = id;
@@ -81,17 +61,9 @@ public class User {
     public String getEmailAddress() {
         return emailAddress;
     }
-    @Column(name="EMAIL_ADDRESS", nullable=false, length=64)
+
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getGroupId() {
@@ -117,22 +89,5 @@ public class User {
     public void setSessionID(String sessionID) {
         this.sessionID = sessionID;
     }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getLastLoginDate() {
-        return lastLoginDate;
-    }
-
-    public void setLastLoginDate(Date lastLoginDate) {
-        this.lastLoginDate = lastLoginDate;
-    }
-    
     
 }

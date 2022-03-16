@@ -4,15 +4,15 @@
  */
 package io.swagger.domain;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  *
@@ -20,30 +20,30 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name="RESERVATIONS")
-public class Reservation {
+public class Reservation implements Serializable {
 
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
-    //JsonProperty("lakeId")
+    @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
     Long lakeId;
 
-    //JsonProperty("stageId")
+    @Column(name="STAGE_ID",columnDefinition="BIGINT NOT NULL")
     Long stageId;
 
-    //JsonProperty("userId")
+    @Column(name="USER_ID",columnDefinition="BIGINT NOT NULL")
     Long userId;
 
-    //JsonProperty("dateFrom")
+    @Column(name="DATE_FROM",columnDefinition="DATETIME NOT NULL")
     Date dateFrom;
 
-    //JsonProperty("dateTo")
+    @Column(name="DURATION_HR",columnDefinition="INT NOT NULL")
     Integer durationInHr;
 
-    //JsonProperty("requestedServices")
-    List<ServicePrice> requestedServices;
+//    jovobeli implementalas
+//    List<ServicePrice> requestedServices = new ArrayList<>();
 
     //az ar nem perzisztalt, csak szamolt, kell arszamolas, talan epp a konstruktorba
-    @Transient
+    @Column(name="PRICE",columnDefinition="DOUBLE NOT NULL")
     Double price;
 
     public Long getId() {
@@ -92,14 +92,6 @@ public class Reservation {
 
     public void setDurationInHr(Integer durationInHr) {
         this.durationInHr = durationInHr;
-    }
-
-    public List<ServicePrice> getRequestedServices() {
-        return requestedServices;
-    }
-
-    public void setRequestedServices(List<ServicePrice> requestedServices) {
-        this.requestedServices = requestedServices;
     }
 
     public Double getPrice() {

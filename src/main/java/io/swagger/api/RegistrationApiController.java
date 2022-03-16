@@ -1,7 +1,7 @@
 package io.swagger.api;
 
 import io.swagger.configuration.MyUUIDWrapper;
-import io.swagger.domain.users.User;
+import io.swagger.domain.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +17,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
-import messages.RegistrationMessage;
-import messages.RegistrationResponse;
+import io.swagger.messages.RegistrationMessage;
+import io.swagger.messages.RegistrationResponse;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 @RestController
@@ -55,12 +55,12 @@ public class RegistrationApiController implements RegistrationApi {
                             newUser.setEmailAddress( body.getEmailAddress() );
                             newUser.setPassword( body.getPassword() );
                             newUser.setCompanyId( body.getCompanyId() );
-                            newUser.setGroupId( "USER");
+                            newUser.setGroupName("USER");
                             newUser.setCreatedDate( new Date(System.currentTimeMillis()) );
                             newUser.setLastLoginDate( new Date(System.currentTimeMillis()) );
 
                         usersrepo.save(newUser);
-                        ArrayList<User> foundUsers = usersrepo.findUserByEmail(body.getEmailAddress());
+                        ArrayList<User> foundUsers = usersrepo.findUserByEmailAddress(body.getEmailAddress());
                         
                         if(foundUsers.size() ==1 && foundUsers.get(0) !=null){
                            User found = foundUsers.get(0);

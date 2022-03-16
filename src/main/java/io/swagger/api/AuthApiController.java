@@ -1,7 +1,7 @@
 package io.swagger.api;
 
 import io.swagger.configuration.MyUUIDWrapper;
-import io.swagger.domain.users.User;
+import io.swagger.domain.User;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.repositories.UsersRepository;
-import messages.LoginMessage;
-import messages.LoginResponse;
+import io.swagger.messages.LoginMessage;
+import io.swagger.messages.LoginResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,22 +49,25 @@ public class AuthApiController implements AuthenticationApi {
         String apikey = request.getHeader("X-API-KEY");
         if( apikey !=null && apikey.equals(ACCEPTEDAPIKEY) ) {
             System.out.println("loginname:\t"+body.getLoginname()+"\npassword:\t"+body.getPassword()+"\n"+"client:\t"+request.getHeader("sender"));
-            ArrayList<User> foundusers= usersrepo.findUserByEmail(body.getLoginname());
+            ArrayList<User> foundusers= usersrepo.findUserByEmailAddress(body.getLoginname());
             if(foundusers.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else if(foundusers.size()>1){
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             } else { //found exactly 1 user
+                System.out.println("Found only 1 user"+"\n");
                 User foundUser = foundusers.get(0);
                 if ( body.getPassword().equals(foundUser.getPassword()) ) {
 
                         try {
-                            foundUser.setSessionID(MyUUIDWrapper.getUUIDV5());
+                            String uuid = MyUUIDWrapper.getUUIDV5();
+                            System.out.println("His UUID is:"+uuid+"\n");
+                            foundUser.setSessionID(uuid);
                             usersrepo.save(foundUser);
                             
                             LoginResponse response = new  LoginResponse(foundUser.getId(),
                                         foundUser.getDisplayName(),foundUser.getNickName(),
-                                        foundUser.getGroupId(),foundUser.getSessionID() );
+                                        foundUser.getGroupName(),foundUser.getSessionID() );
                             return new ResponseEntity<>(response, HttpStatus.OK);
                         
                         } catch (NoSuchAlgorithmException ex) {

@@ -4,36 +4,37 @@
  */
 package io.swagger.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 /**
  *
  * @author huba
  */
+
 @Entity
 @Table(name="STAGES")
-public class Stage {
+public class Stage implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
-    //@JsonProperty("lakeId")
+    @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
     Long lakeId;
 
-    //@JsonProperty("stageName")
+    @Column(name="STAGE_NAME",columnDefinition="VARCHAR(16) NOT NULL")
     String stageName;
 
-    //@JsonProperty("stageType")
-    String stageType;
+    @Column(name="STAGE_TYPE",columnDefinition="VARCHAR(16) NOT NULL")
+    StageTypesEnum stageType;
 
-    //@JsonProperty("stageSize")
+    @Column(name="STAGE_SIZE",columnDefinition="TINYINT NOT NULL")
     Long stageSize;
 
     //@JsonProperty("stageStatus")
-    Long stageStatus;
+    StageStatusEnum stageStatus;
 
     public Long getId() {
         return id;
@@ -60,11 +61,11 @@ public class Stage {
         this.stageName = stageName;
     }
 
-    public String getStageType() {
+    public StageTypesEnum getStageType() {
         return stageType;
     }
 
-    public void setStageType(String stageType) {
+    public void setStageType(StageTypesEnum stageType) {
         this.stageType = stageType;
     }
 
@@ -76,13 +77,12 @@ public class Stage {
         this.stageSize = stageSize;
     }
 
-    public Long getStageStatus() {
+    public StageStatusEnum getStageStatus() {
         return stageStatus;
     }
 
-    public void setStageStatus(Long stageStatus) {
+    public void setStageStatus(StageStatusEnum stageStatus) {
         this.stageStatus = stageStatus;
-    }
-    
+    }    
     
 }

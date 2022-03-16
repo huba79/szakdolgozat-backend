@@ -24,11 +24,11 @@ public class NewReservationValidator {
         this.repository = pRepository;
     }
 
-    public boolean validateReservation() {
-        List<Reservation> reservationsList = new ArrayList<>();
-            reservationsList = repository.findByStageIdAndDateFromAndDateToNamedParams(reservation.getStageId(),
-                                reservation.getDateFrom(),reservation.getDateTo());
-        return reservationsList.isEmpty();
-    }
+//    public boolean validateReservation() {
+//        List<Reservation> reservationsList = new ArrayList<>();
+//            reservationsList = repository.findByStageIdAndDateFromAndDateToNamedParams(reservation.getStageId(),
+//                                reservation.getDateFrom(),reservation.getDateTo());
+//        return reservationsList.isEmpty();
+//    }
 
 }

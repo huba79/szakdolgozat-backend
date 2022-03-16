@@ -1,4 +1,4 @@
-package messages;
+package io.swagger.messages;
 
 import org.springframework.validation.annotation.Validated;
 

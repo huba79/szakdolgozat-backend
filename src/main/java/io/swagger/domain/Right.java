@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package io.swagger.domain.users;
+package io.swagger.domain;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,10 +17,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="RIGHTS")
-public class Right {
+public class Right implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
     private String rightName;
-    private String rightType;
+    private RightTypeEnum rightType;
 
     public Long getId() {
         return id;
@@ -37,11 +38,11 @@ public class Right {
         this.rightName = rightName;
     }
 
-    public String getRightType() {
+    public RightTypeEnum getRightType() {
         return rightType;
     }
 
-    public void setRightType(String rightType) {
+    public void setRightType(RightTypeEnum rightType) {
         this.rightType = rightType;
     }
     

@@ -5,6 +5,8 @@
 package io.swagger.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,35 +19,35 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="COMPANIES")
-public class Company {
+public class Company implements Serializable {
     //@JsonProperty("id")
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
   
-    ////@JsonProperty("companyName")
+    @Column(name="COMPANY_NAME",columnDefinition="VARCHAR(64) NOT NULL")
     String companyName;
 
-    //@JsonProperty("officialName")
+    @Column(name="OFFICIAL_NAME",columnDefinition="VARCHAR(64) NOT NULL")
     String officialName;
 
-    //@JsonProperty("regNr")
+    @Column(name="REG_NR",columnDefinition="VARCHAR(16) NOT NULL")
     String regNr;
 
-    //@JsonProperty("companyAddress")
+    @Column(name="COMPANY_ADDRESS",columnDefinition="VARCHAR(128) NOT NULL")
     String companyAddress;
 
-    //@JsonProperty("ibanAddress")
+    @Column(name="IBAN_ADDRESS",columnDefinition="VARCHAR(24) NOT NULL")
     String ibanAddress;
 
-    //@JsonProperty("apiKey")
+    @Column(name="API_KEY",columnDefinition="VARCHAR(24) NOT NULL")
     String apiKey;
 
-    //@JsonProperty("contactName")
+    @Column(name="CONTACT_NAME",columnDefinition="VARCHAR(64) NOT NULL")
     String contactName;
 
-    //@JsonProperty("contactPhone")
+    @Column(name="CONTACT_PHONE",columnDefinition="VARCHAR(16)")
     String contactPhone;
 
-    //@JsonProperty("contactEmail")
+    @Column(name="COMPANY_EMAIL",columnDefinition="VARCHAR(64) NOT NULL")
     String contactEmail;
 
     public Long getId() {

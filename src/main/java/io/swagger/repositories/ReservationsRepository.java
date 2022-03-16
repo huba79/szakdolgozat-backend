@@ -11,7 +11,6 @@ import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.threeten.bp.OffsetDateTime;
 
 /**
  *
@@ -20,17 +19,17 @@ import org.threeten.bp.OffsetDateTime;
 
 public interface ReservationsRepository extends JpaRepository<Reservation, Long>{
 
-    @Query("SELECT r FROM Reservations r WHERE stageId =:pStageId and (dateTo > :pDateFrom OR dateFrom < :pDateTo )")
-    ArrayList<Reservation> findByStageIdAndDateFromAndDateToNamedParams(
-            @Param("pStageId") Long pStageId,
-            @Param("pDateFrom") Date pDateFrom,
-            @Param("pDateTo") Date pDateTo
-        );
-
-    @Query("SELECT r FROM Reservations r WHERE r.userId = :pUserId")
-    ArrayList<Reservation> findByUserIdNamedParams(
-        @Param("pUserId") Long pUserId );
-
-  //      ArrayList<Reservations> getReservationsByFilter(Long id, Integer status, OffsetDateTime dateFrom, OffsetDateTime dateTo);
+//    @Query("SELECT r FROM Reservations r WHERE stageId =:pStageId and (dateTo > :pDateFrom OR dateFrom < :pDateTo )")
+//    ArrayList<Reservation> findByStageIdAndDateFromAndDateToNamedParams(
+//            @Param("pStageId") Long pStageId,
+//            @Param("pDateFrom") Date pDateFrom,
+//            @Param("pDateTo") Date pDateTo
+//        );
+//
+//    @Query("SELECT r FROM Reservations r WHERE r.userId = :pUserId")
+//    ArrayList<Reservation> findByUserIdNamedParams(
+//        @Param("pUserId") Long pUserId );
+//
+//  //      ArrayList<Reservations> getReservationsByFilter(Long id, Integer status, OffsetDateTime dateFrom, OffsetDateTime dateTo);
 
 }

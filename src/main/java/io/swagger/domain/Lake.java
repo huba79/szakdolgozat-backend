@@ -4,8 +4,8 @@
  */
 package io.swagger.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.annotation.Generated;
+import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,25 +18,25 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="LAKES")
-public class Lake {
+public class Lake implements Serializable {
     
     //@JsonProperty("id")
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
         
-    //@JsonProperty("lakeName")
+    @Column(name="LAKE_NAME",columnDefinition="VARCHAR(32) NOT NULL")
     String lakeName;
 
     
-    //@JsonProperty("companyId")
+    @Column(name="COMPANY_ID",columnDefinition="BIGINT NOT NULL")
     Long companyId;
 
-    //@JsonProperty("lakeAddress")
+    @Column(name="LAKE_ADDRESS",columnDefinition="VARCHAR(128) NOT NULL")
     String lakeAddress;
 
-    //@JsonProperty("reservationsSystem")
+    @Column(name="RESERVATION_SYSTEM",columnDefinition="VARCHAR(16) NOT NULL")
     String reservationsSystem;
 
-    //@JsonProperty("lakeSize")
+    @Column(name="LAKE_SIZE",columnDefinition="DOUBLE NOT NULL",length=3, precision=2)
     Double lakeSize;
 
     public Lake(String lakeName, Long companyId, String lakeAddress, String reservationsSystem, Double lakeSize) {

@@ -4,6 +4,7 @@
  */
 package io.swagger.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,17 +19,18 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="BLOG_ENTRIES")
-public class BlogEntry {
+public class BlogEntry implements Serializable {
+
     private @Id @GeneratedValue(strategy=GenerationType.AUTO)
     Long id;
     
-    @Column(name="COMPANY_ID,length=128")
+    @Column(name="COMPANY_ID", columnDefinition= "BIGINT NOT NULL",length=10)
     Long companyId;
     
-    @Column(name="ENRTY_TITLE,length=128")
+    @Column(name="ENTRY_TITLE",columnDefinition="VARCHAR(256) NOT NULL")
     String title;
     
-    @Column(name="ENRTY_CONTENT,length=4096")
+    @Column(name="ENTRY_CONTENT",columnDefinition="VARCHAR(3072) NOT NULL")
     String content;
 
     Date postDate;

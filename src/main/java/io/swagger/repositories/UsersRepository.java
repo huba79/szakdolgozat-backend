@@ -9,16 +9,16 @@ import java.util.ArrayList;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import io.swagger.domain.users.User;
+import io.swagger.domain.User;
 /**
  *
  * @author huba.tanczos
  */
 @Repository
-public interface  UsersRepository extends JpaRepository<User, Long>, UsersRepositoryCustom {
+public interface  UsersRepository extends JpaRepository<User, Long> {
         
     //itt kell a tamogatott metodusokat definialni, basic repo
     //ez extendeli a custom interfesz metodusait, es viszi tovabb az implementalo repo CLASS-ba 
-    ArrayList<User> findUserByEmail(String pEmail);
+    ArrayList<User> findUserByEmailAddress(String pEmail);
         
 }

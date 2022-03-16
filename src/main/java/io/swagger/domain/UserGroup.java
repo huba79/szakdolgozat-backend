@@ -2,15 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package io.swagger.domain.users;
+package io.swagger.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 
 /**
  *
@@ -18,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "USER_GROUPS")
-public class  UserGroup {
+public class  UserGroup implements Serializable {
     //@JsonProperty("userId")
     private @Id Long userId;
     //@JsonProperty("groupId")

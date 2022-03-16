@@ -4,6 +4,8 @@
  */
 package io.swagger.domain;
 
+import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,21 +18,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="SERVICES_AND_PRICES")
-public class ServicePrice {
+public class ServicePrice implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
-    //@JsonProperty("serviceName")
-    String serviceName;
+    @Column(name="PRODUCT_NAME",columnDefinition="VARCHAR(32) NOT NULL")
+    String productName;
 
-    //@JsonProperty("unitOfMeasure")
+    @Column(name="LAKE_ADDRESS",columnDefinition="VARCHAR(128) NOT NULL")
     String unitOfMeasure;
 
-    //@JsonProperty("pricePerUnit")
+    @Column(name="PRICE_UNIT",columnDefinition="DOUBLE NOT NULL")
     Double pricePerUnit;
 
-//    public ServicePrice(Long id, String serviceName, String unitOfMeasure, Double pricePerUnit) {
+//    public ServicePrice(Long id, String productName, String unitOfMeasure, Double pricePerUnit) {
 //        this.id = id;
-//        this.serviceName = serviceName;
+//        this.productName = productName;
 //        this.unitOfMeasure = unitOfMeasure;
 //        this.pricePerUnit = pricePerUnit;
 //    }
@@ -43,12 +45,12 @@ public class ServicePrice {
         this.id = id;
     }
 
-    public String getServiceName() {
-        return serviceName;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+    public void setProductName(String serviceName) {
+        this.productName = serviceName;
     }
 
     public String getUnitOfMeasure() {
