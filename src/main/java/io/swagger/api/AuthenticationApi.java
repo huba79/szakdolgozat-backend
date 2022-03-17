@@ -47,17 +47,19 @@ public interface AuthenticationApi {
     //LOGOUT
         @Operation(summary = "Logout", description = "Attempts to login to the system", security = {
         @SecurityRequirement(name = "ApiKeyAuth")    }, tags={ "users", "operators", "managers" })
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Logout succesful"),
+        @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Logout succesful"),
+            
+            @ApiResponse(responseCode = "204", description = "Data not found"),
 
-        @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
 
-        @ApiResponse(responseCode = "401", description = "Not Authorized"),
+            @ApiResponse(responseCode = "401", description = "Not Authorized"),
 
-        @ApiResponse(responseCode = "500", description = "Server error") })
-    @RequestMapping(value = "/logout/{id}",
-        method = RequestMethod.GET)
-    ResponseEntity<Void> logout(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") Long id);
+            @ApiResponse(responseCode = "500", description = "Server error") })
+        @RequestMapping(value = "logout/{id}",
+            method = RequestMethod.GET)
+        ResponseEntity<Void> logout(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") Long id);
 
 }
 

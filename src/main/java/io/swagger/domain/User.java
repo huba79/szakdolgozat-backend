@@ -44,7 +44,7 @@ public class User implements Serializable {
     Long companyId;
 
     @Column(name="SESSION_ID",columnDefinition="VARCHAR(64)")
-    String sessionID;
+    String sessionId;
 
     //@JsonProperty("createdDate")
     Date createdDate;
@@ -114,11 +114,11 @@ public class User implements Serializable {
     }
 
     public String getSessionID() {
-        return sessionID;
+        return sessionId;
     }
 
     public void setSessionID(String sessionID) {
-        this.sessionID = sessionID;
+        this.sessionId = sessionID;
     }
 
     public Date getCreatedDate() {

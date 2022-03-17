@@ -22,30 +22,32 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Level;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
+
 @RestController
-public class AuthApiController implements AuthenticationApi {
+public class AuthenticationApiController implements AuthenticationApi {
 
     private static final String ACCEPTEDAPIKEY ="ValidApiKulcs";  //baaaaaaaaasic solution
 
     private final UsersRepository usersrepo;
 
-    private static final Logger log = LoggerFactory.getLogger(AuthApiController.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationApiController.class);
 
     private final HttpServletRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public AuthApiController(HttpServletRequest request,UsersRepository pUsersRepo) {
+    public AuthenticationApiController(HttpServletRequest request,UsersRepository pUsersRepo) {
         this.request = request;
         this.usersrepo = pUsersRepo;
     }
     //LOGIN implementacio
     @Override
-    public ResponseEntity<LoginResponse> login(@Parameter(in = ParameterIn.DEFAULT, description = "Login data", schema=@Schema()) @Valid @RequestBody LoginMessage body) {
+    public ResponseEntity<LoginResponse> login(@Parameter(in = ParameterIn.DEFAULT, schema=@Schema()) @Valid @RequestBody LoginMessage body) {
         String apikey = request.getHeader("X-API-KEY");
         if( apikey !=null && apikey.equals(ACCEPTEDAPIKEY) ) {
             System.out.println("loginname:\t"+body.getLoginname()+"\npassword:\t"+body.getPassword()+"\n"+"client:\t"+request.getHeader("sender"));
@@ -62,6 +64,7 @@ public class AuthApiController implements AuthenticationApi {
                         try {
                             String uuid = MyUUIDWrapper.getUUIDV5();
                             System.out.println("His UUID is:"+uuid+"\n");
+                            foundUser.setLastLoginDate(new Date(System.currentTimeMillis()));
                             foundUser.setSessionID(uuid);
                             usersrepo.save(foundUser);
                             
@@ -71,10 +74,10 @@ public class AuthApiController implements AuthenticationApi {
                             return new ResponseEntity<>(response, HttpStatus.OK);
                         
                         } catch (NoSuchAlgorithmException ex) {
-                            java.util.logging.Logger.getLogger(AuthApiController.class.getName()).log(Level.SEVERE, null, ex);
+                            java.util.logging.Logger.getLogger(AuthenticationApiController.class.getName()).log(Level.SEVERE, null, ex);
                             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                         } catch (UnsupportedEncodingException ex) {
-                            java.util.logging.Logger.getLogger(AuthApiController.class.getName()).log(Level.SEVERE, null, ex);
+                            java.util.logging.Logger.getLogger(AuthenticationApiController.class.getName()).log(Level.SEVERE, null, ex);
                             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                         }
 
@@ -87,19 +90,26 @@ public class AuthApiController implements AuthenticationApi {
     
 //LOGOUT implementacio
     @Override
-    public ResponseEntity<Void> logout(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") Long id) {
+    public ResponseEntity<Void> logout(@Parameter(in = ParameterIn.PATH, required=true, schema=@Schema()) @PathVariable("id") Long id) {
+        System.out.println("hello logout \n");
         String apikey = request.getHeader("X-API-KEY");
         if( apikey !=null && apikey.equals(ACCEPTEDAPIKEY) ) {
-            Optional foundUser = usersrepo.findById(id);
+            System.out.println("token of the request:\t"+request.getHeader("TOKEN"));
+            Optional<User> foundUser = usersrepo.findById(id);
+            String uuid =((User) foundUser.get() ).getSessionID();
+
+                System.out.println("token of the user:\t"+uuid);
             if(foundUser.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }  else {
-                User user = (User) foundUser.get();
-                user.setSessionID(null); //erasing sessionID after logout
-                usersrepo.save(user);
-                ResponseEntity response = new ResponseEntity<>( HttpStatus.OK);
-                return response;
-            }
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                }  else if (!request.getHeader("token").equals(uuid)){
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                } else {                                    
+                        User user = (User) foundUser.get();
+                        user.setSessionID(null); //erasing sessionID after logout
+                        usersrepo.save(user);
+                        ResponseEntity response = new ResponseEntity<>( HttpStatus.OK);
+                        return response;
+                    }
         } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
     }
