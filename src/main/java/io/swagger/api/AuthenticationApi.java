@@ -30,7 +30,7 @@ public interface AuthenticationApi {
     
 //LOGIN 
     @Operation(summary = "Login", description = "Attempts to login to the system", security = {
-        @SecurityRequirement(name = "ApiKeyAuth")    }, tags={ "guests", "users", "operators", "managers" })
+        @SecurityRequirement(name = "ApiKeyAuth")    }, tags={ "guests", "users", "admins" })
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Login succesful"),
 
@@ -46,7 +46,7 @@ public interface AuthenticationApi {
     
     //LOGOUT
         @Operation(summary = "Logout", description = "Attempts to login to the system", security = {
-        @SecurityRequirement(name = "ApiKeyAuth")    }, tags={ "users", "operators", "managers" })
+        @SecurityRequirement(name = "ApiKeyAuth")    }, tags={ "users", "admins" })
         @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Logout succesful"),
             
