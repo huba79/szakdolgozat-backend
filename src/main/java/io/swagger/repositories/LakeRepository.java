@@ -19,5 +19,5 @@ import java.util.Optional;
 public interface  LakeRepository extends JpaRepository<Lake, Long> {
 
     Optional<Lake> findLakeById(Long id);
-    ArrayList<Lake> findAll();   
+    ArrayList<Lake> findLakeByCompanyId(Long id);   
 }

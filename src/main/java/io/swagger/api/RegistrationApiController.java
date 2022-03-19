@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.repositories.UsersRepository;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import io.swagger.messages.RegistrationMessage;
 import io.swagger.messages.RegistrationResponse;
+import io.swagger.repositories.UserRepository;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 @RestController
@@ -26,14 +26,14 @@ public class RegistrationApiController implements RegistrationApi {
 
     private static final String ACCEPTEDAPIKEY ="ValidApiKulcs";  //baaaaaaaaasic solution
 
-    private final UsersRepository usersrepo;
+    private final UserRepository usersrepo;
 
     private static final Logger log = LoggerFactory.getLogger(RegistrationApiController.class);
 
     private final HttpServletRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public RegistrationApiController(HttpServletRequest request,UsersRepository pUsersRepo) {
+    public RegistrationApiController(HttpServletRequest request,UserRepository pUsersRepo) {
         this.request = request;
         this.usersrepo = pUsersRepo;
     }
