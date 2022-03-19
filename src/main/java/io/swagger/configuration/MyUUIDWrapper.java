@@ -8,7 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
-import static org.mariadb.jdbc.internal.com.send.authentication.ed25519.Utils.bytesToHex;
+import static org.mariadb.jdbc.plugin.authentication.standard.ed25519.Utils.bytesToHex;
 
 /**
  *

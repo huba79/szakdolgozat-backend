@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.repositories.UsersRepository;
 import io.swagger.messages.LoginMessage;
 import io.swagger.messages.LoginResponse;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,6 +25,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Level;
 import org.springframework.web.bind.annotation.PathVariable;
+import io.swagger.repositories.UserRepository;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 
@@ -34,14 +34,14 @@ public class AuthenticationApiController implements AuthenticationApi {
 
     private static final String ACCEPTEDAPIKEY ="ValidApiKulcs";  //baaaaaaaaasic solution
 
-    private final UsersRepository usersrepo;
+    private final UserRepository usersrepo;
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationApiController.class);
 
     private final HttpServletRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public AuthenticationApiController(HttpServletRequest request,UsersRepository pUsersRepo) {
+    public AuthenticationApiController(HttpServletRequest request,UserRepository pUsersRepo) {
         this.request = request;
         this.usersrepo = pUsersRepo;
     }

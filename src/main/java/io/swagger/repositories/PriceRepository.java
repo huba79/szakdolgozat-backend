@@ -5,20 +5,23 @@
  */
 package io.swagger.repositories;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import io.swagger.domain.ServicePrice;
+import io.swagger.domain.Price;
 import java.util.ArrayList;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.Query;
 /**
  *
  * @author huba.tanczos
  */
 @Repository
-public interface  ServicePriceRepository extends JpaRepository<ServicePrice, Long> {
+public interface PriceRepository extends JpaRepository<Price, Long> {
 
-    Optional<ServicePrice> findServicePriceById(Long id);
-    ArrayList<ServicePrice> findall();
-        
+    Optional<Price> findPriceById(Long id);
+    @Query(
+      value = "SELECT * FROM PRICES P WHERE P.LAKE_ID = ?1", 
+      nativeQuery = true)
+    ArrayList<Price> findPriceByLakeIdNative( Long id);
+
 }

@@ -16,12 +16,10 @@ import java.util.Optional;
  * @author huba.tanczos
  */
 @Repository
-public interface  UsersRepository extends JpaRepository<User, Long> {
+public interface  UserRepository extends JpaRepository<User, Long> {
         
-    //itt kell a tamogatott metodusokat definialni, basic repo
-    //ez extendeli a custom interfesz metodusait, es viszi tovabb az implementalo repo CLASS-ba 
     Optional<User> findUserById(Long id);
     ArrayList<User> findUserByEmailAddress(String pEmail);
     User findUserBySessionId(String uuid);
-        
+      
 }

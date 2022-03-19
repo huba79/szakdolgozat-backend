@@ -17,25 +17,21 @@ import javax.persistence.Table;
  * @author huba
  */
 @Entity
-@Table(name="SERVICES_AND_PRICES")
-public class ServicePrice implements Serializable {
+@Table(name="PRICES")
+public class Price implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
-    @Column(name="PRODUCT_NAME",columnDefinition="VARCHAR(32) NOT NULL")
-    String productName;
+    @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
+    String lakeId;
+    
+    @Column(name="SERVICE_NAME",columnDefinition="VARCHAR(32) NOT NULL")
+    String serviceName;
 
-    @Column(name="LAKE_ADDRESS",columnDefinition="VARCHAR(128) NOT NULL")
+    @Column(name="UNIT_OF_MEASURE",columnDefinition="VARCHAR(12) NOT NULL")
     String unitOfMeasure;
 
-    @Column(name="PRICE_UNIT",columnDefinition="DOUBLE NOT NULL")
+    @Column(name="PRICE_PER_UNIT",columnDefinition="DOUBLE NOT NULL")
     Double pricePerUnit;
-
-//    public ServicePrice(Long id, String productName, String unitOfMeasure, Double pricePerUnit) {
-//        this.id = id;
-//        this.productName = productName;
-//        this.unitOfMeasure = unitOfMeasure;
-//        this.pricePerUnit = pricePerUnit;
-//    }
 
     public Long getId() {
         return id;
@@ -45,12 +41,20 @@ public class ServicePrice implements Serializable {
         this.id = id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getLakeId() {
+        return lakeId;
     }
 
-    public void setProductName(String serviceName) {
-        this.productName = serviceName;
+    public void setLakeId(String lakeId) {
+        this.lakeId = lakeId;
+    }
+      
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public String getUnitOfMeasure() {

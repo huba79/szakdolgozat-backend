@@ -7,6 +7,8 @@ package io.swagger.domain;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,14 +29,16 @@ public class Stage implements Serializable {
     @Column(name="STAGE_NAME",columnDefinition="VARCHAR(16) NOT NULL")
     String stageName;
 
-    @Column(name="STAGE_TYPE",columnDefinition="VARCHAR(16) NOT NULL")
-    StageTypesEnum stageType;
+    //@Enumerated(EnumType.ORDINAL)
+    @Column(name="STAGE_TYPE",columnDefinition="INT UNSIGNED NOT NULL")
+    Integer stageType;
 
-    @Column(name="STAGE_SIZE",columnDefinition="TINYINT NOT NULL")
+    //@Enumerated(EnumType.ORDINAL)
+    @Column(name="STAGE_STATUS",columnDefinition="INT UNSIGNED NOT NULL")
+    Integer stageStatus;
+    
+    @Column(name="STAGE_SIZE",columnDefinition="INT UNSIGNED NOT NULL")
     Long stageSize;
-
-    //@JsonProperty("stageStatus")
-    StageStatusEnum stageStatus;
 
     public Long getId() {
         return id;
@@ -61,11 +65,11 @@ public class Stage implements Serializable {
         this.stageName = stageName;
     }
 
-    public StageTypesEnum getStageType() {
+    public Integer getStageType() {
         return stageType;
     }
 
-    public void setStageType(StageTypesEnum stageType) {
+    public void setStageType(Integer stageType) {
         this.stageType = stageType;
     }
 
@@ -77,11 +81,11 @@ public class Stage implements Serializable {
         this.stageSize = stageSize;
     }
 
-    public StageStatusEnum getStageStatus() {
+    public Integer getStageStatus() {
         return stageStatus;
     }
 
-    public void setStageStatus(StageStatusEnum stageStatus) {
+    public void setStageStatus(Integer stageStatus) {
         this.stageStatus = stageStatus;
     }    
     

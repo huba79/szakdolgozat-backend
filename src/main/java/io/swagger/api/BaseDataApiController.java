@@ -1,52 +1,74 @@
 package io.swagger.api;
 
+import io.swagger.domain.Company;
+import io.swagger.domain.Lake;
+import io.swagger.domain.Price;
+import io.swagger.domain.Stage;
 import io.swagger.messages.BaseDataResponse;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.repositories.UsersRepository;
 import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.LakeRepository;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import io.swagger.repositories.PriceRepository;
 import io.swagger.repositories.StageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 
+//@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 @RestController
 public class BaseDataApiController implements BaseDataApi {
+    @Autowired HttpServletRequest request;
+    @Autowired PriceRepository priceRepo;
+    @Autowired CompanyRepository companyRepo;
+    @Autowired LakeRepository lakeRepo;
+    @Autowired StageRepository stageRepo;
 
-    private static final String ACCEPTEDAPIKEY ="ValidApiKulcs";     
-    private final HttpServletRequest request;
-    private static final Logger log = LoggerFactory.getLogger(BaseDataApiController.class);
-    
-    private final UsersRepository usersRepo;
-    private final CompanyRepository companyRepo;
-    private final LakeRepository lakesRepo;
-    private final StageRepository stagesRepo;
-    //TODO
+    //private static final Logger log = LoggerFactory.getLogger(BaseDataApiController.class);
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public BaseDataApiController(HttpServletRequest request, UsersRepository usersRepo, CompanyRepository companyRepo, LakeRepository lakesRepo, StageRepository stagesRepo) {
-        this.request = request;
-        this.usersRepo = usersRepo;
-        this.companyRepo = companyRepo;
-        this.lakesRepo = lakesRepo;
-        this.stagesRepo = stagesRepo;
-    }
-    //GETBASEDATA implementacio
     @Override
-    public ResponseEntity<BaseDataResponse> getBaseData() {
+    public ResponseEntity<BaseDataResponse> getBaseData(Long companyId) {
         String apikey = request.getHeader("X-API-KEY");
-        if( apikey !=null && apikey.equals(ACCEPTEDAPIKEY) ) {
-            System.out.println("log");
-                    //felepiteni egy BaseDataResponse-t
+        if( apikey !=null && apikey.equals(AppConfig.APIKEY ) && companyId.equals(AppConfig.COMPANY) ) {
+            System.out.println("delivered apiKey:\t"+apikey);
 
-            return null;
+                    try {
+                        Company company = companyRepo.findById(companyId).get();  
+                        System.out.println("company data:"+company.toString());
+                        
+                        ArrayList<Lake> lakes = lakeRepo.findLakeByCompanyId(companyId);
+                        System.out.println("Lakes data:"+lakes.toString());
+                        
+                        ArrayList<Stage> stages = new ArrayList<>();
+                        ArrayList<Price> prices = new ArrayList<>();
+                        
+                     
+                        for (Lake lake:lakes){
+                            Long lakeId = lake.getId();
+                            System.out.println("Lake id:\t"+ lakeId);
+                            
+                            stages.addAll(stageRepo.findStageByLakeId(lakeId) );
+                            System.out.println("Stages size:\t"+ stages.size()+"\n\n\n");
+                            
+                            prices.addAll(priceRepo.findPriceByLakeIdNative(lakeId));
+                            //TODO meg kell nezni mi a banator golyalaszarert nem megy, mint pl a stageRepo
+                            System.out.println("Prices size:\t"+ prices.size());
+                        }                        
+                      
+                        return new ResponseEntity<BaseDataResponse>(new BaseDataResponse(company,
+                                                                    lakes,prices,stages),HttpStatus.OK);
+
+                    } catch (NoSuchElementException e) { 
+                        System.out.println(e.getMessage());
+                        return new ResponseEntity<BaseDataResponse>(HttpStatus.NO_CONTENT);
+                    }
+
         } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
     }

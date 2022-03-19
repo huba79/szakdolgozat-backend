@@ -14,7 +14,7 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 @Configuration
 @EnableAutoConfiguration
 @EnableOpenApi
-@ComponentScan //(basePackages = { "io.swagger", "io.swagger.api" , "io.swagger.configuration"})
+@ComponentScan (basePackages = { "io.swagger", "io.swagger.api" , "io.swagger.configuration", "io.swagger.repositories", "io.swagger.domain"})
 public class Swagger2SpringBoot implements CommandLineRunner {
 
     @Override

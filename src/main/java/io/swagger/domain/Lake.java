@@ -39,13 +39,13 @@ public class Lake implements Serializable {
     @Column(name="LAKE_SIZE",columnDefinition="DOUBLE NOT NULL",length=3, precision=2)
     Double lakeSize;
 
-    public Lake(String lakeName, Long companyId, String lakeAddress, String reservationsSystem, Double lakeSize) {
-        this.lakeName = lakeName;
-        this.companyId = companyId;
-        this.lakeAddress = lakeAddress;
-        this.reservationsSystem = reservationsSystem;
-        this.lakeSize = lakeSize;
-    }
+//    public Lake(String lakeName, Long companyId, String lakeAddress, String reservationsSystem, Double lakeSize) {
+//        this.lakeName = lakeName;
+//        this.companyId = companyId;
+//        this.lakeAddress = lakeAddress;
+//        this.reservationsSystem = reservationsSystem;
+//        this.lakeSize = lakeSize;
+//    }
 
     public Long getId() {
         return id;
