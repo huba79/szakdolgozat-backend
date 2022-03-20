@@ -29,11 +29,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class LakeController implements LakeService{
     @Autowired
     LakeRepository lakeRepo;
+    
     @Autowired
     CompanyRepository companyRepo;    
-    @Autowired
-    HttpServletRequest request;
     
+    @Autowired
+    HttpServletRequest request;    
 
     @Override
     public ResponseEntity<LakesResponse> getLakes(Long companyId) {

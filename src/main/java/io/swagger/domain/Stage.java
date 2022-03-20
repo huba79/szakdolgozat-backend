@@ -29,11 +29,11 @@ public class Stage implements Serializable {
     @Column(name="STAGE_NAME",columnDefinition="VARCHAR(16) NOT NULL")
     String stageName;
 
-    //@Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name="STAGE_TYPE",columnDefinition="INT UNSIGNED NOT NULL")
     Integer stageType;
 
-    //@Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name="STAGE_STATUS",columnDefinition="INT UNSIGNED NOT NULL")
     Integer stageStatus;
     

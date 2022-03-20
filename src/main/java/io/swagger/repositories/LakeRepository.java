@@ -23,5 +23,6 @@ public interface  LakeRepository extends JpaRepository<Lake, Long> {
         @Query(
             value = "SELECT * FROM LAKES L WHERE L.COMPANY_ID = ?1", 
             nativeQuery = true)
-    ArrayList<Lake> findLakeByCompanyId(Long id);   
+    ArrayList<Lake> findLakeByCompanyId(Long id); 
+    
 }
