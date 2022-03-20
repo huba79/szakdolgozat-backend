@@ -30,18 +30,18 @@ import io.swagger.repositories.UserRepository;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 
 @RestController
-public class AuthenticationApiController implements AuthenticationApi {
+public class AuthenticationController implements AuthenticationService {
 
     private static final String ACCEPTEDAPIKEY ="ValidApiKulcs";  //baaaaaaaaasic solution
 
     private final UserRepository usersrepo;
 
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationApiController.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 
     private final HttpServletRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public AuthenticationApiController(HttpServletRequest request,UserRepository pUsersRepo) {
+    public AuthenticationController(HttpServletRequest request,UserRepository pUsersRepo) {
         this.request = request;
         this.usersrepo = pUsersRepo;
     }
@@ -74,10 +74,10 @@ public class AuthenticationApiController implements AuthenticationApi {
                             return new ResponseEntity<>(response, HttpStatus.OK);
                         
                         } catch (NoSuchAlgorithmException ex) {
-                            java.util.logging.Logger.getLogger(AuthenticationApiController.class.getName()).log(Level.SEVERE, null, ex);
+                            java.util.logging.Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
                             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                         } catch (UnsupportedEncodingException ex) {
-                            java.util.logging.Logger.getLogger(AuthenticationApiController.class.getName()).log(Level.SEVERE, null, ex);
+                            java.util.logging.Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
                             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                         }
 

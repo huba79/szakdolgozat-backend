@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * @author huba
  */
 public class BaseDataResponse {
+    
     @JsonProperty("company")
     Company company;
     

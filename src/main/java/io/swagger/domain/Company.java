@@ -49,6 +49,9 @@ public class Company implements Serializable {
 
     @Column(name="COMPANY_EMAIL",columnDefinition="VARCHAR(64) NOT NULL")
     String contactEmail;
+    
+    @Column(name="DEAFULT_CURRENCY",columnDefinition="VARCHAR(2) NOT NULL")
+    String defaultCurrency;
 
     public Long getId() {
         return id;
@@ -128,5 +131,13 @@ public class Company implements Serializable {
 
     public void setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail;
+    }
+        
+    public String getDefaultCurrency() {
+        return defaultCurrency;
+    }
+
+    public void setDefaultCurrency(String defaultCurrency) {
+        this.defaultCurrency = defaultCurrency;
     }
 }

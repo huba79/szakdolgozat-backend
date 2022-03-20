@@ -21,16 +21,16 @@ import io.swagger.repositories.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-//@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 @RestController
-public class BaseDataApiController implements BaseDataApi {
+public class BaseDataController implements BaseDataService {
     @Autowired HttpServletRequest request;
     @Autowired PriceRepository priceRepo;
     @Autowired CompanyRepository companyRepo;
     @Autowired LakeRepository lakeRepo;
     @Autowired StageRepository stageRepo;
 
-    //private static final Logger log = LoggerFactory.getLogger(BaseDataApiController.class);
+    //private static final Logger log = LoggerFactory.getLogger(BaseDataController.class);
 
     @Override
     public ResponseEntity<BaseDataResponse> getBaseData(Long companyId) {

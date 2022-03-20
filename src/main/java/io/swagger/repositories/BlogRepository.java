@@ -6,9 +6,9 @@
 package io.swagger.repositories;
 
 
+import io.swagger.domain.BlogEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import io.swagger.domain.Lake;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
@@ -17,11 +17,11 @@ import org.springframework.data.jpa.repository.Query;
  * @author huba.tanczos
  */
 @Repository
-public interface  LakeRepository extends JpaRepository<Lake, Long> {
+public interface  BlogRepository extends JpaRepository<BlogEntry, Long> {
 
-    Optional<Lake> findLakeById(Long id);
+    Optional<BlogEntry> findLakeById(Long id);
         @Query(
-            value = "SELECT * FROM LAKES L WHERE L.COMPANY_ID = ?1", 
+            value = "SELECT * FROM BLOG_ENTRIES B WHERE L.COMPANY_ID = ?1", 
             nativeQuery = true)
-    ArrayList<Lake> findLakeByCompanyId(Long id);   
+    ArrayList<BlogEntry> findBlogEntryByCompanyId(Long id);   
 }
