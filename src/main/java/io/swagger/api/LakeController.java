@@ -39,9 +39,8 @@ public class LakeController implements LakeService{
     @Override
     public ResponseEntity<LakesResponse> getLakes(Long companyId) {
             
-        if( request.getHeader("X-API-KEY") !=null 
-            && request.getHeader("X-API-KEY").equals(AppConfig.APIKEY) && 
-                "application/json".equals(request.getHeader("Accepts"))) {
+        RequestValidator validator = new RequestValidator(request); 
+        if(  validator.hasValidHeader() && validator.acceptsJson()) {
 
                 ArrayList<Lake> lakes = lakeRepo.findLakeByCompanyId(companyId);
                 ArrayList<LakeResponse> lakeResponse = new ArrayList();

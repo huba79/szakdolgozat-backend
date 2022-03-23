@@ -5,9 +5,12 @@
  */
 package io.swagger.repositories;
 
+
+import io.swagger.domain.BlogEntry;
+import io.swagger.domain.Payment;
+import io.swagger.domain.Price;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import io.swagger.domain.Price;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
@@ -16,14 +19,14 @@ import org.springframework.data.jpa.repository.Query;
  * @author huba.tanczos
  */
 @Repository
-public interface PriceRepository extends JpaRepository<Price, Long> {
-
-    Optional<Price> findPriceById(Long id);
+public interface  PaymentRepository extends JpaRepository<BlogEntry, Long> {
     
+    Optional<Payment> findPaymentById(Long id);
+   
     @Query(
-      value = "SELECT * FROM PRICE P WHERE P.LAKE_ID = ?1", 
+      value = "SELECT * FROM PAYMENT P WHERE P.RESERVATION_ID = ?1", 
       nativeQuery = true)
-    ArrayList<Price> findPriceByLakeIdNative( Long id);
+    ArrayList<Payment> findPaymentByReservationIdNative( Long id);
     
     //persze meg kell oldani a mentest is
 }

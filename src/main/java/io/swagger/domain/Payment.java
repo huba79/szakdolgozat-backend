@@ -22,14 +22,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name="PAYMENTS")
 public class Payment implements Serializable {
+    
     //TODO kell repo, kell response, service, controller
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
     @Column(name="RESERVATION_ID",columnDefinition="BIGINT NOT NULL")
     Long reservationId;
     
-    @Column(name="PAYMENT_TYPE",columnDefinition="VARCHAR2(16) NOT NULL DEFAULT 'CASH'")
-    Long paymentType;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name="PAID_WITH",columnDefinition="VARCHAR2(16) NOT NULL DEFAULT 'CASH'")
+    PaidWithEnum paidWith;
     
     @Column(name="AMOUNT",columnDefinition="DOUBLE NOT NULL", length = 10, precision = 2)
     Double amount;
@@ -38,7 +40,7 @@ public class Payment implements Serializable {
     Date paidOn;
 
     @Column(name="PAID_BY",columnDefinition="BIGINT NOT NULL")
-    Date paidBy;
+    Long paidByUserId;
     
     @Enumerated(EnumType.ORDINAL)
     @Column(name="PAYMENT_STATUS",columnDefinition="INTEGER NOT NULL")
@@ -60,14 +62,6 @@ public class Payment implements Serializable {
         this.reservationId = reservationId;
     }
 
-    public Long getPaymentType() {
-        return paymentType;
-    }
-
-    public void setPaymentType(Long paymentType) {
-        this.paymentType = paymentType;
-    }
-
     public Double getAmount() {
         return amount;
     }
@@ -84,14 +78,6 @@ public class Payment implements Serializable {
         this.paidOn = paidOn;
     }
 
-    public Date getPaidBy() {
-        return paidBy;
-    }
-
-    public void setPaidBy(Date paidBy) {
-        this.paidBy = paidBy;
-    }
-
     public PaymentStatusEnum getPaymentStatus() {
         return paymentStatus;
     }
@@ -100,6 +86,20 @@ public class Payment implements Serializable {
         this.paymentStatus = paymentStatus;
     }
 
-    
-    
+    public PaidWithEnum getPaidWith() {
+        return paidWith;
+    }
+
+    public void setPaidWith(PaidWithEnum paidWith) {
+        this.paidWith = paidWith;
+    }
+
+    public Long getPaidByUserId() {
+        return paidByUserId;
+    }
+
+    public void setPaidByUserId(Long paidByUserId) {
+        this.paidByUserId = paidByUserId;
+    }
+   
 }

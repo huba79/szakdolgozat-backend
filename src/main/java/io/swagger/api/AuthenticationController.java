@@ -26,18 +26,17 @@ import java.util.Optional;
 import java.util.logging.Level;
 import org.springframework.web.bind.annotation.PathVariable;
 import io.swagger.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 
 @RestController
 public class AuthenticationController implements AuthenticationService {
-
-    private static final String ACCEPTEDAPIKEY ="ValidApiKulcs";  //baaaaaaaaasic solution
-
+    @Autowired
     private final UserRepository usersrepo;
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
-
+    @Autowired
     private final HttpServletRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
@@ -48,8 +47,9 @@ public class AuthenticationController implements AuthenticationService {
     //LOGIN implementacio
     @Override
     public ResponseEntity<LoginResponse> login(@Parameter(in = ParameterIn.DEFAULT, schema=@Schema()) @Valid @RequestBody LoginMessage body) {
-        String apikey = request.getHeader("X-API-KEY");
-        if( apikey !=null && apikey.equals(ACCEPTEDAPIKEY) ) {
+
+        RequestValidator validator = new RequestValidator(request); 
+        if(  validator.hasValidHeader() && validator.acceptsJson()) {
             System.out.println("loginname:\t"+body.getLoginname()+"\npassword:\t"+body.getPassword()+"\n"+"client:\t"+request.getHeader("sender"));
             ArrayList<User> foundusers= usersrepo.findUserByEmailAddress(body.getLoginname());
             if(foundusers.isEmpty()){
@@ -92,8 +92,8 @@ public class AuthenticationController implements AuthenticationService {
     @Override
     public ResponseEntity<Void> logout(@Parameter(in = ParameterIn.PATH, required=true, schema=@Schema()) @PathVariable("id") Long id) {
         System.out.println("hello logout \n");
-        String apikey = request.getHeader("X-API-KEY");
-        if( apikey !=null && apikey.equals(ACCEPTEDAPIKEY) ) {
+        RequestValidator validator = new RequestValidator(request); 
+        if(  validator.hasValidHeader() && validator.isAuthorized()) {
             System.out.println("token of the request:\t"+request.getHeader("TOKEN"));
             Optional<User> foundUser = usersrepo.findById(id);
             String uuid =((User) foundUser.get() ).getSessionID();

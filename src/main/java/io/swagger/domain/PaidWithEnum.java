@@ -8,8 +8,7 @@ package io.swagger.domain;
  *
  * @author huba
  */
-public class Configuration {
-    
-    public static Long COMPANY = new Long(1);   
-    
+public enum PaidWithEnum {
+    CASH,
+    TRANSFER
 }

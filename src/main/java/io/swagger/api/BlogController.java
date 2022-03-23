@@ -34,9 +34,8 @@ public class BlogController implements BlogService{
     @Override
     public ResponseEntity<BlogResponse> getBlogEntryByCompanyId(Long companyId) {
         //apikey validaciot egysegesiteni kellene, , talan ez a jobb megkozelites         
-        if( request.getHeader("X-API-KEY") !=null 
-            && request.getHeader("X-API-KEY").equals(companyRepo.findById(companyId).get().getApiKey()) && 
-                "application/json".equals(request.getHeader("Accepts"))) {
+        RequestValidator validator = new RequestValidator(request); 
+        if(  validator.hasValidHeader() && validator.acceptsJson()) {
                  
                 ArrayList<BlogEntry> blogEntries= blogRepo.findBlogEntryByCompanyId(companyId);
                 if (blogEntries.isEmpty()) {

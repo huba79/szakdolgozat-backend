@@ -34,9 +34,8 @@ public class BaseDataController implements BaseDataService {
 
     @Override
     public ResponseEntity<BaseDataResponse> getBaseData(Long companyId) {
-        String apikey = request.getHeader("X-API-KEY");
-        if( apikey !=null && apikey.equals(AppConfig.APIKEY ) && companyId.equals(AppConfig.COMPANY) ) {
-            System.out.println("delivered apiKey:\t"+apikey);
+        RequestValidator validator = new RequestValidator(request); 
+        if(  validator.hasValidHeader()) {
 
                     try {
                         Company company = companyRepo.findById(companyId).get();  
