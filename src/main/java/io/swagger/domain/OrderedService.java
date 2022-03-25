@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -23,7 +24,8 @@ public class OrderedService implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
     @Column(name="RESERVATION_ID",columnDefinition="BIGINT NOT NULL")
-    String reservationId;
+    @JoinColumn(name="RESERVATION_ID")
+    Reservation reservation;
     
     @Column(name="SERVICE_ID",columnDefinition="BIGINT NOT NULL")
     String serviceId;
@@ -42,12 +44,12 @@ public class OrderedService implements Serializable {
         this.id = id;
     }
 
-    public String getReservationId() {
-        return reservationId;
+    public Reservation getReservation() {
+        return reservation;
     }
 
-    public void setReservationId(String reservationId) {
-        this.reservationId = reservationId;
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 
     public String getServiceId() {

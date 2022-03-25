@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 /**
  *
@@ -24,18 +25,19 @@ public class Stage implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
     @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
-    Long lakeId;
+    @JoinColumn(name = "LAKE_ID")
+    Lake lake;
 
     @Column(name="STAGE_NAME",columnDefinition="VARCHAR(16) NOT NULL")
     String stageName;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name="STAGE_TYPE",columnDefinition="INT UNSIGNED NOT NULL")
-    Integer stageType;
+    StageTypesEnum stageType;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name="STAGE_STATUS",columnDefinition="INT UNSIGNED NOT NULL")
-    Integer stageStatus;
+    StageStatusEnum stageStatus;
     
     @Column(name="STAGE_SIZE",columnDefinition="INT UNSIGNED NOT NULL")
     Long stageSize;
@@ -49,12 +51,12 @@ public class Stage implements Serializable {
     }
 
 
-    public Long getLakeId() {
-        return lakeId;
+    public Lake getLake() {
+        return lake;
     }
 
-    public void setLakeId(Long lakeId) {
-        this.lakeId = lakeId;
+    public void setLakeId(Lake lake) {
+        this.lake = lake;
     }
 
     public String getStageName() {
@@ -65,11 +67,11 @@ public class Stage implements Serializable {
         this.stageName = stageName;
     }
 
-    public Integer getStageType() {
+    public StageTypesEnum getStageType() {
         return stageType;
     }
 
-    public void setStageType(Integer stageType) {
+    public void setStageType(StageTypesEnum stageType) {
         this.stageType = stageType;
     }
 
@@ -81,11 +83,11 @@ public class Stage implements Serializable {
         this.stageSize = stageSize;
     }
 
-    public Integer getStageStatus() {
+    public StageStatusEnum getStageStatus() {
         return stageStatus;
     }
 
-    public void setStageStatus(Integer stageStatus) {
+    public void setStageStatus(StageStatusEnum stageStatus) {
         this.stageStatus = stageStatus;
     }    
     

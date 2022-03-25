@@ -5,11 +5,10 @@
  */
 package io.swagger.api;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import io.swagger.repositories.ReservationsRepository;
 import io.swagger.domain.Reservation;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -17,14 +16,14 @@ import io.swagger.domain.Reservation;
  */
 //Reservation validator: cannot place a reservation for a stage being used in the requested interval
 public class NewReservationValidator {
+    @Autowired
     ReservationsRepository repository;
     Reservation reservation;
-    public NewReservationValidator(ReservationsRepository pRepository,Reservation data){
+    public NewReservationValidator(Reservation data){
         this.reservation = data;
-        this.repository = pRepository;
     }
 
-//    public boolean validateReservation() {
+//    public boolean canBePlaced() {
 //        List<Reservation> reservationsList = new ArrayList<>();
 //            reservationsList = repository.findByStageIdAndDateFromAndDateToNamedParams(reservation.getStageId(),
 //                                reservation.getDateFrom(),reservation.getDateTo());

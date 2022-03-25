@@ -55,7 +55,9 @@ public class LakeController implements LakeService{
                             lake.getCompanyId(),
                             lake.getLakeAddress(),
                             lake.getReservationsSystem(),
-                            lake.getLakeSize()    
+                            lake.getLakeSize(),
+                            lake.getStages(),
+                            lake.getServices()
                         )
                     );
                 }                
@@ -78,7 +80,9 @@ public class LakeController implements LakeService{
                             foundLake.getCompanyId(),
                             foundLake.getLakeAddress(),
                             foundLake.getReservationsSystem(),
-                            foundLake.getLakeSize()        
+                            foundLake.getLakeSize(),
+                            foundLake.getStages(),
+                            foundLake.getServices()                            
                         );                           
                            return new ResponseEntity<>(lakeResponse, HttpStatus.OK);
                     } catch(NoSuchElementException ex) {

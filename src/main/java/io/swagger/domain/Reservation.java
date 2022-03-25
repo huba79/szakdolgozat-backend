@@ -8,12 +8,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -43,14 +46,13 @@ public class Reservation implements Serializable {
 
     //hogyan kell annotalni hogy az id-t mentse le az entitasba de meglegyen a onetomany is
     //a tippem
-    @OneToMany(mappedBy="loan")
-    @Column(name="SERVICES_ID",columnDefinition="BIGINT NOT NULL")
-    ArrayList<OrderedService> orderedServices;
+    @OneToMany(mappedBy="reservation")
+    List<OrderedService> orderedServices;
 
-    //az ar nem perzisztalt, csak szamolt, kell arszamolas, talan epp a konstruktorba
-    //meg gondolkozom rajta hogy az onetomany utan egyaltalan kell-e ez a redundancia
-//    @Column(name="PRICE",columnDefinition="DOUBLE NOT NULL")
-//    Double price;
+    @OneToOne()
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    Payment payment;    
+    
 
     public Long getId() {
         return id;
@@ -92,7 +94,7 @@ public class Reservation implements Serializable {
         this.dateFrom = dateFrom;
     }
 
-    public ArrayList<OrderedService> getOrderedServices() {
+    public List<OrderedService> getOrderedServices() {
         return orderedServices;
     }
 
@@ -101,13 +103,6 @@ public class Reservation implements Serializable {
     }
 
 
-//    public Double getPrice() {
-//        return price;
-//    }
-//
-//    public void setPrice(Double price) {
-//        this.price = price;
-//    }
 
     public Date getDateTo(){
         return dateTo;  
@@ -116,5 +111,14 @@ public class Reservation implements Serializable {
     public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
     }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+    
     
 }

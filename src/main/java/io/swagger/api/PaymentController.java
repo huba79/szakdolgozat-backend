@@ -41,7 +41,7 @@ public class PaymentController implements PaymentService{
                     User user = usersRepo.findById(id).get();
                     PaymentResponse paymentResponse = new PaymentResponse(
                           payment.getId(),
-                          payment.getReservationId(),
+                          payment.getReservation(),
                             payment.getPaidWith(),
                             payment.getAmount(),
                             payment.getPaidOn(),

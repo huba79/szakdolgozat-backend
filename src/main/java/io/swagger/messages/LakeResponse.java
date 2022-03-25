@@ -4,7 +4,12 @@
  */
 package io.swagger.messages;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.domain.Service;
+import io.swagger.domain.Stage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -30,14 +35,26 @@ public class LakeResponse  {
 
     @JsonProperty("lakeSize")
     Double lakeSize;
+    
+    @JsonManagedReference
+    @JsonProperty("stages")
+    List<Stage> stages;
+    
+    @JsonManagedReference
+    @JsonProperty("services")
+    List<Service> services;
 
-    public LakeResponse(Long id, String lakeName, Long companyId, String lakeAddress, String reservationsSystem, Double lakeSize) {
+    public LakeResponse(Long id, String lakeName, Long companyId, 
+            String lakeAddress, String reservationsSystem, Double lakeSize,
+            List<Stage> stages,List<Service> services) {
         this.id = id;
         this.lakeName = lakeName;
         this.companyId = companyId;
         this.lakeAddress = lakeAddress;
         this.reservationsSystem = reservationsSystem;
         this.lakeSize = lakeSize;
+        this.services = services;
+        this.stages = stages;
     }
 
     public Long getId() {
@@ -87,5 +104,21 @@ public class LakeResponse  {
     public void setLakeSize(Double lakeSize) {
         this.lakeSize = lakeSize;
     }   
+
+    public List<Stage> getStages() {
+        return stages;
+    }
+
+    public void setStages(List<Stage> stages) {
+        this.stages = stages;
+    }
+
+    public List<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
+    }
     
 }

@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="COMPANIES")
 public class Company implements Serializable {
-    //@JsonProperty("id")
+    
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
   
     @Column(name="COMPANY_NAME",columnDefinition="VARCHAR(64) NOT NULL")

@@ -6,6 +6,7 @@ package io.swagger.messages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,17 +15,17 @@ import java.util.ArrayList;
 public class LakesResponse {
         
     @JsonProperty("lakes")
-    private ArrayList<LakeResponse> lakes;
+    private List<LakeResponse> lakes;
 
-    public LakesResponse(ArrayList<LakeResponse> lakes) {
+    public LakesResponse(List<LakeResponse> lakes) {
         this.lakes = lakes;
     }
 
-    public ArrayList<LakeResponse> getLakes() {
+    public List<LakeResponse> getLakes() {
         return lakes;
     }
 
-    public void setLakes(ArrayList<LakeResponse> lakes) {
+    public void setLakes(List<LakeResponse> lakes) {
         this.lakes = lakes;
     }
     

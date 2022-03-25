@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -17,15 +18,16 @@ import javax.persistence.Table;
  * @author huba
  */
 @Entity
-@Table(name="PRICES")
+@Table(name="SERVICES")
 public class Service implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
     @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
-    String lakeId;
+    @JoinColumn(name="LAKE_ID")
+    Lake lake;
     
-    @Column(name="SERVICE_NAME",columnDefinition="VARCHAR(32) NOT NULL")
-    String serviceName;
+//    @Column(name="SERVICE_NAME",columnDefinition="VARCHAR(32) NOT NULL")
+//    String serviceName;
 
     @Column(name="UNIT_OF_MEASURE",columnDefinition="VARCHAR(12) NOT NULL")
     String unitOfMeasure;
@@ -41,21 +43,21 @@ public class Service implements Serializable {
         this.id = id;
     }
 
-    public String getLakeId() {
-        return lakeId;
+    public Lake getLake() {
+        return lake;
     }
 
     public void setLakeId(String lakeId) {
-        this.lakeId = lakeId;
+        this.lake = lake;
     }
       
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
+//    public String getServiceName() {
+//        return serviceName;
+//    }
+//
+//    public void setServiceName(String serviceName) {
+//        this.serviceName = serviceName;
+//    }
 
     public String getUnitOfMeasure() {
         return unitOfMeasure;

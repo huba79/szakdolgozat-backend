@@ -13,6 +13,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -26,11 +28,12 @@ public class Payment implements Serializable {
     //TODO kell repo, kell response, service, controller
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
-    @Column(name="RESERVATION_ID",columnDefinition="BIGINT NOT NULL")
-    Long reservationId;
+    //@Column(name="RESERVATION_ID",columnDefinition="BIGINT NOT NULL")
+    @OneToOne(mappedBy="payment")
+    Reservation reservation;
     
     @Enumerated(EnumType.ORDINAL)
-    @Column(name="PAID_WITH",columnDefinition="VARCHAR2(16) NOT NULL DEFAULT 'CASH'")
+    @Column(name="PAID_WITH",columnDefinition="VARCHAR(16) NOT NULL")
     PaidWithEnum paidWith;
     
     @Column(name="AMOUNT",columnDefinition="DOUBLE NOT NULL", length = 10, precision = 2)
@@ -54,12 +57,12 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public Long getReservationId() {
-        return reservationId;
+    public Reservation getReservation() {
+        return reservation;
     }
 
-    public void setReservationId(Long reservationId) {
-        this.reservationId = reservationId;
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 
     public Double getAmount() {

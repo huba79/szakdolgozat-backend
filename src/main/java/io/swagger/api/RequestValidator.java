@@ -28,7 +28,11 @@ public class RequestValidator {
     
     
     Boolean  hasValidHeader(){
-        return request.getHeader("X-API-KEY").equals( companyRepo.findById(Configuration.COMPANY).get().getApiKey() ) 
+        System.out.println("Header apikulcs:\t"+request.getHeader("X-API-KEY"));
+        System.out.println("Header cegid:\t" + Configuration.COMPANY+Configuration.COMPANY.getClass()+"\n");
+        System.out.println(companyRepo.findById(Configuration.COMPANY).get().getApiKey());        
+        return request.getHeader("X-API-KEY") != null
+                && request.getHeader("X-API-KEY").equals( companyRepo.findById(Configuration.COMPANY).get().getApiKey() ) 
         //    && "application/json".equals(request.getHeader("Accepts"))
                 ;
     }
