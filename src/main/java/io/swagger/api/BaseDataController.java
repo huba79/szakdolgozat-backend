@@ -2,7 +2,7 @@ package io.swagger.api;
 
 import io.swagger.domain.Company;
 import io.swagger.domain.Lake;
-import io.swagger.domain.Price;
+import io.swagger.domain.Service;
 import io.swagger.domain.Stage;
 import io.swagger.messages.BaseDataResponse;
 
@@ -16,16 +16,16 @@ import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.LakeRepository;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import io.swagger.repositories.PriceRepository;
 import io.swagger.repositories.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.repositories.ServiceRepository;
 
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 @RestController
 public class BaseDataController implements BaseDataService {
     @Autowired HttpServletRequest request;
-    @Autowired PriceRepository priceRepo;
+    @Autowired ServiceRepository priceRepo;
     @Autowired CompanyRepository companyRepo;
     @Autowired LakeRepository lakeRepo;
     @Autowired StageRepository stageRepo;
@@ -45,7 +45,7 @@ public class BaseDataController implements BaseDataService {
                         System.out.println("Lakes data:"+lakes.toString());
                         
                         ArrayList<Stage> stages = new ArrayList<>();
-                        ArrayList<Price> prices = new ArrayList<>();
+                        ArrayList<Service> prices = new ArrayList<>();
                         
                      
                         for (Lake lake:lakes){
@@ -55,7 +55,7 @@ public class BaseDataController implements BaseDataService {
                             stages.addAll(stageRepo.findStageByLakeId(lakeId) );
                             System.out.println("Stages size:\t"+ stages.size()+"\n\n\n");
                             
-                            prices.addAll(priceRepo.findPriceByLakeIdNative(lakeId));
+                            prices.addAll(priceRepo.findServiceByLakeIdNative(lakeId));
                             //TODO meg kell nezni mi a banator golyalaszarert nem megy, mint pl a stageRepo
                             System.out.println("Prices size:\t"+ prices.size());
                         }                        

@@ -8,7 +8,7 @@ package io.swagger.repositories;
 
 import io.swagger.domain.BlogEntry;
 import io.swagger.domain.Payment;
-import io.swagger.domain.Price;
+import io.swagger.domain.Service;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;

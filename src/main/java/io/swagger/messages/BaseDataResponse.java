@@ -21,13 +21,13 @@ public class BaseDataResponse {
     ArrayList<Lake> lakes;
     
     @JsonProperty("prices")
-    ArrayList<Price> prices;
+    ArrayList<Service> prices;
     
     @JsonProperty("stages")    
     ArrayList<Stage> stages;
 
 
-    public BaseDataResponse(Company company, ArrayList<Lake> lakes, ArrayList<Price> prices, ArrayList<Stage> stages) {
+    public BaseDataResponse(Company company, ArrayList<Lake> lakes, ArrayList<Service> prices, ArrayList<Stage> stages) {
 
         this.company = company;
         this.lakes = lakes;
@@ -35,11 +35,11 @@ public class BaseDataResponse {
         this.stages = stages;
     }
 
-    public ArrayList<Price> getPrices() {
+    public ArrayList<Service> getPrices() {
         return prices;
     }
 
-    public void setPrices(ArrayList<Price> prices) {
+    public void setPrices(ArrayList<Service> prices) {
         this.prices = prices;
     }    
     

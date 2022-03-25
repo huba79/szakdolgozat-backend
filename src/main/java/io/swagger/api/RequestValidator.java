@@ -4,7 +4,7 @@
  */
 package io.swagger.api;
 
-import io.swagger.domain.Configuration;
+import io.swagger.configuration.Configuration;
 import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.UserRepository;
 import javax.servlet.http.HttpServletRequest;

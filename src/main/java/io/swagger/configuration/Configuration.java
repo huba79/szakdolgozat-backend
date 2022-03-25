@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package io.swagger.domain;
+package io.swagger.configuration;
 
 /**
  *
@@ -10,6 +10,6 @@ package io.swagger.domain;
  */
 public class Configuration {
     
-    public static Long COMPANY = new Long(1);   
+    public static Long COMPANY = 1L;   
     
 }

@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="PRICES")
-public class Price implements Serializable {
+public class Service implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
     @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")

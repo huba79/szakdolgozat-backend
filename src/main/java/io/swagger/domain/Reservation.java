@@ -5,6 +5,7 @@
 package io.swagger.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -35,16 +37,20 @@ public class Reservation implements Serializable {
 
     @Column(name="DATE_FROM",columnDefinition="DATETIME NOT NULL")
     Date dateFrom;
+    
+    @Column(name="DATE_TO",columnDefinition="DATETIME NOT NULL")
+    Date dateTo;
 
-    @Column(name="DURATION_HR",columnDefinition="INT NOT NULL")
-    Integer durationInHr;
-
-//    jovobeli implementalas
-//    List<ServicePrice> requestedServices = new ArrayList<>();
+    //hogyan kell annotalni hogy az id-t mentse le az entitasba de meglegyen a onetomany is
+    //a tippem
+    @OneToMany(mappedBy="loan")
+    @Column(name="SERVICES_ID",columnDefinition="BIGINT NOT NULL")
+    ArrayList<OrderedService> orderedServices;
 
     //az ar nem perzisztalt, csak szamolt, kell arszamolas, talan epp a konstruktorba
-    @Column(name="PRICE",columnDefinition="DOUBLE NOT NULL")
-    Double price;
+    //meg gondolkozom rajta hogy az onetomany utan egyaltalan kell-e ez a redundancia
+//    @Column(name="PRICE",columnDefinition="DOUBLE NOT NULL")
+//    Double price;
 
     public Long getId() {
         return id;
@@ -86,28 +92,29 @@ public class Reservation implements Serializable {
         this.dateFrom = dateFrom;
     }
 
-    public Integer getDurationInHr() {
-        return durationInHr;
+    public ArrayList<OrderedService> getOrderedServices() {
+        return orderedServices;
     }
 
-    public void setDurationInHr(Integer durationInHr) {
-        this.durationInHr = durationInHr;
+    public void setOrderedServices(ArrayList<OrderedService> orderedServices) {
+        this.orderedServices = orderedServices;
     }
 
-    public Double getPrice() {
-        return price;
-    }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+//    public Double getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(Double price) {
+//        this.price = price;
+//    }
 
     public Date getDateTo(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateFrom);
-        calendar.add(Calendar.HOUR_OF_DAY, durationInHr);
-        return calendar.getTime();
-  
+        return dateTo;  
+    }
+
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
     }
     
 }
