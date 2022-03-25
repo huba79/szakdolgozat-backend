@@ -8,21 +8,17 @@ package io.swagger.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import io.swagger.domain.Lake;
+import io.swagger.domain.Price;
 import java.util.ArrayList;
 import java.util.Optional;
-import org.springframework.data.jpa.repository.Query;
 /**
  *
  * @author huba.tanczos
  */
 @Repository
-public interface  LakeRepository extends JpaRepository<Lake, Long> {
+public interface  PriceRepository extends JpaRepository<Price, Long> {
 
-    Optional<Lake> findLakeById(Long id);
-        @Query(
-            value = "SELECT * FROM LAKES L WHERE L.COMPANY_ID = ?1", 
-            nativeQuery = true)
-    ArrayList<Lake> findLakeByCompanyId(Long id); 
-    
+    Optional<Price> findPriceById(Long id);
+    ArrayList<Price> findPriceByLakeId(Long id);   
+        
 }
