@@ -69,14 +69,14 @@ public interface ReservationService {
 
         @ApiResponse(responseCode = "500", description = "Server error") })
     @RequestMapping(
-            value = "reservations/{id}{lakeId}{stageId}{userId}{dateFrom}{dateTo}{status}",
+            value = "reservation/{id}{lakeId}{stageId}{userId}{dateFrom}{dateTo}{status}",
             method = RequestMethod.GET,
             produces = "application/json"  )
     ResponseEntity<BaseDataResponse> getReservationsByQuery(
-            @Parameter(in = ParameterIn.PATH, 
+            @Parameter(in = ParameterIn.QUERY, 
                     description = "the id of the reservation", 
-                        required=true, schema=@Schema()) 
-                            @PathVariable("id") Long id,
+                        required=false, schema=@Schema()) 
+                            @RequestParam("id") Long id,
             @Parameter(in = ParameterIn.QUERY, 
                     description = "the id of the reservation", 
                         required=false, schema=@Schema()) 
