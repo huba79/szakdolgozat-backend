@@ -5,16 +5,14 @@
 package io.swagger.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -41,16 +39,15 @@ public class Reservation implements Serializable {
     
     @Column(name="DATE_TO",columnDefinition="DATETIME NOT NULL")
     Date dateTo;
+    
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name="RESERVATION_STATUS",columnDefinition="VARCHAR(12) NOT NULL")
+    ReservationStatusEnum reservationStatus;
+    
 
-//    //hogyan kell annotalni hogy az id-t mentse le az entitasba de meglegyen a onetomany is
-//    //a tippem
-//    @OneToMany(mappedBy="reservation")
+
 //    List<OrderedService> orderedServices;
-//
-////    @OneToOne()
-////    @JoinColumn(name = "payment_id", referencedColumnName = "id")
-//    @OneToOne(mappedBy="reservation")
-//    Payment payment;    
+  
     
 
     public Long getId() {
@@ -93,16 +90,6 @@ public class Reservation implements Serializable {
         this.dateFrom = dateFrom;
     }
 
-//    public List<OrderedService> getOrderedServices() {
-//        return orderedServices;
-//    }
-//
-//    public void setOrderedServices(ArrayList<OrderedService> orderedServices) {
-//        this.orderedServices = orderedServices;
-//    }
-
-
-
     public Date getDateTo(){
         return dateTo;  
     }
@@ -111,13 +98,12 @@ public class Reservation implements Serializable {
         this.dateTo = dateTo;
     }
 
-//    public Payment getPayment() {
-//        return payment;
-//    }
-//
-//    public void setPayment(Payment payment) {
-//        this.payment = payment;
-//    }
-//    
+    public ReservationStatusEnum getReservationStatus() {
+        return reservationStatus;
+    }
+
+    public void setReservationStatus(ReservationStatusEnum reservationStatus) {
+        this.reservationStatus = reservationStatus;
+    }
     
 }

@@ -8,7 +8,7 @@ package io.swagger.domain;
  *
  * @author huba
  */
-public enum ReservationStatusesEnum {
+public enum ReservationStatusEnum {
         REQUESTED,
         RESERVED,
         PAID,

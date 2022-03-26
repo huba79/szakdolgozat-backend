@@ -52,7 +52,7 @@ public class BaseDataController implements BaseDataService {
                             Long lakeId = lake.getId();
                             System.out.println("Lake id:\t"+ lakeId);
                             
-                            stages.addAll(stageRepo.findStageByLakeId(lakeId) );
+                            stages.addAll(stageRepo.findStageByLakeIdNative(lakeId) );
                             System.out.println("Stages size:\t"+ stages.size()+"\n\n\n");
                             
                             prices.addAll(priceRepo.findServiceByLakeIdNative(lakeId));

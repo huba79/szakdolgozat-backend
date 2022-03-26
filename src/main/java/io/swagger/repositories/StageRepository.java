@@ -22,5 +22,5 @@ public interface StageRepository extends JpaRepository<Stage, Long> {
         @Query(
             value = "SELECT * FROM STAGES S WHERE S.LAKE_ID = ?1", 
             nativeQuery = true)
-    ArrayList<Stage> findStageByLakeId(Long id);
+    ArrayList<Stage> findStageByLakeIdNative(Long id);
 }

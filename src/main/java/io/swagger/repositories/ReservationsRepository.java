@@ -5,7 +5,13 @@
  */
 package io.swagger.repositories;
 import io.swagger.domain.Reservation;
+import io.swagger.domain.ReservationStatusEnum;
+import java.util.ArrayList;
+import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
@@ -14,17 +20,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReservationsRepository extends JpaRepository<Reservation, Long>{
 
-//    @Query("SELECT r FROM Reservations r WHERE stageId =:pStageId and (dateTo > :pDateFrom OR dateFrom < :pDateTo )")
-//    ArrayList<Reservation> findByStageIdAndDateFromAndDateToNamedParams(
-//            @Param("pStageId") Long pStageId,
-//            @Param("pDateFrom") Date pDateFrom,
-//            @Param("pDateTo") Date pDateTo
-//        );
-//
-//    @Query("SELECT r FROM Reservations r WHERE r.userId = :pUserId")
-//    ArrayList<Reservation> findByUserIdNamedParams(
-//        @Param("pUserId") Long pUserId );
-//
-//  //      ArrayList<Reservations> getReservationsByFilter(Long id, Integer status, OffsetDateTime dateFrom, OffsetDateTime dateTo);
+@Procedure(procedureName = "reservationsbycriteria")
+            
+    ArrayList<Reservation> reservationsbycriteriaProcedureName(
+            Long pUserId, 
+            Long pLakeId,
+            Long pStageId,
+            Date pDateFrom,
+            Date pDateTo,
+            ReservationStatusEnum pStatus
+        );
+
+    @Query(
+      value = "SELECT * FROM RESERVATIONS R WHERE R.RESERVATION_ID = ?1", 
+      nativeQuery = true)
+    ArrayList<Reservation> findReservationByUserIdNative(
+        @Param("pUserId") Long pUserId );
+
+//       ArrayList<Reservation> findByByUserIdNative(Long userId);
 
 }
