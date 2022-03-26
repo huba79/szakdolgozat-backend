@@ -54,7 +54,7 @@ public interface LakeService {
         @ApiResponse(responseCode = "401", description = "Not Authorized"),
 
         @ApiResponse(responseCode = "500", description = "Server error") })
-    @RequestMapping(value = "lakes/{companyId}/lakeId}",
+    @RequestMapping(value = "lakes/{companyId}/{lakeId}",
         method = RequestMethod.GET)
     ResponseEntity<LakeResponse> getLakeById(
             @Parameter(in = ParameterIn.PATH, 

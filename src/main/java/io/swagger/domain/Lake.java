@@ -5,15 +5,11 @@
 package io.swagger.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -42,12 +38,6 @@ public class Lake implements Serializable {
 
     @Column(name="LAKE_SIZE",columnDefinition="DOUBLE NOT NULL",length=3, precision=2)
     Double lakeSize;
-    
-    @OneToMany(mappedBy="lake")
-    List<Service> services; 
-    
-    @OneToMany(mappedBy="lake")
-    List<Stage> stages;
 
     public Long getId() {
         return id;
@@ -96,22 +86,5 @@ public class Lake implements Serializable {
     public void setLakeSize(Double lakeSize) {
         this.lakeSize = lakeSize;
     }
-
-    public List<Service> getServices() {
-        return services;
-    }
-
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
-
-    public List<Stage> getStages() {
-        return stages;
-    }
-
-    public void setStages(List<Stage> stages) {
-        this.stages = stages;
-    }
-    
-    
+   
 }

@@ -5,34 +5,36 @@
 package io.swagger.api;
 
 import io.swagger.configuration.Configuration;
+import io.swagger.domain.Company;
 import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.UserRepository;
 import javax.servlet.http.HttpServletRequest;
+import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 /**
  *
  * @author huba
  */
+
 public class RequestValidator {
-    @Autowired
-    CompanyRepository companyRepo;
+    @Autowired Environment env;
     @Autowired
     UserRepository userRepo;
     
-    private HttpServletRequest request;
+    private final HttpServletRequest request;
 
-    public RequestValidator(HttpServletRequest request) {
+    public RequestValidator(  HttpServletRequest request ) {
         this.request = request;
     }
     
     
     Boolean  hasValidHeader(){
-        System.out.println("Header apikulcs:\t"+request.getHeader("X-API-KEY"));
-        System.out.println("Header cegid:\t" + Configuration.COMPANY+Configuration.COMPANY.getClass()+"\n");
-        System.out.println(companyRepo.findById(Configuration.COMPANY).get().getApiKey());        
+
         return request.getHeader("X-API-KEY") != null
-                && request.getHeader("X-API-KEY").equals( companyRepo.findById(Configuration.COMPANY).get().getApiKey() ) 
+               && request.getHeader("X-API-KEY")
+                       .equals("ValidApiKulcs") 
         //    && "application/json".equals(request.getHeader("Accepts"))
                 ;
     }
@@ -41,7 +43,7 @@ public class RequestValidator {
     } 
 
     Boolean  acceptsJson(){
-        return request.getHeader("accepts").equals("application/json");
+        return request.getHeader("Accept").equals("application/json");
     }     
     
 }

@@ -5,11 +5,14 @@
 package io.swagger.api;
 
 import io.swagger.domain.Payment;
+import io.swagger.domain.Reservation;
 import io.swagger.domain.User;
 import io.swagger.messages.PaymentResponse;
 import io.swagger.repositories.PaymentRepository;
+import io.swagger.repositories.ReservationsRepository;
 import io.swagger.repositories.UserRepository;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,38 +32,44 @@ public class PaymentController implements PaymentService{
     @Autowired
     UserRepository usersRepo;    
     @Autowired
+    ReservationsRepository reservationsRepo;     
+    @Autowired
     HttpServletRequest request;
 
     @Override
-    public ResponseEntity<PaymentResponse> getPaymentById(Long id) {
-        RequestValidator validator = new RequestValidator(request); 
+    public ResponseEntity<PaymentResponse> getPaymentByReservationId(Long reservationId) {
+                RequestValidator validator = new RequestValidator(request); 
         if(  validator.hasValidHeader() && validator.isAuthorized() && validator.acceptsJson() ) {
                 
-                Payment payment = paymentRepo.findPaymentById(id).get();
+                Payment payment = paymentRepo.findPaymentByReservationIdNative(reservationId);
                 if(payment !=null) {
-                    User user = usersRepo.findById(id).get();
+                   User user = null;
+                   Reservation reservation=null;
+                   try {
+                         reservation = reservationsRepo.findById(reservationId).get();                        
+                         user = usersRepo.findById(reservation.getUserId()).get();
+                   } catch(NoSuchElementException ex) {
+                       //orphan payment or not linked user
+                       if(reservation == null){
+                            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                        };
+                    } 
+
                     PaymentResponse paymentResponse = new PaymentResponse(
-                          payment.getId(),
-                          payment.getReservation(),
-                            payment.getPaidWith(),
-                            payment.getAmount(),
-                            payment.getPaidOn(),
-                            (user ==null)? "GUEST" : user.getDisplayName(),
-                            payment.getPaymentStatus()
+                        payment.getId(),
+                        payment.getReservationId(),
+                        payment.getPaidWith(),
+                        payment.getAmount(),
+                        payment.getPaidOn(),
+                        (user ==null)? "GUEST" : user.getDisplayName(),
+                        payment.getPaymentStatus()
                     );
                     return new ResponseEntity<>(paymentResponse,HttpStatus.OK);
-                } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
                 
-        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);  
-    }
+                } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);     }
     //implementalni!
-    @Override
-    public ResponseEntity<PaymentResponse> getPaymentByReservationId(Long reservationId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    //implementalni!
-    @Override
-    public ResponseEntity<ArrayList<PaymentResponse>> getAllPayments() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+
 }

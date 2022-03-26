@@ -55,22 +55,20 @@ public class LakeController implements LakeService{
                             lake.getCompanyId(),
                             lake.getLakeAddress(),
                             lake.getReservationsSystem(),
-                            lake.getLakeSize(),
-                            lake.getStages(),
-                            lake.getServices()
+                            lake.getLakeSize()
                         )
                     );
                 }                
-                return new ResponseEntity<LakesResponse>(new LakesResponse(lakeResponse),HttpStatus.OK );    
-        } else return new ResponseEntity<LakesResponse>(HttpStatus.UNAUTHORIZED);    
+                return new ResponseEntity<>(new LakesResponse(lakeResponse),HttpStatus.OK );    
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);    
     }
 
     @Override
     public ResponseEntity<LakeResponse> getLakeById(Long companyId, Long lakeId) {
         //apikey validaciot egysegesiteni kellene, alabb egy masik, talan jobb megkozelites         
         if( request.getHeader("X-API-KEY") !=null 
-                 && request.getHeader("X-API-KEY").equals(companyRepo.findById(companyId).get().getApiKey()) && 
-                 "application/json".equals(request.getHeader("Accepts"))) {
+                // && request.getHeader("X-API-KEY").equals(companyRepo.findById(companyId).get().getApiKey())  
+                && request.getHeader("Accept").equals("application/json") ) {
 
                     try {
                         Lake foundLake = (lakeRepo.findById(lakeId)).get();
@@ -80,9 +78,7 @@ public class LakeController implements LakeService{
                             foundLake.getCompanyId(),
                             foundLake.getLakeAddress(),
                             foundLake.getReservationsSystem(),
-                            foundLake.getLakeSize(),
-                            foundLake.getStages(),
-                            foundLake.getServices()                            
+                            foundLake.getLakeSize()                            
                         );                           
                            return new ResponseEntity<>(lakeResponse, HttpStatus.OK);
                     } catch(NoSuchElementException ex) {

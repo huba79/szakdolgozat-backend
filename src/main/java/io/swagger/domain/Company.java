@@ -50,7 +50,7 @@ public class Company implements Serializable {
     @Column(name="COMPANY_EMAIL",columnDefinition="VARCHAR(64) NOT NULL")
     String contactEmail;
     
-    @Column(name="DEAFULT_CURRENCY",columnDefinition="VARCHAR(2) NOT NULL")
+    @Column(name="DEAFULT_CURRENCY",columnDefinition="VARCHAR(3) NOT NULL")
     String defaultCurrency;
 
     public Long getId() {

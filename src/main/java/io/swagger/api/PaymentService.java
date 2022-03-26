@@ -22,24 +22,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Validated
 public interface PaymentService {
     
-    //GetPayment
-    @Operation(summary = "payment", description = "payment", security = {
-        @SecurityRequirement(name = "ApiKeyAuth")    }, tags={ "users", "admins" })
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Retrieval succesful"),
-
-        @ApiResponse(responseCode = "400", description = "Invalid request"),
-
-        @ApiResponse(responseCode = "401", description = "Not Authorized"),
-
-        @ApiResponse(responseCode = "500", description = "Server error") })
-    @RequestMapping(value = "payments/{id}",
-        method = RequestMethod.GET)
-    ResponseEntity<PaymentResponse> getPaymentById(
-            @Parameter(in = ParameterIn.PATH, 
-                    description = "the id of the company delivering the app", 
-                        required=true, schema=@Schema()) 
-                            @PathVariable("id") Long id);
+//    //GetPayment
+//    @Operation(summary = "payment", description = "payment", security = {
+//        @SecurityRequirement(name = "ApiKeyAuth")    }, tags={ "users", "admins" })
+//    @ApiResponses(value = {
+//        @ApiResponse(responseCode = "200", description = "Retrieval succesful"),
+//
+//        @ApiResponse(responseCode = "400", description = "Invalid request"),
+//
+//        @ApiResponse(responseCode = "401", description = "Not Authorized"),
+//
+//        @ApiResponse(responseCode = "500", description = "Server error") })
+//    @RequestMapping(value = "payments/{reservationId}/{id}",
+//        method = RequestMethod.GET)
+//    ResponseEntity<PaymentResponse> getPaymentById(
+//            @Parameter(in = ParameterIn.PATH, 
+//                    description = "the id of the company delivering the app", 
+//                        required=true, schema=@Schema()) 
+//                            @PathVariable("id") Long id);
     
     //Get Payment by ReservationID
     @Operation(summary = "Payments", description = "Payments for reservations", security = {
@@ -58,7 +58,5 @@ public interface PaymentService {
                         required=true, schema=@Schema()) 
                             @PathVariable("reservationId") Long reservationId); 
 
-    //Get all Payments
-    ResponseEntity<ArrayList<PaymentResponse>> getAllPayments();
 }
 

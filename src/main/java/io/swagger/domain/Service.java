@@ -23,13 +23,13 @@ public class Service implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
     @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
-    @JoinColumn(name="LAKE_ID")
-    Lake lake;
+    //@JoinColumn(name="LAKE_ID")
+    Long lakeId;
     
-//    @Column(name="SERVICE_NAME",columnDefinition="VARCHAR(32) NOT NULL")
-//    String serviceName;
+    @Column(name="SERVICE_NAME",columnDefinition="VARCHAR(32) NOT NULL")
+    String serviceName;
 
-    @Column(name="UNIT_OF_MEASURE",columnDefinition="VARCHAR(12) NOT NULL")
+    @Column(name="UNIT_OF_MEASURE",columnDefinition="VARCHAR(16) NOT NULL")
     String unitOfMeasure;
 
     @Column(name="PRICE_PER_UNIT",columnDefinition="DOUBLE NOT NULL")
@@ -43,21 +43,21 @@ public class Service implements Serializable {
         this.id = id;
     }
 
-    public Lake getLake() {
-        return lake;
+    public Long getLakeId() {
+        return lakeId;
     }
 
-    public void setLakeId(String lakeId) {
-        this.lake = lake;
+    public void setLakeId(Long lakeId) {
+        this.lakeId = lakeId;
     }
       
-//    public String getServiceName() {
-//        return serviceName;
-//    }
-//
-//    public void setServiceName(String serviceName) {
-//        this.serviceName = serviceName;
-//    }
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
 
     public String getUnitOfMeasure() {
         return unitOfMeasure;

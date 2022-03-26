@@ -4,6 +4,7 @@
  */
 package io.swagger.messages;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class LakesResponse {
         
     @JsonProperty("lakes")
+    //@JsonManagedReference
     private List<LakeResponse> lakes;
 
     public LakesResponse(List<LakeResponse> lakes) {

@@ -17,5 +17,9 @@ import org.springframework.data.jpa.repository.Query;
  */
 @Repository
 public interface  CompanyRepository extends JpaRepository<Company, Long> {
-     
+
+        @Query(
+            value = "SELECT * FROM COMPANIES C WHERE C.ID = ?1", 
+            nativeQuery = true)
+    Company getCompanyById(Long id);
 }

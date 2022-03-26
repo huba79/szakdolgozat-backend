@@ -26,7 +26,7 @@ public interface  PaymentRepository extends JpaRepository<BlogEntry, Long> {
     @Query(
       value = "SELECT * FROM PAYMENT P WHERE P.RESERVATION_ID = ?1", 
       nativeQuery = true)
-    ArrayList<Payment> findPaymentByReservationIdNative( Long id);
+    Payment findPaymentByReservationIdNative( Long id);
     
     //persze meg kell oldani a mentest is
 }

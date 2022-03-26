@@ -21,7 +21,7 @@ public interface ServiceRepository extends JpaRepository<Service, Long> {
     Optional<Service> findServiceById(Long id);
     
     @Query(
-      value = "SELECT * FROM PRICE P WHERE P.LAKE_ID = ?1", 
+      value = "SELECT * FROM SERVICES S WHERE S.LAKE_ID = ?1", 
       nativeQuery = true)
     ArrayList<Service> findServiceByLakeIdNative( Long id);
     

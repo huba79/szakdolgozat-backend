@@ -25,8 +25,8 @@ public class Stage implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
     @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
-    @JoinColumn(name = "LAKE_ID")
-    Lake lake;
+    //@JoinColumn(name = "LAKE_ID")
+    Long lakeId;
 
     @Column(name="STAGE_NAME",columnDefinition="VARCHAR(16) NOT NULL")
     String stageName;
@@ -51,12 +51,12 @@ public class Stage implements Serializable {
     }
 
 
-    public Lake getLake() {
-        return lake;
+    public Long getLake() {
+        return lakeId;
     }
 
-    public void setLakeId(Lake lake) {
-        this.lake = lake;
+    public void setLakeId(Long lakeId) {
+        this.lakeId = lakeId;
     }
 
     public String getStageName() {

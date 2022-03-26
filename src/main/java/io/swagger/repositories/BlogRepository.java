@@ -19,9 +19,9 @@ import org.springframework.data.jpa.repository.Query;
 @Repository
 public interface  BlogRepository extends JpaRepository<BlogEntry, Long> {
 
-    Optional<BlogEntry> findLakeById(Long id);
+    Optional<BlogEntry> findBlogEntryById(Long id);
         @Query(
-            value = "SELECT * FROM BLOG_ENTRIES B WHERE L.COMPANY_ID = ?1", 
+            value = "SELECT * FROM BLOG_ENTRIES B WHERE B.COMPANY_ID = ?1", 
             nativeQuery = true)
     ArrayList<BlogEntry> findBlogEntryByCompanyId(Long id);   
 }

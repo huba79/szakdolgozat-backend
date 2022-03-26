@@ -28,9 +28,11 @@ public class Payment implements Serializable {
     //TODO kell repo, kell response, service, controller
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
-    //@Column(name="RESERVATION_ID",columnDefinition="BIGINT NOT NULL")
-    @OneToOne(mappedBy="payment")
-    Reservation reservation;
+    @Column(name="RESERVATION_ID",columnDefinition="BIGINT NOT NULL")
+    Long reservationId;
+//    @OneToOne()
+//    @JoinColumn(name = "reservation_id", referencedColumnName = "id")            
+//    Reservation reservation;
     
     @Enumerated(EnumType.ORDINAL)
     @Column(name="PAID_WITH",columnDefinition="VARCHAR(16) NOT NULL")
@@ -57,13 +59,13 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
+//    public Reservation getReservation() {
+//        return reservation;
+//    }
+//
+//    public void setReservation(Reservation reservation) {
+//        this.reservation = reservation;
+//    }
 
     public Double getAmount() {
         return amount;
@@ -104,5 +106,14 @@ public class Payment implements Serializable {
     public void setPaidByUserId(Long paidByUserId) {
         this.paidByUserId = paidByUserId;
     }
+
+    public Long getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(Long reservationId) {
+        this.reservationId = reservationId;
+    }
+    
    
 }
