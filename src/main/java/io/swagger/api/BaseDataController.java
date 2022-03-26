@@ -5,13 +5,10 @@ import io.swagger.domain.Lake;
 import io.swagger.domain.Service;
 import io.swagger.domain.Stage;
 import io.swagger.messages.BaseDataResponse;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
 import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.LakeRepository;
 import java.util.ArrayList;

@@ -20,8 +20,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReservationsRepository extends JpaRepository<Reservation, Long>{
 
-@Procedure(procedureName = "reservationsbycriteria")
-            
+    @Procedure(procedureName = "reservationsbycriteria")
     ArrayList<Reservation> reservationsbycriteriaProcedureName(
             Long pUserId, 
             Long pLakeId,
@@ -31,12 +30,10 @@ public interface ReservationsRepository extends JpaRepository<Reservation, Long>
             ReservationStatusEnum pStatus
         );
 
-    @Query(
-      value = "SELECT * FROM RESERVATIONS R WHERE R.RESERVATION_ID = ?1", 
-      nativeQuery = true)
-    ArrayList<Reservation> findReservationByUserIdNative(
-        @Param("pUserId") Long pUserId );
-
-//       ArrayList<Reservation> findByByUserIdNative(Long userId);
+    @Query(value = "SELECT * FROM RESERVATIONS R WHERE R.ID = ?1",
+            nativeQuery = true)   
+    Reservation findByIdNative(Long id);
+    
+    
 
 }

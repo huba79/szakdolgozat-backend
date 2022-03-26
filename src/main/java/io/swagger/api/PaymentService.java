@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Validated
 public interface PaymentService {
     
-//    //GetPayment
+//    //GetPayment --refactiored--not sure will need it any more
 //    @Operation(summary = "payment", description = "payment", security = {
 //        @SecurityRequirement(name = "ApiKeyAuth")    }, tags={ "users", "admins" })
 //    @ApiResponses(value = {
