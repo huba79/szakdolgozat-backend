@@ -43,12 +43,19 @@ public class Reservation implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     @Column(name="RESERVATION_STATUS",columnDefinition="VARCHAR(12) NOT NULL")
     ReservationStatusEnum reservationStatus;
+
+    public Reservation(Long id, Long lakeId, Long stageId, Long userId, Date dateFrom, Date dateTo, ReservationStatusEnum reservationStatus) {
+        this.id = id;
+        this.lakeId = lakeId;
+        this.stageId = stageId;
+        this.userId = userId;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.reservationStatus = reservationStatus;
+    }
     
 
-
-//    List<OrderedService> orderedServices;
-  
-    
+ 
 
     public Long getId() {
         return id;
@@ -105,5 +112,5 @@ public class Reservation implements Serializable {
     public void setReservationStatus(ReservationStatusEnum reservationStatus) {
         this.reservationStatus = reservationStatus;
     }
-    
+     
 }

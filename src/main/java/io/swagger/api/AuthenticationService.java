@@ -38,7 +38,9 @@ public interface AuthenticationService {
     @RequestMapping(value = "login/",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<LoginResponse> login(@Parameter(in = ParameterIn.DEFAULT, description = "Login data", schema=@Schema()) @Valid @RequestBody LoginMessage body);
+    ResponseEntity<LoginResponse> login(@Parameter(in = ParameterIn.DEFAULT, 
+            description = "Login data", 
+                schema=@Schema()) @Valid @RequestBody LoginMessage body);
 
     @Operation(summary = "Logout", description = "Attempts to login to the system", security = {
     @SecurityRequirement(name = "ApiKeyAuth")    }, tags={ "users", "admins" })
@@ -55,7 +57,9 @@ public interface AuthenticationService {
     )
     @RequestMapping(value = "logout/{id}",
         method = RequestMethod.GET)
-    ResponseEntity<Void> logout(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") Long id);
+    ResponseEntity<Void> logout(@Parameter(in = ParameterIn.PATH, 
+                description = "", required=true, 
+                    schema=@Schema()) @PathVariable("id") Long id);
 
 }
 

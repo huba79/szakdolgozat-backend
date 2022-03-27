@@ -19,7 +19,7 @@ import org.springframework.data.jpa.repository.Query;
  * @author huba.tanczos
  */
 @Repository
-public interface  PaymentRepository extends JpaRepository<BlogEntry, Long> {
+public interface  PaymentRepository extends JpaRepository<Payment, Long> {
     
     Optional<Payment> findPaymentById(Long id);
    
