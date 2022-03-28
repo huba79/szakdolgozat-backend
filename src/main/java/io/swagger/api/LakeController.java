@@ -9,6 +9,7 @@ import io.swagger.messages.LakeResponse;
 import io.swagger.messages.LakesResponse;
 import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.LakeRepository;
+import io.swagger.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
@@ -27,19 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 
 public class LakeController implements LakeService{
-    @Autowired
-    LakeRepository lakeRepo;
-    
-    @Autowired
-    CompanyRepository companyRepo;    
-    
-    @Autowired
-    HttpServletRequest request;    
+    @Autowired LakeRepository lakeRepo;
+    @Autowired CompanyRepository companyRepo; 
+    @Autowired HttpServletRequest request;
+    @Autowired UserRepository usersRepo;    
 
     @Override
     public ResponseEntity<LakesResponse> getLakes(Long companyId) {
             
-        RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader() && validator.acceptsJson()) {
 
                 ArrayList<Lake> lakes = lakeRepo.findLakeByCompanyId(companyId);

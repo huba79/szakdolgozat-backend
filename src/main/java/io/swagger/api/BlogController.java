@@ -8,6 +8,7 @@ import io.swagger.domain.BlogEntry;
 import io.swagger.messages.BlogResponse;
 import io.swagger.repositories.BlogRepository;
 import io.swagger.repositories.CompanyRepository;
+import io.swagger.repositories.UserRepository;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 
 public class BlogController implements BlogService{
-    @Autowired
-    BlogRepository blogRepo;
-    @Autowired
-    CompanyRepository companyRepo;    
-    @Autowired
-    HttpServletRequest request;
-
+    @Autowired BlogRepository blogRepo;
+    @Autowired CompanyRepository companyRepo;    
+    @Autowired HttpServletRequest request;
+    @Autowired UserRepository usersRepo;
 
     @Override
     public ResponseEntity<BlogResponse> getBlogEntryByCompanyId(Long companyId) {
         //apikey validaciot egysegesiteni kellene, , talan ez a jobb megkozelites         
-        RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader() && validator.acceptsJson()) {
                  
                 ArrayList<BlogEntry> blogEntries= blogRepo.findBlogEntryByCompanyId(companyId);

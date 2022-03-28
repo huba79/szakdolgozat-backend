@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.messages.LoginMessage;
 import io.swagger.messages.LoginResponse;
+import io.swagger.repositories.CompanyRepository;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,25 +34,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 public class AuthenticationController implements AuthenticationService {
     @Autowired
-    private final UserRepository usersrepo;
-
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
+    UserRepository usersRepo;
     @Autowired
-    private final HttpServletRequest request;
+    CompanyRepository companyRepo;
+    @Autowired
+    HttpServletRequest request;
+     
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public AuthenticationController(HttpServletRequest request,UserRepository pUsersRepo) {
-        this.request = request;
-        this.usersrepo = pUsersRepo;
-    }
+
     //LOGIN implementacio
     @Override
     public ResponseEntity<LoginResponse> login(@Parameter(in = ParameterIn.DEFAULT, schema=@Schema()) @Valid @RequestBody LoginMessage body) {
 
-        RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader() && validator.acceptsJson()) {
             System.out.println("loginname:\t"+body.getLoginname()+"\npassword:\t"+body.getPassword()+"\n"+"client:\t"+request.getHeader("sender"));
-            ArrayList<User> foundusers= usersrepo.findUserByEmailAddress(body.getLoginname());
+            ArrayList<User> foundusers= usersRepo.findUserByEmailAddress(body.getLoginname());
             if(foundusers.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else if(foundusers.size()>1){
@@ -66,7 +65,7 @@ public class AuthenticationController implements AuthenticationService {
                             System.out.println("His UUID is:"+uuid+"\n");
                             foundUser.setLastLoginDate(new Date(System.currentTimeMillis()));
                             foundUser.setSessionID(uuid);
-                            usersrepo.save(foundUser);
+                            usersRepo.save(foundUser);
                             
                             LoginResponse response = new  LoginResponse(foundUser.getId(),
                                         foundUser.getDisplayName(),foundUser.getNickName(),
@@ -92,10 +91,10 @@ public class AuthenticationController implements AuthenticationService {
     @Override
     public ResponseEntity<Void> logout(@Parameter(in = ParameterIn.PATH, required=true, schema=@Schema()) @PathVariable("id") Long id) {
         System.out.println("hello logout \n");
-        RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader() && validator.isAuthorized()) {
             System.out.println("token of the request:\t"+request.getHeader("TOKEN"));
-            Optional<User> foundUser = usersrepo.findById(id);
+            Optional<User> foundUser = usersRepo.findById(id);
             String uuid =((User) foundUser.get() ).getSessionID();
 
                 System.out.println("token of the user:\t"+uuid);
@@ -106,7 +105,7 @@ public class AuthenticationController implements AuthenticationService {
                 } else {                                    
                         User user = (User) foundUser.get();
                         user.setSessionID(null); //erasing sessionID after logout
-                        usersrepo.save(user);
+                        usersRepo.save(user);
                         ResponseEntity response = new ResponseEntity<>( HttpStatus.OK);
                         return response;
                     }

@@ -8,6 +8,7 @@ import io.swagger.domain.Payment;
 import io.swagger.domain.Reservation;
 import io.swagger.domain.User;
 import io.swagger.messages.PaymentResponse;
+import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.PaymentRepository;
 import io.swagger.repositories.ReservationsRepository;
 import io.swagger.repositories.UserRepository;
@@ -27,18 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 
 public class PaymentController implements PaymentService{
-    @Autowired
-    PaymentRepository paymentRepo;
-    @Autowired
-    UserRepository usersRepo;    
-    @Autowired
-    ReservationsRepository reservationsRepo;     
-    @Autowired
-    HttpServletRequest request;
+    @Autowired PaymentRepository paymentRepo;
+    @Autowired ReservationsRepository reservationsRepo;     
+    @Autowired HttpServletRequest request;
+    @Autowired CompanyRepository companyRepo;
+    @Autowired UserRepository usersRepo;
 
     @Override
     public ResponseEntity<PaymentResponse> getPaymentByReservationId(Long reservationId) {
-                RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader() && validator.isAuthorized() && validator.acceptsJson() ) {
                 
                 Payment payment = paymentRepo.findPaymentByReservationIdNative(reservationId);

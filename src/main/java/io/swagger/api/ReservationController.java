@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.messages.ReservationMessage;
 import io.swagger.messages.ReservationResponse;
+import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.OrderedServiceRepository;
 import io.swagger.repositories.PaymentRepository;
 import io.swagger.repositories.ReservationsRepository;
@@ -32,18 +33,15 @@ public class ReservationController implements ReservationService {
     private static final  Logger log = LoggerFactory.getLogger(ReservationController.class);
     @Autowired
     private  HttpServletRequest request;
-    @Autowired
-    private  UserRepository pUsersRepo;
-    @Autowired
-    private  ReservationsRepository reservationRepo;
-    @Autowired
-    private  PaymentRepository paymentRepo;
-    @Autowired
-    private  OrderedServiceRepository orderedServicesRepo;    
+    @Autowired CompanyRepository companyRepo;
+    @Autowired UserRepository usersRepo;
+    @Autowired ReservationsRepository reservationRepo;
+    @Autowired PaymentRepository paymentRepo;
+    @Autowired OrderedServiceRepository orderedServicesRepo;    
     
     @Override
     public ResponseEntity<ReservationResponse> getReservationById(Long id) {
-        RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
             if(validator.hasValidHeader()&& validator.isAuthorized()){
                 Reservation reservation = reservationRepo.findByIdNative(id);
@@ -71,7 +69,7 @@ public class ReservationController implements ReservationService {
 
     @Override
     public ResponseEntity<ArrayList<ReservationResponse>> getReservationsByQuery(Long id, Long lakeId, Long stageId, Long userId, Date dateFrom, Date dateTo, ReservationStatusEnum status) {
-        RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
             if(validator.hasValidHeader()&& validator.isAuthorized()){
                 ArrayList<Reservation> reservations = new  ArrayList<>();
@@ -117,7 +115,7 @@ public class ReservationController implements ReservationService {
 
     @Override
     public ResponseEntity<ReservationResponse> newReservation(ReservationMessage body) {
-        RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
             if(validator.hasValidHeader()&& validator.isAuthorized()){
                     //TODO magamnak: nincs mese meg kellene oldani a tranzakcionalis mentest
@@ -170,7 +168,7 @@ public class ReservationController implements ReservationService {
 
     @Override
     public ResponseEntity<ReservationResponse> updateReservation(ReservationMessage body) {
-        RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
             if(validator.hasValidHeader()&& validator.isAuthorized()){
                     //TODO magamnak: nincs mese meg kellene oldani a tranzakcionalis mentest

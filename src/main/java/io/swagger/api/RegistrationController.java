@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import io.swagger.messages.RegistrationMessage;
 import io.swagger.messages.RegistrationResponse;
+import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.UserRepository;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +24,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 public class RegistrationController implements RegistrationService {
     
-    @Autowired
-    UserRepository usersrepo;
-    @Autowired
-    HttpServletRequest request;
+    @Autowired CompanyRepository companyRepo;
+    @Autowired UserRepository usersRepo;
+    @Autowired HttpServletRequest request;
     private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
 
     //REGISTRATION implementacio
 
     @Override
     public ResponseEntity<RegistrationResponse> registration(RegistrationMessage body) {
-        RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo);  
         if(  validator.hasValidHeader() && validator.acceptsJson() ) {
 
                     try {
@@ -48,8 +48,8 @@ public class RegistrationController implements RegistrationService {
                             newUser.setCreatedDate( new Date(System.currentTimeMillis()) );
                             newUser.setLastLoginDate( new Date(System.currentTimeMillis()) );
 
-                        usersrepo.save(newUser);
-                        ArrayList<User> foundUsers = usersrepo.findUserByEmailAddress(body.getEmailAddress());
+                        usersRepo.save(newUser);
+                        ArrayList<User> foundUsers = usersRepo.findUserByEmailAddress(body.getEmailAddress());
                         
                         if(foundUsers.size() ==1 && foundUsers.get(0) !=null){
                            User found = foundUsers.get(0);

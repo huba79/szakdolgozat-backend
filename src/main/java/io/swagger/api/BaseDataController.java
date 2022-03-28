@@ -16,6 +16,7 @@ import java.util.NoSuchElementException;
 import io.swagger.repositories.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.repositories.ServiceRepository;
+import io.swagger.repositories.UserRepository;
 
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
@@ -26,12 +27,13 @@ public class BaseDataController implements BaseDataService {
     @Autowired CompanyRepository companyRepo;
     @Autowired LakeRepository lakeRepo;
     @Autowired StageRepository stageRepo;
+    @Autowired UserRepository usersRepo;
 
     //private static final Logger log = LoggerFactory.getLogger(BaseDataController.class);
 
     @Override
     public ResponseEntity<BaseDataResponse> getBaseData(Long companyId) {
-        RequestValidator validator = new RequestValidator(request); 
+        RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader()) {
 
                     try {
