@@ -11,6 +11,7 @@ import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.lang.Nullable;
 
 /**
  *
@@ -21,12 +22,12 @@ public interface ReservationsRepository extends JpaRepository<Reservation, Long>
 
     @Procedure(procedureName = "reservationsbycriteria")
     ArrayList<Reservation> reservationsbycriteriaProcedureName(
-            Long pUserId, 
-            Long pLakeId,
-            Long pStageId,
-            Date pDateFrom,
-            Date pDateTo,
-            ReservationStatusEnum pStatus
+            @Nullable Long pUserId, 
+            @Nullable Long pLakeId,
+            @Nullable Long pStageId,
+            @Nullable Date pDateFrom,
+            @Nullable Date pDateTo,
+            @Nullable ReservationStatusEnum pStatus
         );
 
     @Query(value = "SELECT * FROM RESERVATIONS R WHERE R.ID = ?1",

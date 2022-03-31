@@ -24,8 +24,8 @@ public class OrderedService implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
     @Column(name="RESERVATION_ID",columnDefinition="BIGINT NOT NULL")
-    @JoinColumn(name="RESERVATION_ID")
-    Reservation reservation;
+    //@JoinColumn(name="RESERVATION_ID")
+    Long reservationId;
     
     @Column(name="SERVICE_ID",columnDefinition="BIGINT NOT NULL")
     String serviceId;
@@ -44,12 +44,12 @@ public class OrderedService implements Serializable {
         this.id = id;
     }
 
-    public Reservation getReservation() {
-        return reservation;
+    public Long getReservationId() {
+        return reservationId;
     }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
+    public void setReservationId(Long reservationId) {
+        this.reservationId = reservationId;
     }
 
     public String getServiceId() {

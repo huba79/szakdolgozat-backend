@@ -4,13 +4,13 @@
  */
 package io.swagger.api;
 
-import io.swagger.configuration.Configuration;
-import io.swagger.domain.Company;
 import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.context.annotation.ComponentScan;
 
 
 /**

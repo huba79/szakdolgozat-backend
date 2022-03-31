@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -20,6 +21,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +32,6 @@ public interface ReservationService {
     /**
      *
      * @param id
-     * @param companyId
      * @return ResponseEntity<ReservationResponse>
      */
     //TODO define getReservation By Id
@@ -48,17 +49,15 @@ public interface ReservationService {
             produces = "application/json"
         )
     ResponseEntity<ReservationResponse> getReservationById(
-            @Parameter(in = ParameterIn.PATH, 
-                    description = "the id of the reservation", 
-                        required=true, schema=@Schema()) 
-                            @PathVariable("id") Long id);  
+            @PathVariable("id") Long id
+    );  
 
     //GetReservations by query params
     @Operation(summary = "Get a list of reservations", 
             description = "Get Reservation by query", 
             security = {
                 @SecurityRequirement(name = "ApiKeyAuth")    
-            }, tags={ "guests", "users", "admins" })
+            }, tags={"users", "admins" })
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Retrieval succesful"),
         @ApiResponse(responseCode = "204", description = "No content found"),        
@@ -66,38 +65,18 @@ public interface ReservationService {
         @ApiResponse(responseCode = "401", description = "Not Authorized"),
         @ApiResponse(responseCode = "500", description = "Server error") })
     @RequestMapping(
-            value = "reservation/{id}{lakeId}{stageId}{userId}{dateFrom}{dateTo}{status}",
+            value = "reservation", //{id}{lakeId}{stageId}{userId}{dateFrom}{dateTo}{status}",
+            //params = { "id", "lakeId","stageId","userId","dateFrom","dateTo","status" },
             method = RequestMethod.GET,
             produces = "application/json"  )
     ResponseEntity<ArrayList<ReservationResponse>> getReservationsByQuery(
-            @Parameter(in = ParameterIn.QUERY, 
-                    description = "the id of the reservation", 
-                        required=false, schema=@Schema()) 
-                            @RequestParam("id") Long id,
-            @Parameter(in = ParameterIn.QUERY, 
-                    description = "the id of the reservation", 
-                        required=false, schema=@Schema()) 
-                            @RequestParam ("lakeId") Long lakeId,
-            @Parameter(in = ParameterIn.QUERY, 
-                    description = "the id of the reservation", 
-                        required=false, schema=@Schema()) 
-                            @RequestParam ("stageId") Long stageId,
-            @Parameter(in = ParameterIn.QUERY, 
-                    description = "the id of the reservation", 
-                        required=false, schema=@Schema()) 
-                            @RequestParam ("userId") Long userId,
-            @Parameter(in = ParameterIn.QUERY, 
-                    description = "the id of the reservation", 
-                        required=false, schema=@Schema()) 
-                            @RequestParam ("dateFrom") Date dateFrom,
-            @Parameter(in = ParameterIn.QUERY, 
-                    description = "the id of the reservation", 
-                        required=false, schema=@Schema()) 
-                            @RequestParam ("dateTo") Date dateTo,
-            @Parameter(in = ParameterIn.QUERY, 
-                    description = "the id of the reservation", 
-                        required=false, schema=@Schema()) 
-                            @RequestParam ("status") ReservationStatusEnum status ); 
+        @RequestParam (name="lakeId", required = false) Long lakeId,
+        @RequestParam (name="stageId", required = false) Long stageId,
+        @RequestParam (name="userId", required = false) Long userId,
+        @RequestParam (name="dateFrom", required = false) Date dateFrom,
+        @RequestParam (name="dateTo", required = false) Date dateTo,
+        @RequestParam (name="status", required = false) ReservationStatusEnum status 
+    ); 
     
  // Post Reservation
     @Operation(summary = "Registers a reservation", description = "Save a new reservation", security = {
@@ -135,11 +114,19 @@ public interface ReservationService {
             , consumes = "application/json"
             , produces = "application/json"
         )
+    
+//    @RequestBody(
+//            required = true,
+//            content = @Content(
+//                            schema = @Schema(implementation = ReservationMessage.class),
+//                            mediaType = MediaType.APPLICATION_JSON_VALUE ) 
+//    )
     ResponseEntity<ReservationResponse> updateReservation(
-        @Parameter(in = ParameterIn.DEFAULT, 
-                    description = "Updated Reservation data", 
-                        schema=@Schema() ) 
-        @Valid @RequestBody ReservationMessage body); 
+    @Parameter(in = ParameterIn.PATH, 
+                description = "Updated Reservation data", 
+                required = true,
+                schema=@Schema()) @PathVariable("id") Long id, 
+    @Valid @RequestBody ReservationMessage body); 
 
 }
 

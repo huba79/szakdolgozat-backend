@@ -24,9 +24,10 @@ import io.swagger.repositories.ReservationsRepository;
 import java.util.Date;
 import io.swagger.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.lang.Nullable;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
-
 @RestController
 public class ReservationController implements ReservationService {
 
@@ -48,6 +49,7 @@ public class ReservationController implements ReservationService {
                 if (reservation ==null) { 
                         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                 } else {
+                    System.out.println("Reservation ok: \t"+reservation.toString());
                     ArrayList<OrderedService> orderedServices = orderedServicesRepo.findOrderedServiceByReservationIdNative(reservation.getId());
                     Payment payment = paymentRepo.findPaymentByReservationIdNative(reservation.getId());
                     ReservationResponse response = new ReservationResponse(
@@ -57,7 +59,7 @@ public class ReservationController implements ReservationService {
                             reservation.getStageId(),
                             reservation.getDateFrom(),
                             reservation.getDateTo(),
-                            reservation.getReservationStatus(),
+                            reservation.getReservationStatus() ,
                             orderedServices,
                             payment
                     );           
@@ -68,7 +70,8 @@ public class ReservationController implements ReservationService {
     }
 
     @Override
-    public ResponseEntity<ArrayList<ReservationResponse>> getReservationsByQuery(Long id, Long lakeId, Long stageId, Long userId, Date dateFrom, Date dateTo, ReservationStatusEnum status) {
+    public ResponseEntity<ArrayList<ReservationResponse>> getReservationsByQuery(@Nullable Long lakeId, @Nullable Long stageId,
+            @Nullable Long userId, @Nullable Date dateFrom, @Nullable Date dateTo, @Nullable ReservationStatusEnum status) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
             if(validator.hasValidHeader()&& validator.isAuthorized()){
@@ -93,7 +96,7 @@ public class ReservationController implements ReservationService {
                                     reservation.getStageId(),
                                     reservation.getDateFrom(),
                                     reservation.getDateTo(),
-                                    reservation.getReservationStatus(),
+                                    reservation.getReservationStatus() ,
                                     orderedServices,
                                     payment
                             ); 
@@ -156,7 +159,7 @@ public class ReservationController implements ReservationService {
                             savedReservation.getUserId(),
                             savedReservation.getDateFrom(),
                             savedReservation.getDateTo(),
-                            savedReservation.getReservationStatus(),
+                            savedReservation.getReservationStatus() ,
                             savedOrderedServices,
                             savedPayment
                     );
@@ -167,7 +170,7 @@ public class ReservationController implements ReservationService {
     }
 
     @Override
-    public ResponseEntity<ReservationResponse> updateReservation(ReservationMessage body) {
+    public ResponseEntity<ReservationResponse> updateReservation(Long id,ReservationMessage body) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
             if(validator.hasValidHeader()&& validator.isAuthorized()){
@@ -209,7 +212,7 @@ public class ReservationController implements ReservationService {
                             savedReservation.getUserId(),
                             savedReservation.getDateFrom(),
                             savedReservation.getDateTo(),
-                            savedReservation.getReservationStatus(),
+                            savedReservation.getReservationStatus() ,
                             savedOrderedServices,
                             savedPayment
                     );

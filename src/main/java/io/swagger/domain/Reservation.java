@@ -40,7 +40,7 @@ public class Reservation implements Serializable {
     @Column(name="DATE_TO",columnDefinition="DATETIME NOT NULL")
     Date dateTo;
     
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name="RESERVATION_STATUS",columnDefinition="VARCHAR(12) NOT NULL")
     ReservationStatusEnum reservationStatus;
 
@@ -54,7 +54,9 @@ public class Reservation implements Serializable {
         this.reservationStatus = reservationStatus;
     }
     
-
+    public Reservation(){
+        super();
+    }
  
 
     public Long getId() {
