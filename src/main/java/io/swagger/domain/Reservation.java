@@ -8,11 +8,12 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
 /**
@@ -21,6 +22,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="RESERVATIONS")
+
+@NamedStoredProcedureQuery(
+    name = "getReservationsByQuery", 
+    procedureName = "reservationsbycriteria",
+    //returnsresultset = true,
+    //resultClasses = Reservation.class, 
+    parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "lakeId", type = Long.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "stageId", type = Long.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "userId", type = Long.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "dateFrom", type = Date.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "dateTo", type = Date.class), 
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "status", type = String.class)
+    }
+)
 public class Reservation implements Serializable {
 
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
@@ -40,11 +56,10 @@ public class Reservation implements Serializable {
     @Column(name="DATE_TO",columnDefinition="DATETIME NOT NULL")
     Date dateTo;
     
-    @Enumerated(EnumType.STRING)
     @Column(name="RESERVATION_STATUS",columnDefinition="VARCHAR(12) NOT NULL")
-    ReservationStatusEnum reservationStatus;
+    String reservationStatus;
 
-    public Reservation(Long id, Long lakeId, Long stageId, Long userId, Date dateFrom, Date dateTo, ReservationStatusEnum reservationStatus) {
+    public Reservation(Long id, Long lakeId, Long stageId, Long userId, Date dateFrom, Date dateTo, String reservationStatus) {
         this.id = id;
         this.lakeId = lakeId;
         this.stageId = stageId;
@@ -107,11 +122,11 @@ public class Reservation implements Serializable {
         this.dateTo = dateTo;
     }
 
-    public ReservationStatusEnum getReservationStatus() {
+    public String getReservationStatus() {
         return reservationStatus;
     }
 
-    public void setReservationStatus(ReservationStatusEnum reservationStatus) {
+    public void setReservationStatus(String reservationStatus) {
         this.reservationStatus = reservationStatus;
     }
      
