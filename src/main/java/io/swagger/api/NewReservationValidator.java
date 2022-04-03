@@ -6,9 +6,9 @@
 package io.swagger.api;
 
 
-import io.swagger.repositories.ReservationsRepository;
 import io.swagger.domain.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.repositories.ReservationRepository;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //Reservation validator: cannot place a reservation for a stage being used in the requested interval
 public class NewReservationValidator {
     @Autowired
-    ReservationsRepository repository;
+    ReservationRepository repository;
     Reservation reservation;
     public NewReservationValidator(Reservation data){
         this.reservation = data;
