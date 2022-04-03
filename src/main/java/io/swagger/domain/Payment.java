@@ -23,18 +23,13 @@ import javax.persistence.Table;
 @Table(name="PAYMENTS")
 public class Payment implements Serializable {
     
-    //TODO kell repo, kell response, service, controller
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
     @Column(name="RESERVATION_ID",columnDefinition="BIGINT NOT NULL")
     Long reservationId;
-//    @OneToOne()
-//    @JoinColumn(name = "reservation_id", referencedColumnName = "id")            
-//    Reservation reservation;
     
-    @Enumerated(EnumType.ORDINAL)
     @Column(name="PAID_WITH",columnDefinition="VARCHAR(16) NOT NULL")
-    PaidWithEnum paidWith;
+    String paidWith;
     
     @Column(name="AMOUNT",columnDefinition="DOUBLE NOT NULL", length = 10, precision = 2)
     Double amount;
@@ -45,9 +40,8 @@ public class Payment implements Serializable {
     @Column(name="PAID_BY",columnDefinition="BIGINT NOT NULL")
     Long paidByUserId;
     
-    @Enumerated(EnumType.ORDINAL)
     @Column(name="PAYMENT_STATUS",columnDefinition="INTEGER NOT NULL")
-    PaymentStatusEnum paymentStatus;
+    String paymentStatus;
 
     public Long getId() {
         return id;
@@ -56,14 +50,6 @@ public class Payment implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
-//    public Reservation getReservation() {
-//        return reservation;
-//    }
-//
-//    public void setReservation(Reservation reservation) {
-//        this.reservation = reservation;
-//    }
 
     public Double getAmount() {
         return amount;
@@ -81,19 +67,19 @@ public class Payment implements Serializable {
         this.paidOn = paidOn;
     }
 
-    public PaymentStatusEnum getPaymentStatus() {
+    public String getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(PaymentStatusEnum paymentStatus) {
+    public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
-    public PaidWithEnum getPaidWith() {
+    public String getPaidWith() {
         return paidWith;
     }
 
-    public void setPaidWith(PaidWithEnum paidWith) {
+    public void setPaidWith(String paidWith) {
         this.paidWith = paidWith;
     }
 
