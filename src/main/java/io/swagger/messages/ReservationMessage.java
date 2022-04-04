@@ -4,15 +4,13 @@
  */
 package io.swagger.messages;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.domain.OrderedService;
+import io.swagger.domain.OrderedItems;
 import io.swagger.domain.Payment;
-import io.swagger.domain.ReservationStatusEnum;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 /**
  *
@@ -32,22 +30,25 @@ public class ReservationMessage implements Serializable{
     Long stageId;
     
     @JsonProperty("dateFrom")
+    @JsonFormat
+      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     Date dateFrom;
     
-    @JsonProperty("dateTo")
+    @JsonProperty("dateTo")    
+    @JsonFormat
+      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     Date dateTo;
     
     @JsonProperty("status")
-    @Enumerated(EnumType.STRING)
-    ReservationStatusEnum status;
+    String status;
     
     @JsonProperty("orderedItems")
-    List<OrderedService> orderedItems;
+    List<OrderedItems> orderedItems;
     
     @JsonProperty("payment")
     Payment payment;
 
-    public ReservationMessage(Long reservationId, Long lakeId, Long userId, Long stageId, Date dateFrom, Date dateTo, ReservationStatusEnum status, List<OrderedService> orderedItems, Payment payment) {
+    public ReservationMessage(Long reservationId, Long lakeId, Long userId, Long stageId, Date dateFrom, Date dateTo, String status, List<OrderedItems> orderedItems, Payment payment) {
         this.reservationId = reservationId;
         this.lakeId = lakeId;
         this.userId = userId;
@@ -58,7 +59,9 @@ public class ReservationMessage implements Serializable{
         this.orderedItems = orderedItems;
         this.payment = payment;
     }
-
+    public ReservationMessage(){
+        super();
+    }
     public Long getReservationId() {
         return reservationId;
     }
@@ -107,19 +110,19 @@ public class ReservationMessage implements Serializable{
         this.dateTo = dateTo;
     }
 
-    public ReservationStatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(ReservationStatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public List<OrderedService> getOrderedItems() {
+    public List<OrderedItems> getOrderedItems() {
         return orderedItems;
     }
 
-    public void setOrderedItems(List<OrderedService> orderedItems) {
+    public void setOrderedItems(List<OrderedItems> orderedItems) {
         this.orderedItems = orderedItems;
     }
 

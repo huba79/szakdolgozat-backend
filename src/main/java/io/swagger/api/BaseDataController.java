@@ -21,7 +21,7 @@ import io.swagger.repositories.UserRepository;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 @RestController
-public class BaseDataController implements BaseDataService {
+public class BaseDataController implements BaseDataApi {
     @Autowired HttpServletRequest request;
     @Autowired ServiceRepository priceRepo;
     @Autowired CompanyRepository companyRepo;

@@ -6,7 +6,6 @@ package io.swagger.api;
 
 import io.swagger.domain.Lake;
 import io.swagger.messages.LakeResponse;
-import io.swagger.messages.LakesResponse;
 import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.LakeRepository;
 import io.swagger.repositories.UserRepository;
@@ -27,25 +26,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 
-public class LakeController implements LakeService{
+public class LakeController implements LakeApi{
     @Autowired LakeRepository lakeRepo;
     @Autowired CompanyRepository companyRepo; 
     @Autowired HttpServletRequest request;
     @Autowired UserRepository usersRepo;    
 
     @Override
-    public ResponseEntity<LakesResponse> getLakes(Long companyId) {
+    public ResponseEntity<ArrayList<LakeResponse>> getLakes(Long companyId) {
             
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader() && validator.acceptsJson()) {
 
                 ArrayList<Lake> lakes = lakeRepo.findLakeByCompanyId(companyId);
-                ArrayList<LakeResponse> lakeResponse = new ArrayList();
+                ArrayList<LakeResponse> lakeResponses = new ArrayList();
                 
-                if (lakes.size()==0) return new ResponseEntity<LakesResponse>(HttpStatus.NO_CONTENT); 
+                if (lakes.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT); 
                 
                 for(Lake lake: lakes){
-                    lakeResponse.add(
+                    lakeResponses.add(
                         new LakeResponse(
                             lake.getId(),
                             lake.getLakeName(),
@@ -56,7 +55,7 @@ public class LakeController implements LakeService{
                         )
                     );
                 }                
-                return new ResponseEntity<>(new LakesResponse(lakeResponse),HttpStatus.OK );    
+                return new ResponseEntity<>(lakeResponses,HttpStatus.OK );    
         } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);    
     }
 

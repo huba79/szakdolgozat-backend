@@ -32,9 +32,11 @@ public class BlogEntry implements Serializable {
     
     @Column(name="ENTRY_CONTENT",columnDefinition="VARCHAR(3072) NOT NULL")
     String content;
-
+    
+    @Column(name="POST_DATE",columnDefinition="DATETIME NOT NULL")
     Date postDate;
-
+    
+    @Column(name="USER_NAME",columnDefinition="VARCHAR(64) NOT NULL")
     String userName;
 
     public Long getId() {

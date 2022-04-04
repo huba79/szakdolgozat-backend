@@ -10,7 +10,6 @@ import io.swagger.domain.User;
 import io.swagger.messages.PaymentResponse;
 import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.PaymentRepository;
-import io.swagger.repositories.ReservationsRepository;
 import io.swagger.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.repositories.ReservationRepository;
 
 /**
  *
@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 
-public class PaymentController implements PaymentService{
+public class PaymentController implements PaymentApi{
     @Autowired PaymentRepository paymentRepo;
-    @Autowired ReservationsRepository reservationsRepo;     
+    @Autowired ReservationRepository reservationsRepo;     
     @Autowired HttpServletRequest request;
     @Autowired CompanyRepository companyRepo;
     @Autowired UserRepository usersRepo;

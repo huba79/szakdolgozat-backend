@@ -17,8 +17,20 @@ import org.springframework.data.jpa.repository.query.Procedure;
  */
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    //stored procedure for custom queries
-    @Procedure(name = "Reservation.getReservationsByQuery")
+    
+ // igy mukszik    
+    @Query(
+        value="select * from reservations r\n" +
+            "where 1=1\n" +
+            "and (?1 is null or r.lake_id = ?1)\n" +
+            "and (?2 is null or r.stage_id = ?2)\n" +
+            "and (?3 is null or r.user_id = ?3)\n" +
+            "and (?4 is null or r.date_from >= ?4)\n" +
+            "and (?5 is null or r.date_to <= ?5)\n" +
+            "and (?6 is null or r.reservation_status = ?6)",
+        nativeQuery=true)    
+   // @Procedure(name = "Reservation.getReservationsByQuery")
+   //stored procedure for custom queries 
     public ArrayList<Reservation> getReservationsByQuery
         (Long pLakeId, Long pStageId, Long pUserId, 
                 Date pDateFrom, Date pDateTo, String pStatus);
@@ -34,11 +46,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "and \n" +
             "	( r.date_from >= ?2 and r.date_to >= ?3)\n" +
             "	or\n" +
-            "	(r.date_from <=?2 and r.date_to >= ?3)\n" +
+            "	(r.date_from <= ?2 and r.date_to >= ?3)\n" +
             "	or\n" +
-            "	(r.date_from <=?2 and r.date_to <= ?3)\n" +
+            "	(r.date_from <= ?2 and r.date_to <= ?3)\n" +
             ")",
             nativeQuery = true)   
-    Boolean isStageAvailable(Long pId, Date pDateFrom, Date pDateTo);    
+    Boolean isStageAvailable(Long pStageId, Date pDateFrom, Date pDateTo);    
 
 }

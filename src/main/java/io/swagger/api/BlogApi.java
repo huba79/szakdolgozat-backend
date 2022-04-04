@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 @Validated
-public interface BlogService {
+public interface BlogApi {
 
    //GetBlogBy CompanyID
     @Operation(summary = "Owner's Blog Entries", description = "List of the owner's blog entries, by lakes", security = {
@@ -33,7 +33,7 @@ public interface BlogService {
         @ApiResponse(responseCode = "500", description = "Server error") })
     @RequestMapping(value = "blogs/{companyId}",
         method = RequestMethod.GET)
-    ResponseEntity<BlogResponse> getBlogEntryByCompanyId(
+    ResponseEntity<ArrayList<BlogResponse>> getBlogEntryByCompanyId(
             @Parameter(in = ParameterIn.PATH, 
                     description = "the id of the company delivering the app", 
                         required=true, schema=@Schema()) 

@@ -4,12 +4,7 @@
  */
 package io.swagger.messages;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.domain.Service;
-import io.swagger.domain.Stage;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

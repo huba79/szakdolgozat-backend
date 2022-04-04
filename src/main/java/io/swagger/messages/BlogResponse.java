@@ -4,9 +4,9 @@
  */
 package io.swagger.messages;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.domain.BlogEntry;
-import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -14,19 +14,81 @@ import java.util.ArrayList;
  */
 public class BlogResponse  {
         
-    @JsonProperty("blog")
-    ArrayList<BlogEntry> blog;
+    @JsonProperty("entryId")
+    Long id;
+    
+    @JsonProperty("companyId")
+    Long companyId;
+    
+    @JsonProperty("title")
+    String title;
+    
+    @JsonProperty("content")
+    String content;
+    
+    @JsonProperty("postedOn")
+    @JsonFormat
+      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    Date postDate;
+    
+    @JsonProperty("userName")
+    String userName;
 
-    public BlogResponse(ArrayList<BlogEntry> blog) {
-        this.blog = blog;
+    public BlogResponse(Long id, Long companyId, String title, String content, Date postDate, String userName) {
+        this.id = id;
+        this.companyId = companyId;
+        this.title = title;
+        this.content = content;
+        this.postDate = postDate;
+        this.userName = userName;
     }
 
-    public ArrayList<BlogEntry> getBlog() {
-        return blog;
+    public Long getId() {
+        return id;
     }
 
-    public void setBlog(ArrayList<BlogEntry> blog) {
-        this.blog = blog;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Date postDate) {
+        this.postDate = postDate;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
     
     

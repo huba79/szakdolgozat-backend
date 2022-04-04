@@ -5,6 +5,7 @@
 package io.swagger.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,20 +24,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name="RESERVATIONS")
 
-@NamedStoredProcedureQuery(
-    name = "getReservationsByQuery", 
-    procedureName = "reservationsbycriteria",
-    //returnsresultset = true,
-    //resultClasses = Reservation.class, 
-    parameters = {
-        @StoredProcedureParameter(mode = ParameterMode.IN, name = "lakeId", type = Long.class),
-        @StoredProcedureParameter(mode = ParameterMode.IN, name = "stageId", type = Long.class),
-        @StoredProcedureParameter(mode = ParameterMode.IN, name = "userId", type = Long.class),
-        @StoredProcedureParameter(mode = ParameterMode.IN, name = "dateFrom", type = Date.class),
-        @StoredProcedureParameter(mode = ParameterMode.IN, name = "dateTo", type = Date.class), 
-        @StoredProcedureParameter(mode = ParameterMode.IN, name = "status", type = String.class)
-    }
-)
+//@NamedStoredProcedureQuery(
+//    name = "reservationsbycriteria", 
+//    procedureName = "reservationsbycriteria",
+//    resultClasses = Reservation.class, 
+//    parameters = {
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "lakeId", type = Long.class),
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "stageId", type = Long.class),
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "userId", type = Long.class),
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "dateFrom", type = Date.class),
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "dateTo", type = Date.class), 
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "status", type = String.class),
+//        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "reservationsbycriteria", type= void.class)
+//    }
+//)
+
 public class Reservation implements Serializable {
 
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;

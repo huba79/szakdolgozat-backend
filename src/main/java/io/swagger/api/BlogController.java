@@ -23,22 +23,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 
-public class BlogController implements BlogService{
+public class BlogController implements BlogApi{
     @Autowired BlogRepository blogRepo;
     @Autowired CompanyRepository companyRepo;    
     @Autowired HttpServletRequest request;
     @Autowired UserRepository usersRepo;
 
     @Override
-    public ResponseEntity<BlogResponse> getBlogEntryByCompanyId(Long companyId) {
-        //apikey validaciot egysegesiteni kellene, , talan ez a jobb megkozelites         
+    public ResponseEntity<ArrayList<BlogResponse>> getBlogEntryByCompanyId(Long companyId) {
+       
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader() && validator.acceptsJson()) {
                  
                 ArrayList<BlogEntry> blogEntries= blogRepo.findBlogEntryByCompanyId(companyId);
                 if (blogEntries.isEmpty()) {
                     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                } else return new ResponseEntity<>(new BlogResponse(blogEntries),HttpStatus.OK);
+                } else 
+                {   ArrayList<BlogResponse> blogResponse = new ArrayList<>();
+                    
+                    for(BlogEntry blogEntry:blogEntries){
+                        BlogResponse responseEntry = new BlogResponse(
+                                blogEntry.getId(),
+                                blogEntry.getCompanyId(),
+                                blogEntry.getTitle(),
+                                blogEntry.getContent(),
+                                blogEntry.getPostDate(),
+                                blogEntry.getUserName()
+                        );
+                        blogResponse.add(responseEntry);
+ 
+                    }
+                    return new ResponseEntity<>(blogResponse,HttpStatus.OK);}
                                    
                 } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);    
     }

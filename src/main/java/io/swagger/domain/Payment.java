@@ -4,6 +4,7 @@
  */
 package io.swagger.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -34,6 +35,8 @@ public class Payment implements Serializable {
     @Column(name="AMOUNT",columnDefinition="DOUBLE NOT NULL", length = 10, precision = 2)
     Double amount;
     
+    @JsonFormat
+      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name="PAID_ON",columnDefinition="DATETIME NOT NULL")
     Date paidOn;
 

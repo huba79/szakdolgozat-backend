@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 @RestController
-public class RegistrationController implements RegistrationService {
+public class RegistrationController implements RegistrationApi {
     
     @Autowired CompanyRepository companyRepo;
     @Autowired UserRepository usersRepo;
