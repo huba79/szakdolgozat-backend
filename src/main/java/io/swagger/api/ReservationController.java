@@ -1,6 +1,6 @@
 package io.swagger.api;
 
-import io.swagger.domain.OrderedItems;
+import io.swagger.domain.OrderedItem;
 import io.swagger.domain.Payment;
 import io.swagger.domain.Reservation;
 import java.util.ArrayList;
@@ -22,21 +22,20 @@ import java.util.Date;
 import io.swagger.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
-import io.swagger.repositories.OrderedItemsRepository;
 import io.swagger.repositories.ReservationRepository;
+import io.swagger.repositories.OrderedItemRepository;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 @RestController
 public class ReservationController implements ReservationApi {
 
     private static final  Logger log = LoggerFactory.getLogger(ReservationController.class);
-    @Autowired
-    private  HttpServletRequest request;
+    @Autowired HttpServletRequest request;
     @Autowired CompanyRepository companyRepo;
     @Autowired UserRepository usersRepo;
     @Autowired ReservationRepository reservationRepo;
     @Autowired PaymentRepository paymentRepo;
-    @Autowired OrderedItemsRepository orderedServicesRepo;    
+    @Autowired OrderedItemRepository orderedServicesRepo;    
     
     @Override
     public ResponseEntity<ReservationResponse> getReservationById(Long id) {
@@ -48,7 +47,7 @@ public class ReservationController implements ReservationApi {
                         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                 } else {
                     System.out.println("Reservation ok: \t"+reservation.toString());
-                    ArrayList<OrderedItems> orderedServices = orderedServicesRepo.findOrderedServiceByReservationIdNative(reservation.getId());
+                    ArrayList<OrderedItem> orderedServices = orderedServicesRepo.findOrderedServiceByReservationIdNative(reservation.getId());
                     Payment payment = paymentRepo.findPaymentByReservationIdNative(reservation.getId());
                     ReservationResponse response = new ReservationResponse(
                             reservation.getId(),
@@ -80,7 +79,7 @@ public class ReservationController implements ReservationApi {
 
                 ArrayList<ReservationResponse> responseList = new ArrayList<>();
                 Payment payment=null;
-                ArrayList<OrderedItems> orderedServices= new ArrayList<>();
+                ArrayList<OrderedItem> orderedServices= new ArrayList<>();
                 
                 if (!reservations.isEmpty()) { 
                     
@@ -122,7 +121,7 @@ public class ReservationController implements ReservationApi {
             if(validator.hasValidHeader()&& validator.isAuthorized()){
                     //TODO magamnak: nincs mese meg kellene oldani a tranzakcionalis mentest
                     Payment postedPayment = null;
-                    ArrayList<OrderedItems> postedOrderedItems =new ArrayList<>();
+                    ArrayList<OrderedItem> postedOrderedItems =new ArrayList<>();
                     Reservation postedReservation =null;
                     try{
                         postedPayment = body.getPayment();
@@ -145,7 +144,7 @@ public class ReservationController implements ReservationApi {
                     }               
                     Reservation savedReservation = null;
                     Payment savedPayment = null;                   
-                        ArrayList<OrderedItems> savedOrderedItems = new ArrayList<>();                    
+                        ArrayList<OrderedItem> savedOrderedItems = new ArrayList<>();                    
                     
                     try {
                         savedReservation = reservationRepo.save(postedReservation);
@@ -157,7 +156,7 @@ public class ReservationController implements ReservationApi {
                         
                         if(!postedOrderedItems.isEmpty()){
                             //no ordered item mean no valid reservation, will not be saved
-                            for(OrderedItems items:postedOrderedItems){
+                            for(OrderedItem items:postedOrderedItems){
                                 items.setReservationId(postedReservation.getId());
                             } 
                             savedOrderedItems = (ArrayList) orderedServicesRepo.saveAll(postedOrderedItems);
@@ -195,7 +194,7 @@ public class ReservationController implements ReservationApi {
             if(validator.hasValidHeader()&& validator.isAuthorized()){
 
                     Payment postedPayment = null;
-                    ArrayList<OrderedItems> postedOrderedItems =new ArrayList<>();
+                    ArrayList<OrderedItem> postedOrderedItems =new ArrayList<>();
                     Reservation postedReservation =null;
                     try{
                         postedPayment = body.getPayment();
@@ -210,17 +209,17 @@ public class ReservationController implements ReservationApi {
                                 body.getStatus()
                         );
                     } catch (Exception e) {
-                        System.out.println(e.getLocalizedMessage());
+                        System.out.println(e.getMessage()+" kiolvasas");
                         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                     }               
                     Reservation savedReservation = null;
                     Payment savedPayment = null;                   
-                        ArrayList<OrderedItems> savedOrderedItems = new ArrayList<>();                    
+                        ArrayList<OrderedItem> savedOrderedItems = new ArrayList<>();                    
                     try {
-                        postedPayment.setReservationId(body.getReservationId());
+
                         savedReservation = reservationRepo.save(postedReservation);
                         
-                        if (postedPayment.getReservationId() !=null){
+                        if (postedPayment !=null){
                             //TODO: no payment is not always OK on update, futher checks needed
                             postedReservation.setId(body.getReservationId());
                             savedPayment = paymentRepo.save(postedPayment);
@@ -228,7 +227,7 @@ public class ReservationController implements ReservationApi {
                         
                         if(!postedOrderedItems.isEmpty()){
                             //no ordered item mean no valid reservation, will not be saved
-                            for(OrderedItems items:postedOrderedItems){
+                            for(OrderedItem items:postedOrderedItems){
                                 items.setReservationId(postedReservation.getId());
                             } 
                             savedOrderedItems = (ArrayList) orderedServicesRepo.saveAll(postedOrderedItems);
@@ -238,7 +237,8 @@ public class ReservationController implements ReservationApi {
                                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                         }
                     }catch (Exception e){
-                        System.out.println(e.getMessage());
+                        e.printStackTrace();
+                        System.out.println(" mentes hiba");
                         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);                        
                     }   
                     ReservationResponse reservationResponse = new ReservationResponse(
