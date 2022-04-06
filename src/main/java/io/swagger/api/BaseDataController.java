@@ -11,11 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.LakeRepository;
+import io.swagger.repositories.ServiceRepository;
+import io.swagger.repositories.ServiceRepository;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import io.swagger.repositories.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import io.swagger.repositories.ServiceRepository;
 import io.swagger.repositories.UserRepository;
 
 
@@ -23,7 +24,7 @@ import io.swagger.repositories.UserRepository;
 @RestController
 public class BaseDataController implements BaseDataApi {
     @Autowired HttpServletRequest request;
-    @Autowired ServiceRepository priceRepo;
+    @Autowired ServiceRepository serviceRepo;
     @Autowired CompanyRepository companyRepo;
     @Autowired LakeRepository lakeRepo;
     @Autowired StageRepository stageRepo;
@@ -44,7 +45,7 @@ public class BaseDataController implements BaseDataApi {
                         System.out.println("Lakes data:"+lakes.toString());
                         
                         ArrayList<Stage> stages = new ArrayList<>();
-                        ArrayList<Service> prices = new ArrayList<>();
+                        ArrayList<Service> services = new ArrayList<>();
                         
                      
                         for (Lake lake:lakes){
@@ -54,13 +55,13 @@ public class BaseDataController implements BaseDataApi {
                             stages.addAll(stageRepo.findStageByLakeIdNative(lakeId) );
                             System.out.println("Stages size:\t"+ stages.size()+"\n\n\n");
                             
-                            prices.addAll(priceRepo.findServiceByLakeIdNative(lakeId));
+                            services.addAll(serviceRepo.findServiceByLakeIdNative(lakeId));
                             //TODO meg kell nezni mi a banator golyalaszarert nem megy, mint pl a stageRepo
-                            System.out.println("Prices size:\t"+ prices.size());
+                            System.out.println("Prices size:\t"+ services.size());
                         }                        
                       
                         return new ResponseEntity<BaseDataResponse>(new BaseDataResponse(company,
-                                                                    lakes,prices,stages),HttpStatus.OK);
+                                                                    lakes,services,stages),HttpStatus.OK);
 
                     } catch (NoSuchElementException e) { 
                         System.out.println(e.getMessage());

@@ -6,7 +6,7 @@ package io.swagger.messages;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.domain.OrderedItems;
+import io.swagger.domain.OrderedItem;
 import io.swagger.domain.Payment;
 import java.io.Serializable;
 import java.util.Date;
@@ -43,12 +43,12 @@ public class ReservationMessage implements Serializable{
     String status;
     
     @JsonProperty("orderedItems")
-    List<OrderedItems> orderedItems;
+    List<OrderedItem> orderedItems;
     
     @JsonProperty("payment")
     Payment payment;
 
-    public ReservationMessage(Long reservationId, Long lakeId, Long userId, Long stageId, Date dateFrom, Date dateTo, String status, List<OrderedItems> orderedItems, Payment payment) {
+    public ReservationMessage(Long reservationId, Long lakeId, Long userId, Long stageId, Date dateFrom, Date dateTo, String status, List<OrderedItem> orderedItems, Payment payment) {
         this.reservationId = reservationId;
         this.lakeId = lakeId;
         this.userId = userId;
@@ -118,11 +118,11 @@ public class ReservationMessage implements Serializable{
         this.status = status;
     }
 
-    public List<OrderedItems> getOrderedItems() {
+    public List<OrderedItem> getOrderedItems() {
         return orderedItems;
     }
 
-    public void setOrderedItems(List<OrderedItems> orderedItems) {
+    public void setOrderedItems(List<OrderedItem> orderedItems) {
         this.orderedItems = orderedItems;
     }
 
