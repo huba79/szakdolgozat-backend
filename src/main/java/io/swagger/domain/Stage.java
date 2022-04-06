@@ -4,36 +4,43 @@
  */
 package io.swagger.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-
 /**
  *
  * @author huba
  */
+
 @Entity
 @Table(name="STAGES")
-public class Stage {
+public class Stage implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
-    //@JsonProperty("lakeId")
+    @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
+    //@JoinColumn(name = "LAKE_ID")
     Long lakeId;
 
-    //@JsonProperty("stageName")
+    @Column(name="STAGE_NAME",columnDefinition="VARCHAR(16) NOT NULL")
     String stageName;
 
-    //@JsonProperty("stageType")
-    String stageType;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name="STAGE_TYPE",columnDefinition="INT UNSIGNED NOT NULL")
+    StageTypesEnum stageType;
 
-    //@JsonProperty("stageSize")
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name="STAGE_STATUS",columnDefinition="INT UNSIGNED NOT NULL")
+    StageStatusEnum stageStatus;
+    
+    @Column(name="STAGE_SIZE",columnDefinition="INT UNSIGNED NOT NULL")
     Long stageSize;
-
-    //@JsonProperty("stageStatus")
-    Long stageStatus;
 
     public Long getId() {
         return id;
@@ -44,7 +51,7 @@ public class Stage {
     }
 
 
-    public Long getLakeId() {
+    public Long getLake() {
         return lakeId;
     }
 
@@ -60,11 +67,11 @@ public class Stage {
         this.stageName = stageName;
     }
 
-    public String getStageType() {
+    public StageTypesEnum getStageType() {
         return stageType;
     }
 
-    public void setStageType(String stageType) {
+    public void setStageType(StageTypesEnum stageType) {
         this.stageType = stageType;
     }
 
@@ -76,13 +83,12 @@ public class Stage {
         this.stageSize = stageSize;
     }
 
-    public Long getStageStatus() {
+    public StageStatusEnum getStageStatus() {
         return stageStatus;
     }
 
-    public void setStageStatus(Long stageStatus) {
+    public void setStageStatus(StageStatusEnum stageStatus) {
         this.stageStatus = stageStatus;
-    }
-    
+    }    
     
 }

@@ -2,42 +2,46 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package io.swagger.domain;
+package io.swagger.messages;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  *
  * @author huba
  */
-@Entity
-@Table(name="BLOG_ENTRIES")
-public class BlogEntry implements Serializable {
-
-    private @Id @GeneratedValue(strategy=GenerationType.AUTO)
+public class BlogResponse  {
+        
+    @JsonProperty("entryId")
     Long id;
     
-    @Column(name="COMPANY_ID", columnDefinition= "BIGINT NOT NULL",length=10)
+    @JsonProperty("companyId")
     Long companyId;
     
-    @Column(name="ENTRY_TITLE",columnDefinition="VARCHAR(256) NOT NULL")
+    @JsonProperty("title")
     String title;
     
-    @Column(name="ENTRY_CONTENT",columnDefinition="VARCHAR(3072) NOT NULL")
+    @JsonProperty("content")
     String content;
     
-    @Column(name="POST_DATE",columnDefinition="DATETIME NOT NULL")
+    @JsonProperty("postedOn")
+    @JsonFormat
+      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     Date postDate;
     
-    @Column(name="USER_NAME",columnDefinition="VARCHAR(64) NOT NULL")
+    @JsonProperty("userName")
     String userName;
+
+    public BlogResponse(Long id, Long companyId, String title, String content, Date postDate, String userName) {
+        this.id = id;
+        this.companyId = companyId;
+        this.title = title;
+        this.content = content;
+        this.postDate = postDate;
+        this.userName = userName;
+    }
 
     public Long getId() {
         return id;
@@ -87,5 +91,7 @@ public class BlogEntry implements Serializable {
         this.userName = userName;
     }
     
+    
+  
     
 }

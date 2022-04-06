@@ -3,18 +3,14 @@ package io.swagger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import springfox.documentation.oas.annotations.EnableOpenApi;
 
 @SpringBootApplication
-@Configuration
-@EnableAutoConfiguration
 @EnableOpenApi
-@ComponentScan(basePackages = { "io.swagger", "io.swagger.api" , "io.swagger.configuration"})
+@EnableJpaRepositories("io.swagger.repositories")
 public class Swagger2SpringBoot implements CommandLineRunner {
 
     @Override

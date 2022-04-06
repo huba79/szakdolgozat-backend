@@ -2,42 +2,52 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package io.swagger.domain;
+package io.swagger.messages;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
  * @author huba
  */
-@Entity
-@Table(name="LAKES")
-public class Lake implements Serializable {
-    
-    //@JsonProperty("id")
-    private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
+public class LakeResponse  {
         
-    @Column(name="LAKE_NAME",columnDefinition="VARCHAR(32) NOT NULL")
+    @JsonProperty("id")
+    private Long id;
+        
+    @JsonProperty("lakename")
     String lakeName;
 
     
-    @Column(name="COMPANY_ID",columnDefinition="BIGINT NOT NULL")
+    @JsonProperty("companyId")
     Long companyId;
 
-    @Column(name="LAKE_ADDRESS",columnDefinition="VARCHAR(128) NOT NULL")
+    @JsonProperty("lakeAddress")
     String lakeAddress;
 
-    @Column(name="RESERVATION_SYSTEM",columnDefinition="VARCHAR(16) NOT NULL")
+    @JsonProperty("reservationsSystem")
     String reservationsSystem;
 
-    @Column(name="LAKE_SIZE",columnDefinition="DOUBLE NOT NULL",length=3, precision=2)
+    @JsonProperty("lakeSize")
     Double lakeSize;
+    
+//    @JsonManagedReference
+//    @JsonProperty("stages")
+//    List<Stage> stages;
+//    
+//    @JsonManagedReference
+//    //@JsonProperty("services")
+//    List<Service> services;
+
+    public LakeResponse(Long id, String lakeName, Long companyId, 
+            String lakeAddress, String reservationsSystem, Double lakeSize) {
+        this.id = id;
+        this.lakeName = lakeName;
+        this.companyId = companyId;
+        this.lakeAddress = lakeAddress;
+        this.reservationsSystem = reservationsSystem;
+        this.lakeSize = lakeSize;
+    }
 
     public Long getId() {
         return id;
@@ -85,6 +95,6 @@ public class Lake implements Serializable {
 
     public void setLakeSize(Double lakeSize) {
         this.lakeSize = lakeSize;
-    }
-   
+    }   
+    
 }

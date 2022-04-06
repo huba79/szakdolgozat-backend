@@ -4,15 +4,14 @@
  */
 package io.swagger.domain;
 
-import java.util.Calendar;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  *
@@ -20,31 +19,66 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name="RESERVATIONS")
-public class Reservation {
+
+//@NamedStoredProcedureQuery(
+//    name = "reservationsbycriteria", 
+//    procedureName = "reservationsbycriteria",
+//    resultClasses = Reservation.class, 
+//    parameters = {
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "lakeId", type = Long.class),
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "stageId", type = Long.class),
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "userId", type = Long.class),
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "dateFrom", type = Date.class),
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "dateTo", type = Date.class), 
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "status", type = String.class),
+//        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "reservationsbycriteria", type= void.class)
+//    }
+//)
+
+public class Reservation implements Serializable {
 
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
-    //JsonProperty("lakeId")
+    @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
     Long lakeId;
 
-    //JsonProperty("stageId")
+    @Column(name="STAGE_ID",columnDefinition="BIGINT NOT NULL")
     Long stageId;
 
-    //JsonProperty("userId")
+    @Column(name="USER_ID",columnDefinition="BIGINT NOT NULL")
     Long userId;
 
-    //JsonProperty("dateFrom")
+    @Column(name="DATE_FROM",columnDefinition="DATETIME NOT NULL")
     Date dateFrom;
+    
+    @Column(name="DATE_TO",columnDefinition="DATETIME NOT NULL")
+    Date dateTo;
+    
+    @Column(name="RESERVATION_STATUS",columnDefinition="VARCHAR(12) NOT NULL")
+    String reservationStatus;
 
-    //JsonProperty("dateTo")
-    Integer durationInHr;
-
-    //JsonProperty("requestedServices")
-    List<ServicePrice> requestedServices;
-
-    //az ar nem perzisztalt, csak szamolt, kell arszamolas, talan epp a konstruktorba
-    @Transient
-    Double price;
+    public Reservation(Long id, Long lakeId, Long stageId, Long userId, Date dateFrom, Date dateTo, String reservationStatus) {
+        this.id = id;
+        this.lakeId = lakeId;
+        this.stageId = stageId;
+        this.userId = userId;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.reservationStatus = reservationStatus;
+    }
+    
+    public Reservation(Long lakeId, Long stageId, Long userId, Date dateFrom, Date dateTo, String reservationStatus) {
+        this.lakeId = lakeId;
+        this.stageId = stageId;
+        this.userId = userId;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.reservationStatus = reservationStatus;
+    }    
+    public Reservation(){
+        super();
+    }
+ 
 
     public Long getId() {
         return id;
@@ -86,36 +120,20 @@ public class Reservation {
         this.dateFrom = dateFrom;
     }
 
-    public Integer getDurationInHr() {
-        return durationInHr;
-    }
-
-    public void setDurationInHr(Integer durationInHr) {
-        this.durationInHr = durationInHr;
-    }
-
-    public List<ServicePrice> getRequestedServices() {
-        return requestedServices;
-    }
-
-    public void setRequestedServices(List<ServicePrice> requestedServices) {
-        this.requestedServices = requestedServices;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
     public Date getDateTo(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateFrom);
-        calendar.add(Calendar.HOUR_OF_DAY, durationInHr);
-        return calendar.getTime();
-  
+        return dateTo;  
     }
-    
+
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
+    }
+
+    public String getReservationStatus() {
+        return reservationStatus;
+    }
+
+    public void setReservationStatus(String reservationStatus) {
+        this.reservationStatus = reservationStatus;
+    }
+     
 }
