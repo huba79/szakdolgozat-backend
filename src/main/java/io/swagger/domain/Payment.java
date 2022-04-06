@@ -43,7 +43,7 @@ public class Payment implements Serializable {
     @Column(name="PAID_BY",columnDefinition="BIGINT NOT NULL")
     Long paidByUserId;
     
-    @Column(name="PAYMENT_STATUS",columnDefinition="INTEGER NOT NULL")
+    @Column(name="PAYMENT_STATUS",columnDefinition="VARCHAR(16) NOT NULL")
     String paymentStatus;
 
     public Long getId() {

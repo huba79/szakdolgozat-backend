@@ -1,7 +1,6 @@
 
 package io.swagger.api;
 
-import io.swagger.domain.ReservationStatusEnum;
 import io.swagger.messages.ReservationMessage;
 import io.swagger.messages.ReservationResponse;
 

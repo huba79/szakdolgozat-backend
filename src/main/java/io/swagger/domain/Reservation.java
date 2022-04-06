@@ -5,16 +5,12 @@
 package io.swagger.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
 /**
@@ -71,6 +67,14 @@ public class Reservation implements Serializable {
         this.reservationStatus = reservationStatus;
     }
     
+    public Reservation(Long lakeId, Long stageId, Long userId, Date dateFrom, Date dateTo, String reservationStatus) {
+        this.lakeId = lakeId;
+        this.stageId = stageId;
+        this.userId = userId;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.reservationStatus = reservationStatus;
+    }    
     public Reservation(){
         super();
     }

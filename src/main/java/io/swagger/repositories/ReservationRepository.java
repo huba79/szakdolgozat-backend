@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 
 /**
  *
@@ -51,6 +50,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "	(r.date_from <= ?2 and r.date_to <= ?3)\n" +
             ")",
             nativeQuery = true)   
-    Boolean isStageAvailable(Long pStageId, Date pDateFrom, Date pDateTo);    
+    Boolean isStageAvailable(Long pStageId, Date pDateFrom, Date pDateTo); 
+    
 
 }
