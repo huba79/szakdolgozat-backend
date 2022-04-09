@@ -52,7 +52,7 @@ public class ReservationResponse implements Serializable{
     public ReservationResponse(Long reservationId, Long lakeId, 
             Long stageId, Long userId, Date dateFrom, Date dateTo, 
             String status, List<OrderedItem> orderedItems, Payment payment) {
-        
+
         this.reservationId = reservationId;
         this.lakeId = lakeId;
         this.userId = userId;
