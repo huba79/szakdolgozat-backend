@@ -4,7 +4,6 @@
  */
 package io.swagger.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;

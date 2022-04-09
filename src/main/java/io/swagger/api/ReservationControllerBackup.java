@@ -59,7 +59,8 @@ public class ReservationControllerBackup implements ReservationApi {
                             reservation.getDateTo(),
                             reservation.getReservationStatus() ,
                             orderedServices,
-                            payment
+                            payment,
+                        (usersRepo.findById(reservation.getUserId()) ).get().getDisplayName()
                     );           
                     return new ResponseEntity<>(response,HttpStatus.OK);
                 }
@@ -90,15 +91,16 @@ public class ReservationControllerBackup implements ReservationApi {
                             orderedServices = orderedServicesRepo.findOrderedServiceByReservationIdNative(reservation.getId());
                             payment = paymentRepo.findPaymentByReservationIdNative(reservation.getId());
                             ReservationResponse response = new ReservationResponse(
-                                    reservation.getId(),
-                                    reservation.getLakeId(),
-                                    reservation.getUserId(),
-                                    reservation.getStageId(),
-                                    reservation.getDateFrom(),
-                                    reservation.getDateTo(),
-                                    reservation.getReservationStatus() ,
-                                    orderedServices,
-                                    payment
+                                reservation.getId(),
+                                reservation.getLakeId(),
+                                reservation.getUserId(),
+                                reservation.getStageId(),
+                                reservation.getDateFrom(),
+                                reservation.getDateTo(),
+                                reservation.getReservationStatus() ,
+                                orderedServices,
+                                payment,
+                                (usersRepo.findById(reservation.getUserId()) ).get().getDisplayName()
                             ); 
                             responseList.add(response);
                         }
@@ -172,15 +174,16 @@ public class ReservationControllerBackup implements ReservationApi {
                         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);                        
                     }   
                     ReservationResponse reservationResponse = new ReservationResponse(
-                            savedReservation.getId(),
-                            savedReservation.getLakeId(),
-                            savedReservation.getStageId(),
-                            savedReservation.getUserId(),
-                            savedReservation.getDateFrom(),
-                            savedReservation.getDateTo(),
-                            savedReservation.getReservationStatus() ,
-                            savedOrderedItems,
-                            savedPayment
+                        savedReservation.getId(),
+                        savedReservation.getLakeId(),
+                        savedReservation.getStageId(),
+                        savedReservation.getUserId(),
+                        savedReservation.getDateFrom(),
+                        savedReservation.getDateTo(),
+                        savedReservation.getReservationStatus() ,
+                        savedOrderedItems,
+                        savedPayment,
+                        (usersRepo.findById(savedReservation.getUserId()) ).get().getDisplayName()
                     );
                     return new ResponseEntity<>(reservationResponse,HttpStatus.OK);
 
@@ -242,15 +245,16 @@ public class ReservationControllerBackup implements ReservationApi {
                         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);                        
                     }   
                     ReservationResponse reservationResponse = new ReservationResponse(
-                            savedReservation.getId(),
-                            savedReservation.getLakeId(),
-                            savedReservation.getStageId(),
-                            savedReservation.getUserId(),
-                            savedReservation.getDateFrom(),
-                            savedReservation.getDateTo(),
-                            savedReservation.getReservationStatus() ,
-                            savedOrderedItems,
-                            savedPayment
+                        savedReservation.getId(),
+                        savedReservation.getLakeId(),
+                        savedReservation.getStageId(),
+                        savedReservation.getUserId(),
+                        savedReservation.getDateFrom(),
+                        savedReservation.getDateTo(),
+                        savedReservation.getReservationStatus() ,
+                        savedOrderedItems,
+                        savedPayment,
+                        (usersRepo.findById(savedReservation.getUserId()) ).get().getDisplayName()
                     );
                     return new ResponseEntity<>(reservationResponse,HttpStatus.OK);
 

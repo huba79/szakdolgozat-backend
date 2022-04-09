@@ -27,7 +27,7 @@ public class OrderedItem implements Serializable {
     Long reservationId;
     
     @Column(name="SERVICE_ID",columnDefinition="BIGINT NOT NULL")
-    String serviceId;
+    Long serviceId;
     
     @Column(name="AMOUNT_ORDERED",columnDefinition="DOUBLE NOT NULL")
     Double amountOrdered;
@@ -51,11 +51,11 @@ public class OrderedItem implements Serializable {
         this.reservationId = reservationId;
     }
 
-    public String getServiceId() {
+    public Long getServiceId() {
         return serviceId;
     }
 
-    public void setServiceId(String serviceId) {
+    public void setServiceId(Long serviceId) {
         this.serviceId = serviceId;
     }
 

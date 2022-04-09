@@ -48,11 +48,11 @@ public class ReservationResponse implements Serializable{
     
     @JsonProperty("payment")
     Payment payment;
+    
+    @JsonProperty("userName")
+    String userName;
 
-    public ReservationResponse(Long reservationId, Long lakeId, 
-            Long stageId, Long userId, Date dateFrom, Date dateTo, 
-            String status, List<OrderedItem> orderedItems, Payment payment) {
-
+    public ReservationResponse(Long reservationId, Long lakeId,  Long stageId, Long userId, Date dateFrom, Date dateTo, String status, List<OrderedItem> orderedItems, Payment payment, String userName) {
         this.reservationId = reservationId;
         this.lakeId = lakeId;
         this.userId = userId;
@@ -62,6 +62,7 @@ public class ReservationResponse implements Serializable{
         this.status = status;
         this.orderedItems = orderedItems;
         this.payment = payment;
+        this.userName = userName;
     }
 
     public Long getReservationId() {
@@ -135,6 +136,15 @@ public class ReservationResponse implements Serializable{
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
-    
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+        
     
 }

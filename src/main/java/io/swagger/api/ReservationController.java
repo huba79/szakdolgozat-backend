@@ -51,22 +51,7 @@ public class ReservationController implements ReservationApi {
                 Reservation reservation = reservationRepo.findByIdNative(id);
                 if (reservation ==null) { 
                         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                } else {
-                    System.out.println("Reservation ok: \t"+reservation.toString());
-                    ArrayList<OrderedItem> orderedServices = orderedServicesRepo.findOrderedServiceByReservationIdNative(reservation.getId());
-                    Payment payment = paymentRepo.findPaymentByReservationIdNative(reservation.getId());
-                    ReservationResponse response = new ReservationResponse(
-                            reservation.getId(),
-                            reservation.getLakeId(),
-                            reservation.getUserId(),
-                            reservation.getStageId(),
-                            reservation.getDateFrom(),
-                            reservation.getDateTo(),
-                            reservation.getReservationStatus() ,
-                            orderedServices,
-                            payment
-                    );           
-                    return new ResponseEntity<>(response,HttpStatus.OK);
+                } else { return new ResponseEntity<>(service.getOneById(id),HttpStatus.OK);
                 }
             } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -109,4 +94,4 @@ public class ReservationController implements ReservationApi {
     }
 
 
-    }
+}

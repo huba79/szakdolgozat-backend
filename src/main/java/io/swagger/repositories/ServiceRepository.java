@@ -26,4 +26,8 @@ public interface ServiceRepository extends JpaRepository<Service, Long> {
     ArrayList<Service> findServiceByLakeIdNative( Long id);
     
     //persze meg kell oldani a mentest is
+    @Query(
+      value = "SELECT s.price_per_unit FROM SERVICES S WHERE S.ID = ?1", 
+      nativeQuery = true)
+    Double findPriceByServiceIdNative( Long id);
 }

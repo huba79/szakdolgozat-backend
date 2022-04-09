@@ -32,15 +32,19 @@ public class BlogResponse  {
       (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone=Configuration.TIMEZONE)
     Date postDate;
     
+    @JsonProperty("userId")
+    Long userId;
+    
     @JsonProperty("userName")
     String userName;
 
-    public BlogResponse(Long id, Long companyId, String title, String content, Date postDate, String userName) {
+    public BlogResponse(Long id, Long companyId, String title, String content, Date postDate, Long userId, String userName) {
         this.id = id;
         this.companyId = companyId;
         this.title = title;
         this.content = content;
         this.postDate = postDate;
+        this.userId = userId;
         this.userName = userName;
     }
 
@@ -84,15 +88,12 @@ public class BlogResponse  {
         this.postDate = postDate;
     }
 
-    public String getUserName() {
-        return userName;
+    public Long getUserName() {
+        return userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-    
-    
-  
+    public void setUserName(Long userName) {
+        this.userId = userId;
+    }  
     
 }

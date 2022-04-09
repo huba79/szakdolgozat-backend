@@ -35,12 +35,12 @@ public class BlogController implements BlogApi{
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader() && validator.acceptsJson()) {
                  
+            try {
                 ArrayList<BlogEntry> blogEntries= blogRepo.findBlogEntryByCompanyId(companyId);
                 if (blogEntries.isEmpty()) {
                     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                } else 
-                {   ArrayList<BlogResponse> blogResponse = new ArrayList<>();
-                    
+                } else {   
+                    ArrayList<BlogResponse> blogResponses = new ArrayList<>();
                     for(BlogEntry blogEntry:blogEntries){
                         BlogResponse responseEntry = new BlogResponse(
                                 blogEntry.getId(),
@@ -48,14 +48,17 @@ public class BlogController implements BlogApi{
                                 blogEntry.getTitle(),
                                 blogEntry.getContent(),
                                 blogEntry.getPostDate(),
-                                blogEntry.getUserName()
+                                blogEntry.getUserId(),
+                                ( usersRepo.findById(blogEntry.getId() ) ).get().getDisplayName()
                         );
-                        blogResponse.add(responseEntry);
- 
-                    }
-                    return new ResponseEntity<>(blogResponse,HttpStatus.OK);}
-                                   
-                } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);    
+                        blogResponses.add(responseEntry);
+                    }                     
+                        return new ResponseEntity<>(blogResponses,HttpStatus.OK);
+                    } 
+            }catch(Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); 
+            }
+        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    
 }

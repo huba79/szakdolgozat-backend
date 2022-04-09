@@ -9,10 +9,10 @@ import io.swagger.domain.Payment;
 import io.swagger.domain.Reservation;
 import io.swagger.messages.ReservationMessage;
 import io.swagger.messages.ReservationResponse;
-import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.OrderedItemRepository;
 import io.swagger.repositories.PaymentRepository;
 import io.swagger.repositories.ReservationRepository;
+import io.swagger.repositories.ServiceRepository;
 import io.swagger.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,8 +31,8 @@ import org.springframework.stereotype.Service;
     @Autowired ReservationRepository reservationRepo;
     @Autowired OrderedItemRepository orderRepo; 
     @Autowired PaymentRepository paymentRepo;
-
-      
+    @Autowired ServiceRepository serviceRepo; 
+    @Autowired UserRepository userRepo;    
 
     public ReservationResponse addOne(ReservationMessage rMessage) 
             throws StageUnavailableException , IllegalArgumentException, EmptyCartException {
@@ -65,39 +65,42 @@ import org.springframework.stereotype.Service;
            ArrayList<OrderedItem> savedOrders = new ArrayList<>();  
 
             //if there are some ordered items, we can save the reservation
-            if( !postedOrders.isEmpty()){
+        if( !postedOrders.isEmpty()){
 
-                try{
-                    savedReservation = reservationRepo.save(postedReservation);
-                    for (OrderedItem ordered:postedOrders){
-                        ordered.setReservationId(savedReservation.getId());
-                    }
+            try{
                 savedReservation = reservationRepo.save(postedReservation);
+                for (OrderedItem ordered:postedOrders){
+                    ordered.setReservationId(savedReservation.getId());
+                    ordered.setPrice(serviceRepo.findPriceByServiceIdNative( ordered.getServiceId()) * ordered.getAmountOrdered());
+                }
                 savedOrders = (ArrayList) orderRepo.saveAll(postedOrders);
-                
-                    if( postedPayment!=null){
-                        //if there is some payment info then let's try to save it too
-                        postedPayment.setReservationId(savedReservation.getId());
-                        savedPayment = paymentRepo.save(postedPayment);
-                    } else savedPayment = null;
-                    //when everything saved , let's return a proper response                    
-                    return new ReservationResponse(
-                            savedReservation.getId(),
-                            savedReservation.getLakeId(),
-                            savedReservation.getStageId(),
-                            savedReservation.getUserId(),
-                            savedReservation.getDateFrom(),
-                            savedReservation.getDateTo(),
-                            savedReservation.getReservationStatus(),
-                            savedOrders,
-                            savedPayment
-                        ); 
-                    
-                } catch (IllegalArgumentException  e) {
-                    throw new IllegalArgumentException("Corrupted or incomplete message! Request rejected.");
-                }   
-                
-            } else throw new EmptyCartException("Empty order list! Request rejected.");   
+
+                if( postedPayment!=null){
+                    //if there is some payment info then let's try to save it too
+                    postedPayment.setReservationId(savedReservation.getId());
+                    savedPayment = paymentRepo.save(postedPayment);
+                } else savedPayment = null;
+
+                //when everything saved , let's return a proper response                    
+
+                return new ReservationResponse(
+                        savedReservation.getId(),
+                        savedReservation.getLakeId(),
+                        savedReservation.getStageId(),
+                        savedReservation.getUserId(),
+                        savedReservation.getDateFrom(),
+                        savedReservation.getDateTo(),
+                        savedReservation.getReservationStatus(),
+                        savedOrders,
+                        savedPayment,
+                        (userRepo.findById(savedReservation.getUserId()) ).get().getDisplayName()
+                    ); 
+
+            } catch (IllegalArgumentException  e) {
+                throw new IllegalArgumentException("Corrupted or incomplete message! Request rejected.");
+            }   
+
+        } else throw new EmptyCartException("Empty order list! Request rejected.");   
         
        }
        throw new StageUnavailableException("The stage is unavailable in the requested period! Request rejected.");
@@ -143,22 +146,19 @@ import org.springframework.stereotype.Service;
 
             //if there are some ordered items, we can save the reservation
             if( !postedOrders.isEmpty()){
-
                 try{    
-                    //enforcing update
-                    //ugly solution, need to learn more about JPA save method
-
                     postedReservation.setId(foundReservation.getId());                    
                     savedReservation = reservationRepo.save(postedReservation);
                     
-                        for(OrderedItem order:postedOrders){
-                            orderRepo.deleteById(order.getId());
-                        }                    
-                    
-                        savedOrders = (ArrayList) orderRepo.saveAll(postedOrders);
+                    for (OrderedItem ordered:postedOrders){
+                        ordered.setReservationId(savedReservation.getId());
+                        ordered.setPrice(serviceRepo.findPriceByServiceIdNative( ordered.getServiceId()) * ordered.getAmountOrdered());
+                    }                    
+                    savedOrders = (ArrayList) orderRepo.saveAll(postedOrders);
                 
                     if( postedPayment!=null){
                         //if there is some payment info then let's try to save it too
+                        postedPayment.setReservationId(postedReservation.getId());
                         savedPayment = paymentRepo.save(postedPayment);
                     } else savedPayment = null;
                     
@@ -172,7 +172,8 @@ import org.springframework.stereotype.Service;
                             savedReservation.getDateTo(),
                             savedReservation.getReservationStatus(),
                             savedOrders,
-                            savedPayment
+                            savedPayment,
+                            (userRepo.findById(savedReservation.getUserId()) ).get().getDisplayName()
                         ); 
                     
                 } catch (IllegalArgumentException  e) {
@@ -202,7 +203,8 @@ import org.springframework.stereotype.Service;
                     foundReservation.getDateTo(),
                     foundReservation.getReservationStatus(),
                     foundOrders,
-                    foundPayment
+                    foundPayment,
+                    (userRepo.findById(foundReservation.getUserId()) ).get().getDisplayName()
                 ); 
 
         } catch (Exception e) {
@@ -229,15 +231,16 @@ import org.springframework.stereotype.Service;
                     orderedServices = orderRepo.findOrderedServiceByReservationIdNative(reservation.getId());
                     payment = paymentRepo.findPaymentByReservationIdNative(reservation.getId());
                     ReservationResponse response = new ReservationResponse(
-                            reservation.getId(),
-                            reservation.getLakeId(),
-                            reservation.getUserId(),
-                            reservation.getStageId(),
-                            reservation.getDateFrom(),
-                            reservation.getDateTo(),
-                            reservation.getReservationStatus() ,
-                            orderedServices,
-                            payment
+                        reservation.getId(),
+                        reservation.getLakeId(),
+                        reservation.getStageId(),
+                        reservation.getUserId(),    
+                        reservation.getDateFrom(),
+                        reservation.getDateTo(),
+                        reservation.getReservationStatus() ,
+                        orderedServices,
+                        payment,
+                        (userRepo.findById(reservation.getUserId()) ).get().getDisplayName()
                     ); 
                     responseList.add(response);
                     //if there was an exception it throws it further

@@ -36,8 +36,11 @@ public class BlogEntry implements Serializable {
     @Column(name="POST_DATE",columnDefinition="DATETIME NOT NULL")
     Date postDate;
     
-    @Column(name="USER_NAME",columnDefinition="VARCHAR(64) NOT NULL")
-    String userName;
+    @Column(name="USER_ID",columnDefinition="BIGINT NOT NULL")
+    Long userId;
+//    
+//    @Column(name="USER_NAME",columnDefinition="VARCHAR(64) NOT NULL")
+//    String userName;
 
     public Long getId() {
         return id;
@@ -79,13 +82,20 @@ public class BlogEntry implements Serializable {
         this.postDate = postDate;
     }
 
-    public String getUserName() {
-        return userName;
+//    public String getUserName() {
+//        return userName;
+//    }
+//    public String setUserName() {
+//        return userName;
+//    }
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public Long getUserId() {
+        return userId;
     }
+    
     
     
 }
