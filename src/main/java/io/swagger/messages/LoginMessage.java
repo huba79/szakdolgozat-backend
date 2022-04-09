@@ -51,16 +51,16 @@ public class LoginMessage   {
 
 
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Login {\n");
-    sb.append("    loginname: ").append(toIndentedString(loginname)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    role: ").append(toIndentedString(role)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+//  @Override
+//  public String toString() {
+//    StringBuilder sb = new StringBuilder();
+//    sb.append("class Login {\n");
+//    sb.append("    loginname: ").append(toIndentedString(loginname)).append("\n");
+//    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+//    sb.append("    role: ").append(toIndentedString(role)).append("\n");
+//    sb.append("}");
+//    return sb.toString();
+//  }
 
   /**
    * Convert the given object to string with each line indented by 4 spaces

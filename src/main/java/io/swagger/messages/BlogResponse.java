@@ -6,6 +6,7 @@ package io.swagger.messages;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.configuration.Configuration;
 import java.util.Date;
 
 /**
@@ -28,7 +29,7 @@ public class BlogResponse  {
     
     @JsonProperty("postedOn")
     @JsonFormat
-      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone=Configuration.TIMEZONE)
     Date postDate;
     
     @JsonProperty("userName")

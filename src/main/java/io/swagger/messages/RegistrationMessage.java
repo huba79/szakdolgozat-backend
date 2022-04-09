@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * Guests, clients, admins and managers(owners)
  */
-//@Schema(description = "Guests, clients, admins and managers(owners)")
+@Schema(description = "Guests, clients, admins and managers(owners)")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-28T16:04:50.838Z[GMT]")
 

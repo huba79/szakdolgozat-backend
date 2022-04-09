@@ -27,11 +27,10 @@ import io.swagger.repositories.OrderedItemRepository;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
 //@RestController
-public class ReservationControllerBackup implements ReservationApi {
+public class ReservationControllerBackup1 implements ReservationApi {
 
-    private static final  Logger log = LoggerFactory.getLogger(ReservationControllerBackup.class);
-    @Autowired
-    private  HttpServletRequest request;
+    private static final  Logger log = LoggerFactory.getLogger(ReservationControllerBackup1.class);
+    @Autowired HttpServletRequest request;
     @Autowired CompanyRepository companyRepo;
     @Autowired UserRepository usersRepo;
     @Autowired ReservationRepository reservationRepo;
@@ -139,17 +138,27 @@ public class ReservationControllerBackup implements ReservationApi {
                                 body.getDateTo(),
                                 body.getStatus()
                         );
-                    } catch (Exception e) {
+                    //TODO it kell folyatni a message parse-olast
+                    //majd valtozokkal kiuzenni a response builder resznek
+                    
+                    } catch (IllegalArgumentException e) {
                         System.out.println(e.getMessage());
                         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                    }               
+                    }      
+                    //DEBUG Date before save
+                    System.out.println("received datefrom:\t"+postedReservation.getDateFrom());
+                    
                     Reservation savedReservation = null;
                     Payment savedPayment = null;                   
-                        ArrayList<OrderedItem> savedOrderedItems = new ArrayList<>();                    
-                    
+                    ArrayList<OrderedItem> savedOrderedItems = new ArrayList<>();                    
+     //TODO                
                     try {
+                        //check if the stage is available
+                        if (reservationRepo.isStageAvailable(postedReservation.getId(), 
+                                postedReservation.getDateFrom(), postedReservation.getDateTo())) 
+                                {/*TODO*/}
                         savedReservation = reservationRepo.save(postedReservation);
-                        if (postedPayment.getReservationId() !=null){
+                        if (postedPayment.getAmount() !=null){
                             //no payment is OK at first pot so far.
                             postedPayment.setReservationId(postedReservation.getId());
                             savedPayment = paymentRepo.save(postedPayment);
@@ -182,6 +191,13 @@ public class ReservationControllerBackup implements ReservationApi {
                             savedOrderedItems,
                             savedPayment
                     );
+                    //DEBUG
+                    System.out.println("saved DateFrom:\t"+savedReservation.getDateFrom());
+                    System.out.println("saved DateTo:\t"+savedReservation.getDateTo());
+                    
+                    System.out.println("response DateFrom:\t"+reservationResponse.getDateFrom());
+                    System.out.println("response DateTo:\t"+reservationResponse.getDateTo());
+                    
                     return new ResponseEntity<>(reservationResponse,HttpStatus.OK);
 
             } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -210,17 +226,17 @@ public class ReservationControllerBackup implements ReservationApi {
                                 body.getStatus()
                         );
                     } catch (Exception e) {
-                        System.out.println(e.getLocalizedMessage());
+                        System.out.println(e.getMessage()+" kiolvasas");
                         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                     }               
                     Reservation savedReservation = null;
                     Payment savedPayment = null;                   
                         ArrayList<OrderedItem> savedOrderedItems = new ArrayList<>();                    
                     try {
-                        postedPayment.setReservationId(body.getReservationId());
+
                         savedReservation = reservationRepo.save(postedReservation);
                         
-                        if (postedPayment.getReservationId() !=null){
+                        if (postedPayment !=null){
                             //TODO: no payment is not always OK on update, futher checks needed
                             postedReservation.setId(body.getReservationId());
                             savedPayment = paymentRepo.save(postedPayment);
@@ -238,7 +254,8 @@ public class ReservationControllerBackup implements ReservationApi {
                                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                         }
                     }catch (Exception e){
-                        System.out.println(e.getMessage());
+                        e.printStackTrace();
+                        System.out.println(" mentes hiba");
                         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);                        
                     }   
                     ReservationResponse reservationResponse = new ReservationResponse(

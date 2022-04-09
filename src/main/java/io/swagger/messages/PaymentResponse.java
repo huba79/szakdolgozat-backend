@@ -4,11 +4,10 @@
  */
 package io.swagger.messages;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.domain.PaidWithEnum;
+import io.swagger.configuration.Configuration;
 import java.util.Date;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 /**
  *
@@ -26,7 +25,10 @@ public class PaymentResponse {
     
     @JsonProperty("amount") Double amount;
     
-    @JsonProperty("paidOn") Date paidOn;
+    @JsonProperty("paidOn") 
+    @JsonFormat
+      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone=Configuration.TIMEZONE)
+    Date paidOn;
 
     @JsonProperty("paidByUserid") String paidByUserId;
     

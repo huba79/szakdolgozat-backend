@@ -8,8 +8,9 @@ package io.swagger.configuration;
  *
  * @author huba
  */
-public class Configuration {
+public final class Configuration {
     
-    public static Long COMPANY = 1L;   
+    public static final Long COMPANY = 1L;  
+    public static final String TIMEZONE = "Europe/Bucharest";
     
 }

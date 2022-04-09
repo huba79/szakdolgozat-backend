@@ -6,6 +6,7 @@ package io.swagger.messages;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.configuration.Configuration;
 import io.swagger.domain.OrderedItem;
 import io.swagger.domain.Payment;
 import java.io.Serializable;
@@ -31,12 +32,12 @@ public class ReservationResponse implements Serializable{
     
     @JsonProperty("dateFrom")
     @JsonFormat
-      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")          
+      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone=Configuration.TIMEZONE)         
     Date dateFrom;
     
     @JsonProperty("dateTo")
     @JsonFormat
-      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")         
+      (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone=Configuration.TIMEZONE)     
     Date dateTo;
     
     @JsonProperty("status")
@@ -48,7 +49,10 @@ public class ReservationResponse implements Serializable{
     @JsonProperty("payment")
     Payment payment;
 
-    public ReservationResponse(Long reservationId, Long lakeId, Long userId, Long stageId, Date dateFrom, Date dateTo, String status, List<OrderedItem> orderedItems, Payment payment) {
+    public ReservationResponse(Long reservationId, Long lakeId, 
+            Long stageId, Long userId, Date dateFrom, Date dateTo, 
+            String status, List<OrderedItem> orderedItems, Payment payment) {
+        
         this.reservationId = reservationId;
         this.lakeId = lakeId;
         this.userId = userId;
