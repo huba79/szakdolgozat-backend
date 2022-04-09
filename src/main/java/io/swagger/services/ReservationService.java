@@ -57,8 +57,8 @@ import org.springframework.stereotype.Service;
            throw  new IllegalArgumentException();        
         }  
         //if the stage is available for reservation        
-       if( reservationRepo.isStageAvailable(postedReservation.getStageId(), 
-            postedReservation.getDateFrom(), postedReservation.getDateTo() ) ) {            
+       if( reservationRepo.isStageAvailable( postedReservation.getStageId(), 
+            postedReservation.getDateFrom(), postedReservation.getDateTo() )!=0L ) {            
             
            Reservation savedReservation = new Reservation();
            Payment savedPayment =  new Payment();           
@@ -128,7 +128,7 @@ import org.springframework.stereotype.Service;
         }  
         //if the stage is available for reservation        
        if( reservationRepo.isStageAvailable(postedReservation.getStageId(), 
-           postedReservation.getDateFrom(), postedReservation.getDateTo() ) ) {            
+           postedReservation.getDateFrom(), postedReservation.getDateTo() ) !=0L) {            
            
            //TODO treat update cases
            Reservation foundReservation = reservationRepo.findByIdNative(reservationId);
@@ -211,7 +211,7 @@ import org.springframework.stereotype.Service;
         
     }
 
-    public ArrayList<ReservationResponse> getByQuery(
+    public ArrayList<ReservationResponse> getAllByQuery(
             @Nullable Long lakeId, @Nullable Long stageId,@Nullable Long userId, 
             @Nullable Date dateFrom, @Nullable Date dateTo, @Nullable String status) {
 

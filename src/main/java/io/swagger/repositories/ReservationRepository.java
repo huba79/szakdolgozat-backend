@@ -39,18 +39,19 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             nativeQuery = true)   
     Reservation findByIdNative(Long id);
     
-    @Query(value = "select (case count(*) when 0 then true else false end ) from reservations r \n" +
-            "where 1=1\n" +
-            "and r.stage_id = ?1\n" +
-            "and \n" +
-            "	( r.date_from >= ?2 and r.date_to >= ?3)\n" +
-            "	or\n" +
-            "	(r.date_from <= ?2 and r.date_to >= ?3)\n" +
-            "	or\n" +
-            "	(r.date_from <= ?2 and r.date_to <= ?3)\n" +
+    @Query(value = 
+            "select count(*)  from reservations r \n" +
+            "where 1=1 \n" +
+            "and r.stage_id = ?1 \n" +
+            "and (\n" +                
+            "	( r.date_from >= ?2 and r.date_to >= ?3) \n" +
+            "	or \n" +
+            "	(r.date_from <= ?2 and r.date_to >= ?3) \n" +
+            "	or \n" +
+            "	(r.date_from <= ?2 and r.date_to <= ?3) \n" +
             ")",
             nativeQuery = true)   
-    Boolean isStageAvailable(Long pStageId, Date pDateFrom, Date pDateTo); 
+    Long isStageAvailable(Long pStageId, Date pDateFrom, Date pDateTo); 
     
 
 }

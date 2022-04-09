@@ -80,7 +80,7 @@ public class ReservationController implements ReservationApi {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader()&&validator.acceptsJson() ){
             if( validator.isAuthorized()){
-                return new ResponseEntity (service.getByQuery(lakeId, stageId, userId, dateFrom, dateTo, status),HttpStatus.OK);
+                return new ResponseEntity (service.getAllByQuery(lakeId, stageId, userId, dateFrom, dateTo, status),HttpStatus.OK);
             } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
