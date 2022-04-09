@@ -9,15 +9,12 @@ import io.swagger.domain.Payment;
 import io.swagger.domain.Reservation;
 import io.swagger.messages.ReservationMessage;
 import io.swagger.messages.ReservationResponse;
-import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.OrderedItemRepository;
 import io.swagger.repositories.PaymentRepository;
 import io.swagger.repositories.ReservationRepository;
-import io.swagger.repositories.UserRepository;
 import java.util.ArrayList;
-import java.util.Date;
+import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,13 +25,17 @@ import org.springframework.stereotype.Service;
     public class ReservationService {
  
 
-    @Autowired ReservationRepository reservationRepo;
-    @Autowired OrderedItemRepository orderRepo; 
-    @Autowired PaymentRepository paymentRepo;
+    @Autowired 
+    ReservationRepository reservationRepo;
+    @Autowired
+    OrderedItemRepository orderRepo; 
+    @Autowired
+    PaymentRepository paymentRepo;
+    @Autowired 
+    EntityManager em;
+        
 
-      
-
-    public ReservationResponse addOne(ReservationMessage rMessage) 
+    public ReservationResponse addReservation(ReservationMessage rMessage) 
             throws StageUnavailableException , IllegalArgumentException, EmptyCartException {
         Reservation postedReservation ;
         ArrayList<OrderedItem> postedOrders;
@@ -103,7 +104,7 @@ import org.springframework.stereotype.Service;
        throw new StageUnavailableException("The stage is unavailable in the requested period! Request rejected.");
     }
     
-     public ReservationResponse updateOne(Long reservationId, ReservationMessage rMessage) 
+     public ReservationResponse updateReservation(Long reservationId, ReservationMessage rMessage) 
             throws StageUnavailableException, IllegalArgumentException, NoSuchReservationException {
         
         Reservation postedReservation ;
@@ -185,7 +186,7 @@ import org.springframework.stereotype.Service;
        throw new StageUnavailableException("The stage is unavailable in the requested period!");
     }   
     
-    public ReservationResponse getOneById(Long id) 
+    public ReservationResponse getReservationById(Long id) 
             throws NoSuchReservationException {
         
         try {
@@ -210,43 +211,5 @@ import org.springframework.stereotype.Service;
         }        
         
     }
-
-    public ArrayList<ReservationResponse> getByQuery(
-            @Nullable Long lakeId, @Nullable Long stageId,@Nullable Long userId, 
-            @Nullable Date dateFrom, @Nullable Date dateTo, @Nullable String status) {
-
-            ArrayList<Reservation> reservations = new  ArrayList<>();
-            ArrayList<ReservationResponse> responseList = new ArrayList<>();
-            Payment payment=null;
-            ArrayList<OrderedItem> orderedServices= new ArrayList<>();                
-
-            try {
-                reservations = reservationRepo.getReservationsByQuery(lakeId, stageId, userId, dateFrom, dateTo, status);
-                if (reservations.isEmpty()) {
-                    throw new NoSuchReservationException("No matching reservations found by this query.");
-                }
-                for(Reservation reservation:reservations){
-                    orderedServices = orderRepo.findOrderedServiceByReservationIdNative(reservation.getId());
-                    payment = paymentRepo.findPaymentByReservationIdNative(reservation.getId());
-                    ReservationResponse response = new ReservationResponse(
-                            reservation.getId(),
-                            reservation.getLakeId(),
-                            reservation.getUserId(),
-                            reservation.getStageId(),
-                            reservation.getDateFrom(),
-                            reservation.getDateTo(),
-                            reservation.getReservationStatus() ,
-                            orderedServices,
-                            payment
-                    ); 
-                    responseList.add(response);
-                    //if there was an exception it throws it further
-                } 
-
-            } catch (Exception e) {
-                e.printStackTrace(); 
-            }
-            return responseList;
-        }   
-    }
+}
     
