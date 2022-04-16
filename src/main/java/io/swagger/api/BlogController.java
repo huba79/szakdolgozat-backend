@@ -49,7 +49,7 @@ public class BlogController implements BlogApi{
                                 blogEntry.getContent(),
                                 blogEntry.getPostDate(),
                                 blogEntry.getUserId(),
-                                ( usersRepo.findById(blogEntry.getId() ) ).get().getDisplayName()
+                                ( usersRepo.findById(blogEntry.getUserId()) ).get().getDisplayName()
                         );
                         blogResponses.add(responseEntry);
                     }                     
