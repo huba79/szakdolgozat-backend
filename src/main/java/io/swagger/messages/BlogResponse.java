@@ -88,12 +88,12 @@ public class BlogResponse  {
         this.postDate = postDate;
     }
 
-    public Long getUserName() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserName(Long userName) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }  
     
 }
