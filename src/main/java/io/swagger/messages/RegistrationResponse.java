@@ -5,14 +5,14 @@
 package io.swagger.messages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author huba
  */
-public class RegistrationResponse {
-    
+public class RegistrationResponse implements Serializable   {
     @JsonProperty
     private Long id;
     

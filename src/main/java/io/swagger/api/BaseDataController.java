@@ -2,6 +2,7 @@ package io.swagger.api;
 
 import io.swagger.domain.Company;
 import io.swagger.domain.Lake;
+import io.swagger.domain.RuleOfConduct;
 import io.swagger.domain.Service;
 import io.swagger.domain.Stage;
 import io.swagger.messages.BaseDataResponse;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.repositories.CompanyRepository;
 import io.swagger.repositories.LakeRepository;
+import io.swagger.repositories.RuleRepository;
 import io.swagger.repositories.ServiceRepository;
 import io.swagger.repositories.ServiceRepository;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class BaseDataController implements BaseDataApi {
     @Autowired LakeRepository lakeRepo;
     @Autowired StageRepository stageRepo;
     @Autowired UserRepository usersRepo;
+    @Autowired RuleRepository rulesRepo;
 
     //private static final Logger log = LoggerFactory.getLogger(BaseDataController.class);
 
@@ -46,6 +49,7 @@ public class BaseDataController implements BaseDataApi {
                         
                         ArrayList<Stage> stages = new ArrayList<>();
                         ArrayList<Service> services = new ArrayList<>();
+                        ArrayList<RuleOfConduct> rules = new ArrayList<>();
                         
                      
                         for (Lake lake:lakes){
@@ -56,12 +60,14 @@ public class BaseDataController implements BaseDataApi {
                             System.out.println("Stages size:\t"+ stages.size()+"\n\n\n");
                             
                             services.addAll(serviceRepo.findServiceByLakeIdNative(lakeId));
-                            //TODO meg kell nezni mi a banator golyalaszarert nem megy, mint pl a stageRepo
                             System.out.println("Prices size:\t"+ services.size());
+                            
+                            rules.addAll(rulesRepo.findRuleByLakeIdNative(lakeId));
+                            System.out.println("Prices size:\t"+ rules.size());
                         }                        
                       
                         return new ResponseEntity<BaseDataResponse>(new BaseDataResponse(company,
-                                                                    lakes,services,stages),HttpStatus.OK);
+                                                                    lakes,services,stages,rules),HttpStatus.OK);
 
                     } catch (NoSuchElementException e) { 
                         System.out.println(e.getMessage());
