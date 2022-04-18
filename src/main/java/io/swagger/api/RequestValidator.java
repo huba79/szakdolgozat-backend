@@ -34,18 +34,18 @@ public class RequestValidator {
     
     
     public Boolean  hasValidHeader(){
-        System.out.println("Validation of APIKEY...");
+        System.out.println("Validation of APIKEY..."+request.getHeader("X-API-KEY")+"\n");
         return request.getHeader("X-API-KEY") != null
                && request.getHeader("X-API-KEY")
                        .equals("ValidApiKulcs");
     }
    public Boolean  isAuthorized(){
-            System.out.println("Validation of access permission...");
+            System.out.println("Validation of access permission..."+request.getHeader("token")+"\n");
             return userRepo.findUserBySessionId(request.getHeader("token"))!=null; 
     } 
 
     public Boolean  acceptsJson(){
-            System.out.println("Validation of input structure...");
+            System.out.println("Validation of input structure..."+request.getHeader("Accept")+"\n");
             return request.getHeader("Accept").equals("application/json");
     }     
     
