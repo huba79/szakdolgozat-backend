@@ -27,4 +27,9 @@ public interface  RuleRepository extends JpaRepository<RuleOfConduct, Long> {
         value = "SELECT * FROM RULES_OF_CONDUCT R WHERE R.COMPANY_ID ?1 AND R.LAKE_ID = ?2", 
         nativeQuery = true)
     ArrayList<RuleOfConduct> findRuleByCompanyAndLakeIdNative(Long companyId,Long lakeId); 
+    
+    @Query(
+        value = "SELECT * FROM RULES_OF_CONDUCT R WHERE R.LAKE_ID = ?1", 
+        nativeQuery = true)
+    ArrayList<RuleOfConduct> findRuleByLakeIdNative(Long lakeId);
 }

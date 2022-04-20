@@ -50,38 +50,33 @@ public class AuthenticationController implements AuthenticationApi {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.hasValidHeader() && validator.acceptsJson()) {
             System.out.println("loginname:\t"+body.getLoginname()+"\npassword:\t"+body.getPassword()+"\n"+"client:\t"+request.getHeader("sender"));
-            ArrayList<User> foundusers= usersRepo.findUserByEmailAddress(body.getLoginname());
-            if(foundusers.isEmpty()){
+            User foundUser= usersRepo.findUser(body.getLoginname(),body.getPassword(),body.getRole());
+            if(foundUser == null){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            } else if(foundusers.size()>1){
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            } else { //found exactly 1 user
-                System.out.println("Found only 1 user"+"\n");
-                User foundUser = foundusers.get(0);
-                if ( body.getPassword().equals(foundUser.getPassword()) ) {
+            } else { 
+                System.out.println("Found presented user");
+                try {
+                    //create a sessionID working also as token for now
+                    String uuid = MyUUIDWrapper.getUUIDV5();
+                    System.out.println("Generated sessionId is:"+uuid);
+                    //setting additional data
+                    foundUser.setLastLoginDate(new Date(System.currentTimeMillis()));
+                    foundUser.setSessionID(uuid);
+                    //and save it
+                    usersRepo.save(foundUser);
+                    //then return trhe updated user data
+                    LoginResponse response = new  LoginResponse(foundUser.getId(),
+                                foundUser.getDisplayName(),foundUser.getNickName(),
+                                foundUser.getGroupName(),foundUser.getSessionID() );
+                    return new ResponseEntity<>(response, HttpStatus.OK);
 
-                        try {
-                            String uuid = MyUUIDWrapper.getUUIDV5();
-                            System.out.println("His UUID is:"+uuid+"\n");
-                            foundUser.setLastLoginDate(new Date(System.currentTimeMillis()));
-                            foundUser.setSessionID(uuid);
-                            usersRepo.save(foundUser);
-                            
-                            LoginResponse response = new  LoginResponse(foundUser.getId(),
-                                        foundUser.getDisplayName(),foundUser.getNickName(),
-                                        foundUser.getGroupName(),foundUser.getSessionID() );
-                            return new ResponseEntity<>(response, HttpStatus.OK);
-                        
-                        } catch (NoSuchAlgorithmException ex) {
-                            java.util.logging.Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
-                            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                        } catch (UnsupportedEncodingException ex) {
-                            java.util.logging.Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
-                            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                        }
-
-
-                } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                } catch (NoSuchAlgorithmException ex) {
+                    java.util.logging.Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                } catch (UnsupportedEncodingException ex) {
+                    java.util.logging.Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
             }
         } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
@@ -92,15 +87,17 @@ public class AuthenticationController implements AuthenticationApi {
     public ResponseEntity<Void> logout(@Parameter(in = ParameterIn.PATH, required=true, schema=@Schema()) @PathVariable("id") Long id) {
         System.out.println("hello logout \n");
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
+        
         if(  validator.hasValidHeader() && validator.isAuthorized()) {
             System.out.println("token of the request:\t"+request.getHeader("TOKEN"));
+            
             Optional<User> foundUser = usersRepo.findById(id);
             String uuid =((User) foundUser.get() ).getSessionID();
 
-                System.out.println("token of the user:\t"+uuid);
             if(foundUser.isEmpty()){
                     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                 }  else if (!request.getHeader("token").equals(uuid)){
+                    //if UUID does not match the token from the header
                     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 } else {                                    
                         User user = (User) foundUser.get();

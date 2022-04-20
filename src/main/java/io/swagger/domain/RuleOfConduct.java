@@ -18,7 +18,7 @@ import javax.persistence.Table;
  * @author huba
  */
 @Entity
-@Table(name="rules_of_conduct")
+@Table(name="RULES_OF_CONDUCT")
 public class RuleOfConduct implements Serializable {
 
     private @Id @GeneratedValue(strategy=GenerationType.AUTO)
@@ -30,7 +30,7 @@ public class RuleOfConduct implements Serializable {
     @Column(name="lake_id",columnDefinition="BIGINT NOT NULL")
     Long lakeId ;  
     
-    @Column(name="RULE_TEXT",columnDefinition="VARCHAR(3072) NOT NULL")
+    @Column(name="RULE_TEXT",columnDefinition="VARCHAR(1024) NOT NULL")
     String ruleText;  
 
     public Long getId() {
