@@ -25,7 +25,6 @@ public class Stage implements Serializable {
     private @Id @GeneratedValue(strategy=GenerationType.AUTO) Long id;
 
     @Column(name="LAKE_ID",columnDefinition="BIGINT NOT NULL")
-    //@JoinColumn(name = "LAKE_ID")
     Long lakeId;
 
     @Column(name="STAGE_NAME",columnDefinition="VARCHAR(16) NOT NULL")
@@ -51,7 +50,7 @@ public class Stage implements Serializable {
     }
 
 
-    public Long getLake() {
+    public Long getLakeId() {
         return lakeId;
     }
 
