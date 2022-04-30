@@ -41,6 +41,8 @@ public class RequestValidator {
     }
    public Boolean  isAuthorized(){
             System.out.println("Validation of access permission..."+request.getHeader("token")+"\n");
+            //this validation is a joke, need to elaborate. for instance need to handle 
+            //when admins want to access users's reservation data
             return userRepo.findUserBySessionId(request.getHeader("token"))!=null; 
     } 
 
