@@ -56,30 +56,42 @@ import org.springframework.stereotype.Service;
             //or throw exception
            throw  new IllegalArgumentException();        
         }  
-        //if the stage is available for reservation        
+        //if the stage is available for reservation     
+        System.out.println("Reservation Validator result:\t"+reservationRepo.isStageAvailable( postedReservation.getStageId(), 
+            postedReservation.getDateFrom(), postedReservation.getDateTo() )+"StageId:\t"+postedReservation.getStageId()+"\tDateFrom:"+postedReservation.getDateFrom()+
+              "\tDateTo:"+postedReservation.getDateTo() );
+        
+        
+        
        if( reservationRepo.isStageAvailable( postedReservation.getStageId(), 
-            postedReservation.getDateFrom(), postedReservation.getDateTo() )!=0L ) {            
+            postedReservation.getDateFrom(), postedReservation.getDateTo() ).longValue() == 0L ) {            
             
            Reservation savedReservation = new Reservation();
            Payment savedPayment =  new Payment();           
            ArrayList<OrderedItem> savedOrders = new ArrayList<>();  
 
             //if there are some ordered items, we can save the reservation
-        if( !postedOrders.isEmpty()){
+       // if( !postedOrders.isEmpty()){
 
             try{
                 savedReservation = reservationRepo.save(postedReservation);
-                for (OrderedItem ordered:postedOrders){
-                    ordered.setReservationId(savedReservation.getId());
-                    ordered.setPrice(serviceRepo.findPriceByServiceIdNative( ordered.getServiceId()) * ordered.getAmountOrdered());
+                if( postedOrders !=null && !postedOrders.isEmpty()){
+                    for (OrderedItem ordered:postedOrders){
+                        ordered.setReservationId(savedReservation.getId());
+                        ordered.setPrice(serviceRepo.findPriceByServiceIdNative( ordered.getServiceId()) * ordered.getAmountOrdered());
+                    }
+                    savedOrders = (ArrayList) orderRepo.saveAll(postedOrders);
+                } else {
+                    savedOrders=null;
                 }
-                savedOrders = (ArrayList) orderRepo.saveAll(postedOrders);
 
                 if( postedPayment!=null){
                     //if there is some payment info then let's try to save it too
                     postedPayment.setReservationId(savedReservation.getId());
                     savedPayment = paymentRepo.save(postedPayment);
-                } else savedPayment = null;
+                } else {
+                    savedPayment = null;
+                }
 
                 //when everything saved , let's return a proper response                    
 
@@ -100,10 +112,11 @@ import org.springframework.stereotype.Service;
                 throw new IllegalArgumentException("Corrupted or incomplete message! Request rejected.");
             }   
 
-        } else throw new EmptyCartException("Empty order list! Request rejected.");   
+        //} else throw new EmptyCartException("Empty order list! Request rejected.");   
         
+       } else { 
+           throw new StageUnavailableException("The stage is unavailable in the requested period! Request rejected.");
        }
-       throw new StageUnavailableException("The stage is unavailable in the requested period! Request rejected.");
     }
     
      public ReservationResponse updateOne(Long reservationId, ReservationMessage rMessage) 
