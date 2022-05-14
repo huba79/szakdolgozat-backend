@@ -34,7 +34,7 @@ public class RegistrationController implements RegistrationApi {
     @Override
     public ResponseEntity<RegistrationResponse> registration(RegistrationMessage body) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo);  
-        if(  validator.hasValidHeader() && validator.acceptsJson() ) {
+        if(  validator.isApiKeyValid() && validator.acceptsJson() ) {
 
                     try {
 
@@ -44,14 +44,20 @@ public class RegistrationController implements RegistrationApi {
                             newUser.setEmailAddress( body.getEmailAddress() );
                             newUser.setPassword( body.getPassword() );
                             newUser.setCompanyId( body.getCompanyId() );
-                            newUser.setGroupName("USER");
+                            newUser.setGroupName("USERS");
                             newUser.setCreatedDate( new Date(System.currentTimeMillis()) );
                             newUser.setLastLoginDate( new Date(System.currentTimeMillis()) );
 
-                        usersRepo.save(newUser);
+                           if ( usersRepo.findUser(body.getEmailAddress(), body.getPassword(), body.getGroupId()) !=null){
+                               return new ResponseEntity<>(HttpStatus.CONFLICT);
+                           } ;
+                        
+                            usersRepo.save(newUser);
+                        System.out.println("User registered");
                         ArrayList<User> foundUsers = usersRepo.findUserByEmailAddress(body.getEmailAddress());
                         
                         if(foundUsers.size() ==1 && foundUsers.get(0) !=null){
+                           System.out.println("User creation confirmed");
                            User found = foundUsers.get(0);
                             RegistrationResponse response = new RegistrationResponse();
                            response.setId(found.getId());
@@ -59,7 +65,7 @@ public class RegistrationController implements RegistrationApi {
                            response.setNickName(found.getNickName());
                            response.setCompanyId(found.getCompanyId());
                            response.setSessionID(found.getSessionID());
-                           
+                           System.out.println("prepaaring response"); 
                            return new ResponseEntity<>(response, HttpStatus.OK);
                                    
                         } else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
