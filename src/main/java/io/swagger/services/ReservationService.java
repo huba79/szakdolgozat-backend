@@ -119,7 +119,7 @@ import org.springframework.stereotype.Service;
        }
     }
     
-     public ReservationResponse updateOne(Long reservationId, ReservationMessage rMessage) 
+    public ReservationResponse updateOne(Long reservationId, ReservationMessage rMessage) 
             throws StageUnavailableException, IllegalArgumentException, NoSuchReservationException {
         
         Reservation postedReservation ;
