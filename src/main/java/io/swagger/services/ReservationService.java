@@ -57,14 +57,14 @@ import org.springframework.stereotype.Service;
            throw  new IllegalArgumentException();        
         }  
         //if the stage is available for reservation     
-        System.out.println("Reservation Validator result:\t"+reservationRepo.isStageAvailable( postedReservation.getStageId(), 
-            postedReservation.getDateFrom(), postedReservation.getDateTo() )+"StageId:\t"+postedReservation.getStageId()+"\tDateFrom:"+postedReservation.getDateFrom()+
+        System.out.println("Reservation Validator result:\t"+reservationRepo.isStageTaken( postedReservation.getStageId(), 
+            postedReservation.getDateFrom(), postedReservation.getDateTo() ,null)+"StageId:\t"+postedReservation.getStageId()+"\tDateFrom:"+postedReservation.getDateFrom()+
               "\tDateTo:"+postedReservation.getDateTo() );
         
         
         
-       if( reservationRepo.isStageAvailable( postedReservation.getStageId(), 
-            postedReservation.getDateFrom(), postedReservation.getDateTo() ).longValue() == 0L ) {            
+       if( reservationRepo.isStageTaken( postedReservation.getStageId(), 
+               postedReservation.getDateFrom(), postedReservation.getDateTo() ,null) == 0L ) {            
             
            Reservation savedReservation = new Reservation();
            Payment savedPayment =  new Payment();           
@@ -120,15 +120,16 @@ import org.springframework.stereotype.Service;
     }
     
     public ReservationResponse updateOne(Long reservationId, ReservationMessage rMessage) 
-            throws StageUnavailableException, IllegalArgumentException, NoSuchReservationException {
+            throws StageUnavailableException, IllegalArgumentException {
         
         Reservation postedReservation ;
-        ArrayList<OrderedItem> postedOrders;
-        Payment postedPayment;
+//        ArrayList<OrderedItem> postedOrders;
+//        Payment postedPayment;
         
         //try to unpack received data
         try {
             postedReservation = new Reservation(
+            reservationId,
             rMessage.getLakeId(),
             rMessage.getStageId(),
             rMessage.getUserId(),
@@ -136,47 +137,21 @@ import org.springframework.stereotype.Service;
             rMessage.getDateTo(),
             rMessage.getStatus()
             );
-            postedOrders = (ArrayList)rMessage.getOrderedItems();
-            postedPayment  = rMessage.getPayment();
+//            postedOrders = (ArrayList)rMessage.getOrderedItems();
+//            postedPayment  = rMessage.getPayment();
+            System.out.println("Checking reservations put message body....OK");
         }  catch (Exception e){
-            //or throw exception
            throw  new IllegalArgumentException();        
         }  
-        //if the stage is available for reservation        
-       if( reservationRepo.isStageAvailable(postedReservation.getStageId(), 
-           postedReservation.getDateFrom(), postedReservation.getDateTo() ) !=0L) {            
-           
-           //TODO treat update cases
-           Reservation foundReservation = reservationRepo.findByIdNative(reservationId);
-           
-           if(foundReservation == null ) {
-               throw new NoSuchReservationException("Reservation not found! Request rejected.");
-           }
-           
-           Reservation savedReservation = new Reservation();
-           Payment savedPayment =  new Payment();           
-           ArrayList<OrderedItem> savedOrders = new ArrayList<>();  
-
-            //if there are some ordered items, we can save the reservation
-            if( !postedOrders.isEmpty()){
-                try{    
-                    postedReservation.setId(foundReservation.getId());                    
-                    savedReservation = reservationRepo.save(postedReservation);
-                    
-                    for (OrderedItem ordered:postedOrders){
-                        ordered.setReservationId(savedReservation.getId());
-                        ordered.setPrice(serviceRepo.findPriceByServiceIdNative( ordered.getServiceId()) * ordered.getAmountOrdered());
-                    }                    
-                    savedOrders = (ArrayList) orderRepo.saveAll(postedOrders);
-                
-                    if( postedPayment!=null){
-                        //if there is some payment info then let's try to save it too
-                        postedPayment.setReservationId(postedReservation.getId());
-                        savedPayment = paymentRepo.save(postedPayment);
-                    } else savedPayment = null;
-                    
-                    //when everything saved , let's return a proper response                    
-                    return new ReservationResponse(
+        //if the stage is available for reservation 
+        //cart and payment persistence eliminated
+        
+       if( reservationRepo.isStageTaken(postedReservation.getStageId(), 
+           postedReservation.getDateFrom(), postedReservation.getDateTo() ,reservationId) == 0) {            
+                       System.out.println("Validating put message body....OK");
+           Reservation savedReservation = reservationRepo.save(postedReservation);
+                       System.out.println("Saving put messagebody....OK");
+           return new ReservationResponse(
                             savedReservation.getId(),
                             savedReservation.getLakeId(),
                             savedReservation.getStageId(),
@@ -184,19 +159,15 @@ import org.springframework.stereotype.Service;
                             savedReservation.getDateFrom(),
                             savedReservation.getDateTo(),
                             savedReservation.getReservationStatus(),
-                            savedOrders,
-                            savedPayment,
+                            new ArrayList<OrderedItem>(),
+                            null,
                             (userRepo.findById(savedReservation.getUserId()) ).get().getDisplayName()
                         ); 
-                    
-                } catch (IllegalArgumentException  e) {
-                    throw new IllegalArgumentException("Corrupted or incomplete message!");
-                }   
-                
-            } else throw new EmptyCartException("Empty order list!");   
         
+       } else {
+            throw new StageUnavailableException("The stage is unavailable in the requested period!");
        }
-       throw new StageUnavailableException("The stage is unavailable in the requested period!");
+       
     }   
     
     public ReservationResponse getOneById(Long id) 
@@ -204,8 +175,8 @@ import org.springframework.stereotype.Service;
         
         try {
             Reservation foundReservation = reservationRepo.findByIdNative(id);
-            ArrayList<OrderedItem> foundOrders = orderRepo.findOrderedServiceByReservationIdNative(id);
-            Payment foundPayment = paymentRepo.findPaymentByReservationIdNative(id);
+//            ArrayList<OrderedItem> foundOrders = orderRepo.findOrderedServiceByReservationIdNative(id);
+//            Payment foundPayment = paymentRepo.findPaymentByReservationIdNative(id);
             
             return new ReservationResponse(
                     foundReservation.getId(),
@@ -215,8 +186,8 @@ import org.springframework.stereotype.Service;
                     foundReservation.getDateFrom(),
                     foundReservation.getDateTo(),
                     foundReservation.getReservationStatus(),
-                    foundOrders,
-                    foundPayment,
+                    new ArrayList<OrderedItem>(),
+                    null,
                     (userRepo.findById(foundReservation.getUserId()) ).get().getDisplayName()
                 ); 
 
@@ -232,17 +203,18 @@ import org.springframework.stereotype.Service;
 
             ArrayList<Reservation> reservations = new  ArrayList<>();
             ArrayList<ReservationResponse> responseList = new ArrayList<>();
-            Payment payment=null;
-            ArrayList<OrderedItem> orderedServices= new ArrayList<>();                
+//            Payment payment=null;
+//            ArrayList<OrderedItem> orderedServices= new ArrayList<>();                
 
             try {
                 reservations = reservationRepo.getReservationsByQuery(lakeId, stageId, userId, dateFrom, dateTo, status);
                 if (reservations.isEmpty()) {
-                    throw new NoSuchReservationException("No matching reservations found by this query.");
+                    //throw new NoSuchReservationException("No matching reservations found by this query.");
+                    return new ArrayList<>();
                 }
                 for(Reservation reservation:reservations){
-                    orderedServices = orderRepo.findOrderedServiceByReservationIdNative(reservation.getId());
-                    payment = paymentRepo.findPaymentByReservationIdNative(reservation.getId());
+//                    orderedServices = orderRepo.findOrderedServiceByReservationIdNative(reservation.getId());
+//                    payment = paymentRepo.findPaymentByReservationIdNative(reservation.getId());
                     ReservationResponse response = new ReservationResponse(
                         reservation.getId(),
                         reservation.getLakeId(),
@@ -251,8 +223,8 @@ import org.springframework.stereotype.Service;
                         reservation.getDateFrom(),
                         reservation.getDateTo(),
                         reservation.getReservationStatus() ,
-                        orderedServices,
-                        payment,
+                        new ArrayList<OrderedItem>(),
+                        null,
                         (userRepo.findById(reservation.getUserId()) ).get().getDisplayName()
                     ); 
                     responseList.add(response);
