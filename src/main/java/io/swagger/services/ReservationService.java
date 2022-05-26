@@ -57,10 +57,7 @@ import org.springframework.stereotype.Service;
            throw  new IllegalArgumentException();        
         }  
         //if the stage is available for reservation     
-
         System.out.println("Reservation Validator result:\t"+reservationRepo.isStageTaken( postedReservation.getStageId(), 
-
-
             postedReservation.getDateFrom(), postedReservation.getDateTo() ,null)+"StageId:\t"+postedReservation.getStageId()+"\tDateFrom:"+postedReservation.getDateFrom()+
               "\tDateTo:"+postedReservation.getDateTo() );
         
@@ -69,7 +66,6 @@ import org.springframework.stereotype.Service;
        if( reservationRepo.isStageTaken( postedReservation.getStageId(), 
                postedReservation.getDateFrom(), postedReservation.getDateTo() ,null) == 0L ) {            
 
-            
            Reservation savedReservation = new Reservation();
            Payment savedPayment =  new Payment();           
            ArrayList<OrderedItem> savedOrders = new ArrayList<>();  
@@ -141,14 +137,9 @@ import org.springframework.stereotype.Service;
             rMessage.getDateTo(),
             rMessage.getStatus()
             );
-
 //            postedOrders = (ArrayList)rMessage.getOrderedItems();
 //            postedPayment  = rMessage.getPayment();
             System.out.println("Checking reservations put message body....OK");
-
-//            postedOrders = (ArrayList)rMessage.getOrderedItems();
-//            postedPayment  = rMessage.getPayment();
-            System.out.println("Checking reservations put messagebody....OK");
         }  catch (Exception e){
            throw  new IllegalArgumentException();        
         }  
@@ -158,7 +149,6 @@ import org.springframework.stereotype.Service;
        if( reservationRepo.isStageTaken(postedReservation.getStageId(), 
            postedReservation.getDateFrom(), postedReservation.getDateTo() ,reservationId) == 0) {            
                        System.out.println("Validating put message body....OK");
-
            Reservation savedReservation = reservationRepo.save(postedReservation);
                        System.out.println("Saving put messagebody....OK");
            return new ReservationResponse(
