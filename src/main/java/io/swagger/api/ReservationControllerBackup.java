@@ -42,7 +42,7 @@ public class ReservationControllerBackup implements ReservationApi {
     public ResponseEntity<ReservationResponse> getReservationById(Long id) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
-            if(validator.hasValidHeader()&& validator.isAuthorized()){
+            if(validator.isApiKeyValid()&& validator.isAuthorized()){
                 Reservation reservation = reservationRepo.findByIdNative(id);
                 if (reservation ==null) { 
                         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -74,7 +74,7 @@ public class ReservationControllerBackup implements ReservationApi {
             @Nullable Date dateFrom, @Nullable Date dateTo, @Nullable String status) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
-            if(validator.hasValidHeader()&& validator.isAuthorized()){
+            if(validator.isApiKeyValid()&& validator.isAuthorized()){
                 ArrayList<Reservation> reservations = new  ArrayList<>();
                 reservations = 
                         reservationRepo.getReservationsByQuery(lakeId, stageId, userId, dateFrom, dateTo, status);
@@ -121,7 +121,7 @@ public class ReservationControllerBackup implements ReservationApi {
     public ResponseEntity<ReservationResponse> newReservation(ReservationMessage body) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
-            if(validator.hasValidHeader()&& validator.isAuthorized()){
+            if(validator.isApiKeyValid()&& validator.isAuthorized()){
                     //TODO magamnak: nincs mese meg kellene oldani a tranzakcionalis mentest
                     Payment postedPayment = null;
                     ArrayList<OrderedItem> postedOrderedItems =new ArrayList<>();
@@ -195,7 +195,7 @@ public class ReservationControllerBackup implements ReservationApi {
     public ResponseEntity<ReservationResponse> updateReservation(Long id,ReservationMessage body) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
-            if(validator.hasValidHeader()&& validator.isAuthorized()){
+            if(validator.isApiKeyValid()&& validator.isAuthorized()){
 
                     Payment postedPayment = null;
                     ArrayList<OrderedItem> postedOrderedItems =new ArrayList<>();

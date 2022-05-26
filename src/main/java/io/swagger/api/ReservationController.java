@@ -1,7 +1,5 @@
 package io.swagger.api;
 
-import io.swagger.domain.OrderedItem;
-import io.swagger.domain.Payment;
 import io.swagger.domain.Reservation;
 import java.util.ArrayList;
 
@@ -25,6 +23,7 @@ import io.swagger.repositories.ReservationRepository;
 import io.swagger.repositories.OrderedItemRepository;
 import io.swagger.repositories.UserRepository;
 import io.swagger.services.ReservationService;
+import io.swagger.services.StageUnavailableException;
 
 
 
@@ -46,7 +45,7 @@ public class ReservationController implements ReservationApi {
     @Override
     public ResponseEntity<ReservationResponse> getReservationById(Long id) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
-        if(  validator.hasValidHeader()&&validator.acceptsJson() ){
+        if(  validator.isApiKeyValid()&&validator.acceptsJson() ){
             if( validator.isAuthorized()){
                 Reservation reservation = reservationRepo.findByIdNative(id);
                 if (reservation ==null) { 
@@ -63,7 +62,7 @@ public class ReservationController implements ReservationApi {
             @Nullable Date dateFrom, @Nullable Date dateTo, @Nullable String status) {
         
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
-        if(  validator.hasValidHeader()&&validator.acceptsJson() ){
+        if(  validator.isApiKeyValid()&&validator.acceptsJson() ){
             if( validator.isAuthorized()){
                 return new ResponseEntity (service.getAllByQuery(lakeId, stageId, userId, dateFrom, dateTo, status),HttpStatus.OK);
             } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -73,7 +72,7 @@ public class ReservationController implements ReservationApi {
     @Override
     public ResponseEntity<ReservationResponse> newReservation(ReservationMessage body) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
-        if(  validator.hasValidHeader()&&validator.acceptsJson() ){
+        if(  validator.isApiKeyValid()&&validator.acceptsJson() ){
             if( validator.isAuthorized()){
                 return new ResponseEntity<>(service.addOne(body),HttpStatus.OK);
             } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -84,9 +83,16 @@ public class ReservationController implements ReservationApi {
     public ResponseEntity<ReservationResponse> updateReservation(Long id,ReservationMessage body) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         if(  validator.acceptsJson() ){
-            if(validator.hasValidHeader()&& validator.isAuthorized()){
-
-            return new ResponseEntity<>(service.updateOne(id, body),HttpStatus.OK);     
+            if(validator.isApiKeyValid()&& validator.isAuthorized()){
+            
+                try {
+                    return new ResponseEntity<>(service.updateOne(id, body), HttpStatus.OK);
+                } catch (StageUnavailableException stageUnavailableException) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                } catch (IllegalArgumentException illegalArgumentException) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+     
 
             } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

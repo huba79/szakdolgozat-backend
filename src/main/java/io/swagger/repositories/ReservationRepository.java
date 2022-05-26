@@ -42,16 +42,17 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(value = 
             "select count(*)  from reservations r \n" +
             "where 1=1 \n" +
+            "and r.id <> ?4 \n" +
             "and r.stage_id = ?1 \n" +
             "and (\n" +                
-            "	( r.date_from >= ?2 and r.date_to >= ?3) \n" +
+            "	( (r.date_from between ?2 and ?3) and r.date_to >= ?3) \n" +
+            "	or \n" +
+            "	(r.date_from <= ?2 and (r.date_to between ?2 and ?3)) \n" +
             "	or \n" +
             "	(r.date_from <= ?2 and r.date_to >= ?3) \n" +
-            "	or \n" +
-            "	(r.date_from <= ?2 and r.date_to <= ?3) \n" +
             ")",
             nativeQuery = true)   
-    Long isStageAvailable(Long pStageId, Date pDateFrom, Date pDateTo); 
+    int isStageTaken(Long pStageId, Date pDateFrom, Date pDateTo,Long reservationID); 
     
 
 }

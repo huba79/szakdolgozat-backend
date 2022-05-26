@@ -29,18 +29,18 @@ public class Payment implements Serializable {
     @Column(name="RESERVATION_ID",columnDefinition="BIGINT NOT NULL")
     Long reservationId;
     
-    @Column(name="PAID_WITH",columnDefinition="VARCHAR(16) NOT NULL")
+    @Column(name="PAID_WITH",columnDefinition="VARCHAR(16)")
     String paidWith;
     
-    @Column(name="AMOUNT",columnDefinition="DOUBLE NOT NULL", length = 10, precision = 2)
+    @Column(name="AMOUNT",columnDefinition="DOUBLE", length = 10, precision = 2)
     Double amount;
     
     @JsonFormat
       (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    @Column(name="PAID_ON",columnDefinition="DATETIME NOT NULL")
+    @Column(name="PAID_ON",columnDefinition="DATETIME")
     Date paidOn;
 
-    @Column(name="PAID_BY",columnDefinition="BIGINT NOT NULL")
+    @Column(name="PAID_BY",columnDefinition="BIGINT")
     Long paidByUserId;
     
     @Column(name="PAYMENT_STATUS",columnDefinition="VARCHAR(16) NOT NULL")

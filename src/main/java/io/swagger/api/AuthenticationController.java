@@ -48,10 +48,11 @@ public class AuthenticationController implements AuthenticationApi {
     public ResponseEntity<LoginResponse> login(@Parameter(in = ParameterIn.DEFAULT, schema=@Schema()) @Valid @RequestBody LoginMessage body) {
 
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
-        if(  validator.hasValidHeader() && validator.acceptsJson()) {
+        if(  validator.isApiKeyValid() && validator.acceptsJson()) {
             System.out.println("loginname:\t"+body.getLoginname()+"\npassword:\t"+body.getPassword()+"\n"+"client:\t"+request.getHeader("sender"));
             User foundUser= usersRepo.findUser(body.getLoginname(),body.getPassword(),body.getRole());
             if(foundUser == null){
+                System.out.println("Not Found presented user");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else { 
                 System.out.println("Found presented user");
@@ -88,7 +89,7 @@ public class AuthenticationController implements AuthenticationApi {
         System.out.println("hello logout \n");
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
         
-        if(  validator.hasValidHeader() && validator.isAuthorized()) {
+        if(  validator.isApiKeyValid() && validator.isAuthorized()) {
             System.out.println("token of the request:\t"+request.getHeader("TOKEN"));
             
             Optional<User> foundUser = usersRepo.findById(id);

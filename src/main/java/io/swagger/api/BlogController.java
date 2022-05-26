@@ -33,7 +33,7 @@ public class BlogController implements BlogApi{
     public ResponseEntity<ArrayList<BlogResponse>> getBlogEntryByCompanyId(Long companyId) {
        
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
-        if(  validator.hasValidHeader() && validator.acceptsJson()) {
+        if(  validator.isApiKeyValid() && validator.acceptsJson()) {
                  
             try {
                 ArrayList<BlogEntry> blogEntries= blogRepo.findBlogEntryByCompanyId(companyId);

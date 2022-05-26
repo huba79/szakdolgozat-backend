@@ -34,7 +34,7 @@ public class RulesController implements RulesApi{
     public ResponseEntity<ArrayList<RulesResponse>> getRulesByCompanyId(Long companyId) {
        
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
-        if(  validator.hasValidHeader() && validator.acceptsJson()) {
+        if(  validator.isApiKeyValid() && validator.acceptsJson()) {
                  
             try {
                 ArrayList<RuleOfConduct> rules= rulesRepo.findRuleByCompanyIdNative(companyId);
@@ -63,7 +63,7 @@ public class RulesController implements RulesApi{
     @Override
     public ResponseEntity<ArrayList<RulesResponse>> getRulesByLakeId(Long companyId, Long lakeId) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
-        if(  validator.hasValidHeader() && validator.acceptsJson()) {
+        if(  validator.isApiKeyValid() && validator.acceptsJson()) {
                  
             try {
                 ArrayList<RuleOfConduct> rules= rulesRepo.findRuleByCompanyAndLakeIdNative(companyId,lakeId);

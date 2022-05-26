@@ -37,7 +37,7 @@ public class PaymentController implements PaymentApi{
     @Override
     public ResponseEntity<PaymentResponse> getPaymentByReservationId(Long reservationId) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
-        if(  validator.hasValidHeader() && validator.isAuthorized() && validator.acceptsJson() ) {
+        if(  validator.isApiKeyValid() && validator.isAuthorized() && validator.acceptsJson() ) {
                 
                 Payment payment = paymentRepo.findPaymentByReservationIdNative(reservationId);
                 if(payment !=null) {

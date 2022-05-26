@@ -33,7 +33,7 @@ public class RequestValidator {
     }
     
     
-    public Boolean  hasValidHeader(){
+    public Boolean  isApiKeyValid(){
         System.out.println("Validation of APIKEY..."+request.getHeader("X-API-KEY")+"\n");
         return request.getHeader("X-API-KEY") != null
                && request.getHeader("X-API-KEY")

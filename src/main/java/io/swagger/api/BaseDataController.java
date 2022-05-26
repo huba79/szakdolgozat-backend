@@ -38,7 +38,7 @@ public class BaseDataController implements BaseDataApi {
     @Override
     public ResponseEntity<BaseDataResponse> getBaseData(Long companyId) {
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
-        if(  validator.hasValidHeader()) {
+        if(  validator.isApiKeyValid()) {
 
                     try {
                         Company company = companyRepo.findById(companyId).get();  

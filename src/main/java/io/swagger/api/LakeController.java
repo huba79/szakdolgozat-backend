@@ -36,7 +36,7 @@ public class LakeController implements LakeApi{
     public ResponseEntity<ArrayList<LakeResponse>> getLakes(Long companyId) {
             
         RequestValidator validator = new RequestValidator(request,usersRepo,companyRepo); 
-        if(  validator.hasValidHeader() && validator.acceptsJson()) {
+        if(  validator.isApiKeyValid() && validator.acceptsJson()) {
 
                 ArrayList<Lake> lakes = lakeRepo.findLakeByCompanyId(companyId);
                 ArrayList<LakeResponse> lakeResponses = new ArrayList();
