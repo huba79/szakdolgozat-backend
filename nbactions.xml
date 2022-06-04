@@ -13,7 +13,8 @@
                 <exec.vmArgs></exec.vmArgs>
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.appArgs></exec.appArgs>
-                <exec.mainClass>io.swagger.Swagger2SpringBoot</exec.mainClass>
+                <exec.mainClass>crengine.Swagger2SpringBoot</exec.mainClass>
+            <!--    <exec.mainClass>io.swagger.Swagger2SpringBoot</exec.mainClass>  -->
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
