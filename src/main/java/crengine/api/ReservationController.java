@@ -32,7 +32,6 @@ import crengine.services.StageUnavailableException;
 public class ReservationController implements ReservationApi {
     
     @Autowired ReservationService service;
-
     private static final  Logger log = LoggerFactory.getLogger(ReservationController.class);
     @Autowired
     private  HttpServletRequest request;
