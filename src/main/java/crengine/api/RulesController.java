@@ -4,31 +4,30 @@
  */
 package crengine.api;
 
-import crengine.domain.BlogEntry;
 import crengine.domain.RuleOfConduct;
 import crengine.messages.RulesResponse;
-import crengine.repositories.CompanyRepository;
-import crengine.repositories.RuleRepository;
-import crengine.repositories.UserRepository;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import crengine.repositories.CompaniesRepository;
+import crengine.repositories.RulesRepository;
+import crengine.repositories.UsersRepository;
 
 /**
  *
  * @author huba
  */
 @RestController
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen")
 
 public class RulesController implements RulesApi{
-    @Autowired RuleRepository rulesRepo;
-    @Autowired CompanyRepository companyRepo;    
+    @Autowired RulesRepository rulesRepo;
+    @Autowired CompaniesRepository companyRepo;    
     @Autowired HttpServletRequest request;
-    @Autowired UserRepository usersRepo;
+    @Autowired UsersRepository usersRepo;
 
     @Override
     public ResponseEntity<ArrayList<RulesResponse>> getRulesByCompanyId(Long companyId) {

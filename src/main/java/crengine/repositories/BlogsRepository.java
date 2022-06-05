@@ -17,11 +17,11 @@ import org.springframework.data.jpa.repository.Query;
  * @author huba.tanczos
  */
 @Repository
-public interface  BlogRepository extends JpaRepository<BlogEntry, Long> {
+public interface  BlogsRepository extends JpaRepository<BlogEntry, Long> {
 
     Optional<BlogEntry> findBlogEntryById(Long id);
         @Query(
-            value = "SELECT * FROM BLOG_ENTRIES B WHERE B.COMPANY_ID = ?1", 
+            value = "SELECT * FROM BLOG_ENTRIES B WHERE B.COMPANY_ID = ?1 ORDER BY POST_DATE DESC", 
             nativeQuery = true)
     ArrayList<BlogEntry> findBlogEntryByCompanyId(Long id);   
 }

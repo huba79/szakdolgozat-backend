@@ -9,30 +9,29 @@ import crengine.domain.Payment;
 import crengine.domain.Reservation;
 import crengine.messages.ReservationMessage;
 import crengine.messages.ReservationResponse;
-import crengine.repositories.OrderedItemRepository;
-import crengine.repositories.PaymentRepository;
-import crengine.repositories.ReservationRepository;
-import crengine.repositories.ServiceRepository;
-import crengine.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import crengine.repositories.OrderedItemsRepository;
+import crengine.repositories.PaymentsRepository;
+import crengine.repositories.ReservationsRepository;
+import crengine.repositories.OrderablesRepository;
+import crengine.repositories.UsersRepository;
 
 /**
  *
  * @author huba
  */
     @Service
-    public class ReservationService {
- 
+    public class ReservationService { 
 
-    @Autowired ReservationRepository reservationRepo;
-    @Autowired OrderedItemRepository orderRepo; 
-    @Autowired PaymentRepository paymentRepo;
-    @Autowired ServiceRepository serviceRepo; 
-    @Autowired UserRepository userRepo;    
+    @Autowired ReservationsRepository reservationRepo;
+    @Autowired OrderedItemsRepository orderRepo; 
+    @Autowired PaymentsRepository paymentRepo;
+    @Autowired OrderablesRepository serviceRepo; 
+    @Autowired UsersRepository userRepo;    
 
     public ReservationResponse addOne(ReservationMessage rMessage) 
             throws StageUnavailableException , IllegalArgumentException, EmptyCartException {
@@ -58,10 +57,9 @@ import org.springframework.stereotype.Service;
         }  
         //if the stage is available for reservation     
         System.out.println("Reservation Validator result:\t"+reservationRepo.isStageTaken( postedReservation.getStageId(), 
-            postedReservation.getDateFrom(), postedReservation.getDateTo() ,null)+"StageId:\t"+postedReservation.getStageId()+"\tDateFrom:"+postedReservation.getDateFrom()+
-              "\tDateTo:"+postedReservation.getDateTo() );
-        
-        
+            postedReservation.getDateFrom(), postedReservation.getDateTo() ,null)
+                +"StageId:\t"+postedReservation.getStageId()+"\tDateFrom:"+postedReservation.getDateFrom()+
+                    "\tDateTo:"+postedReservation.getDateTo() ); 
         
        if( reservationRepo.isStageTaken( postedReservation.getStageId(), 
                postedReservation.getDateFrom(), postedReservation.getDateTo() ,null) == 0L ) {            
@@ -69,10 +67,7 @@ import org.springframework.stereotype.Service;
            Reservation savedReservation = new Reservation();
            Payment savedPayment =  new Payment();           
            ArrayList<OrderedItem> savedOrders = new ArrayList<>();  
-
-            //if there are some ordered items, we can save the reservation
-       // if( !postedOrders.isEmpty()){
-
+           //if there are some ordered items, we can save the reservation       
             try{
                 savedReservation = reservationRepo.save(postedReservation);
                 if( postedOrders !=null && !postedOrders.isEmpty()){

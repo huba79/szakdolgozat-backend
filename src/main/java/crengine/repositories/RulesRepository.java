@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.Query;
  * @author huba.tanczos
  */
 @Repository
-public interface  RuleRepository extends JpaRepository<RuleOfConduct, Long> {
+public interface  RulesRepository extends JpaRepository<RuleOfConduct, Long> {
 
     @Query(
         value = "SELECT * FROM RULES_OF_CONDUCT R WHERE R.COMPANY_ID = ?1", 

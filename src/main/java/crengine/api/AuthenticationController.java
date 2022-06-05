@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crengine.messages.LoginMessage;
 import crengine.messages.LoginResponse;
-import crengine.repositories.CompanyRepository;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -26,17 +25,18 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Level;
 import org.springframework.web.bind.annotation.PathVariable;
-import crengine.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import crengine.repositories.CompaniesRepository;
+import crengine.repositories.UsersRepository;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen")
 
 @RestController
 public class AuthenticationController implements AuthenticationApi {
     @Autowired
-    UserRepository usersRepo;
+    UsersRepository usersRepo;
     @Autowired
-    CompanyRepository companyRepo;
+    CompaniesRepository companyRepo;
     @Autowired
     HttpServletRequest request;
      

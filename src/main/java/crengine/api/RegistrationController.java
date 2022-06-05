@@ -15,17 +15,17 @@ import java.util.Date;
 import java.util.logging.Level;
 import crengine.messages.RegistrationMessage;
 import crengine.messages.RegistrationResponse;
-import crengine.repositories.CompanyRepository;
-import crengine.repositories.UserRepository;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
+import crengine.repositories.CompaniesRepository;
+import crengine.repositories.UsersRepository;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen")
 @RestController
 public class RegistrationController implements RegistrationApi {
     
-    @Autowired CompanyRepository companyRepo;
-    @Autowired UserRepository usersRepo;
+    @Autowired CompaniesRepository companyRepo;
+    @Autowired UsersRepository usersRepo;
     @Autowired HttpServletRequest request;
     private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
 

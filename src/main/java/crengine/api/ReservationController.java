@@ -5,41 +5,35 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import crengine.messages.ReservationMessage;
 import crengine.messages.ReservationResponse;
-import crengine.repositories.CompanyRepository;
-import crengine.repositories.PaymentRepository;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
-import crengine.repositories.ReservationRepository;
-import crengine.repositories.OrderedItemRepository;
-import crengine.repositories.UserRepository;
 import crengine.services.ReservationService;
 import crengine.services.StageUnavailableException;
-
-
+import crengine.repositories.CompaniesRepository;
+import crengine.repositories.OrderedItemsRepository;
+import crengine.repositories.PaymentsRepository;
+import crengine.repositories.ReservationsRepository;
+import crengine.repositories.UsersRepository;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen")
+
 @RestController
 public class ReservationController implements ReservationApi {
     
     @Autowired ReservationService service;
-    private static final  Logger log = LoggerFactory.getLogger(ReservationController.class);
-    @Autowired
-    private  HttpServletRequest request;
-    @Autowired ReservationRepository reservationRepo;
-    @Autowired PaymentRepository paymentRepo;
-    @Autowired OrderedItemRepository orderedServicesRepo;    
-    @Autowired CompanyRepository companyRepo;
-    @Autowired UserRepository usersRepo;    
+    @Autowired HttpServletRequest request;
+    @Autowired ReservationsRepository reservationRepo;
+    @Autowired PaymentsRepository paymentRepo;
+    @Autowired OrderedItemsRepository orderedServicesRepo;    
+    @Autowired CompaniesRepository companyRepo;
+    @Autowired UsersRepository usersRepo;    
     
     @Override
     public ResponseEntity<ReservationResponse> getReservationById(Long id) {

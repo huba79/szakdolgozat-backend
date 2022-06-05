@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.Query;
  * @author huba.tanczos
  */
 
-public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+public interface ReservationsRepository extends JpaRepository<Reservation, Long> {
 
     @Query(
         value="select * from reservations r\n" +
@@ -25,14 +25,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "and (?3 is null or r.user_id = ?3)\n" +
             "and (?4 is null or r.date_from >= ?4)\n" +
             "and (?5 is null or r.date_to <= ?5)\n" +
-            "and (?6 is null or r.reservation_status = ?6)",
+            "and (?6 is null or r.reservation_status = ?6)"
+                + " ORDER BY DATE_FROM DESC",
         nativeQuery=true)    
 
     public ArrayList<Reservation> getReservationsByQuery
         (Long pLakeId, Long pStageId, Long pUserId, 
                 Date pDateFrom, Date pDateTo, String pStatus);
         
-    @Query(value = "SELECT * FROM RESERVATIONS R WHERE R.ID = ?1",
+    @Query(value = "SELECT * FROM RESERVATIONS R WHERE R.ID = ?1 ORDER BY DATE_FROM DESC",
             nativeQuery = true)   
     Reservation findByIdNative(Long id);
     

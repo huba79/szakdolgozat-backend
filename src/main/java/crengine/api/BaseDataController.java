@@ -10,28 +10,28 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import crengine.repositories.CompanyRepository;
-import crengine.repositories.LakeRepository;
-import crengine.repositories.RuleRepository;
-import crengine.repositories.ServiceRepository;
-import crengine.repositories.ServiceRepository;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import crengine.repositories.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import crengine.repositories.UserRepository;
+import crengine.repositories.CompaniesRepository;
+import crengine.repositories.LakesRepository;
+import crengine.repositories.RulesRepository;
+import crengine.repositories.OrderablesRepository;
+import crengine.repositories.OrderablesRepository;
+import crengine.repositories.StagesRepository;
+import crengine.repositories.UsersRepository;
 
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen")
 @RestController
 public class BaseDataController implements BaseDataApi {
     @Autowired HttpServletRequest request;
-    @Autowired ServiceRepository serviceRepo;
-    @Autowired CompanyRepository companyRepo;
-    @Autowired LakeRepository lakeRepo;
-    @Autowired StageRepository stageRepo;
-    @Autowired UserRepository usersRepo;
-    @Autowired RuleRepository rulesRepo;
+    @Autowired OrderablesRepository serviceRepo;
+    @Autowired CompaniesRepository companyRepo;
+    @Autowired LakesRepository lakeRepo;
+    @Autowired StagesRepository stageRepo;
+    @Autowired UsersRepository usersRepo;
+    @Autowired RulesRepository rulesRepo;
 
     //private static final Logger log = LoggerFactory.getLogger(BaseDataController.class);
 

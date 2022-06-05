@@ -6,10 +6,9 @@
 package crengine.repositories;
 
 
+import crengine.domain.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import crengine.domain.Lake;
-import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 /**
@@ -17,12 +16,14 @@ import org.springframework.data.jpa.repository.Query;
  * @author huba.tanczos
  */
 @Repository
-public interface  LakeRepository extends JpaRepository<Lake, Long> {
-
-    Optional<Lake> findLakeById(Long id);
-        @Query(
-            value = "SELECT * FROM LAKES L WHERE L.COMPANY_ID = ?1", 
-            nativeQuery = true)
-    ArrayList<Lake> findLakeByCompanyId(Long id); 
+public interface  PaymentsRepository extends JpaRepository<Payment, Long> {
     
+    Optional<Payment> findPaymentById(Long id);
+   
+    @Query(
+      value = "SELECT * FROM PAYMENTS P WHERE P.RESERVATION_ID = ?1", 
+      nativeQuery = true)
+    Payment findPaymentByReservationIdNative( Long id);
+    
+    //persze meg kell oldani a mentest is
 }

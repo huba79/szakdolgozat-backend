@@ -4,13 +4,13 @@
  */
 package crengine.api;
 
-import crengine.repositories.CompanyRepository;
-import crengine.repositories.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import crengine.repositories.CompaniesRepository;
+import crengine.repositories.UsersRepository;
 
-import org.springframework.context.annotation.ComponentScan;
+//import org.springframework.context.annotation.ComponentScan;
 
 
 /**
@@ -22,11 +22,11 @@ public class RequestValidator {
     @Autowired Environment env;
     
     private final HttpServletRequest request;
-    private final CompanyRepository companyRepo;
-    private final UserRepository userRepo;
+    private final CompaniesRepository companyRepo;
+    private final UsersRepository userRepo;
     
-    public RequestValidator(  HttpServletRequest request, UserRepository userRepo,
-            CompanyRepository companyRepo) {
+    public RequestValidator(  HttpServletRequest request, UsersRepository userRepo,
+            CompaniesRepository companyRepo) {
         this.request = request;
         this.companyRepo = companyRepo;
         this.userRepo = userRepo;
@@ -40,8 +40,6 @@ public class RequestValidator {
     }
    public Boolean  isAuthorized(){
             System.out.println("Validation of access permission..."+request.getHeader("token")+"\n");
-            //this validation is a joke, need to elaborate. for instance need to handle 
-            //when admins want to access users's reservation data
             return userRepo.findUserBySessionId(request.getHeader("token"))!=null; 
     } 
 

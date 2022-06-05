@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.Query;
  * @author huba.tanczos
  */
 @Repository
-public interface  OrderedItemRepository extends JpaRepository<OrderedItem, Long> {
+public interface  OrderedItemsRepository extends JpaRepository<OrderedItem, Long> {
        
     @Query(
       value = "SELECT * FROM ORDERED_SERVICES OS WHERE OS.RESERVATION_ID = ?1", 

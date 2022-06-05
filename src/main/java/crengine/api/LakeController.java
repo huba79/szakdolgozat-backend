@@ -6,9 +6,6 @@ package crengine.api;
 
 import crengine.domain.Lake;
 import crengine.messages.LakeResponse;
-import crengine.repositories.CompanyRepository;
-import crengine.repositories.LakeRepository;
-import crengine.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
@@ -18,19 +15,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import crengine.repositories.CompaniesRepository;
+import crengine.repositories.LakesRepository;
+import crengine.repositories.UsersRepository;
 
 /**
  *
  * @author huba
  */
 @RestController
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-30T08:17:32.900Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen")
 
 public class LakeController implements LakeApi{
-    @Autowired LakeRepository lakeRepo;
-    @Autowired CompanyRepository companyRepo; 
+    @Autowired LakesRepository lakeRepo;
+    @Autowired CompaniesRepository companyRepo; 
     @Autowired HttpServletRequest request;
-    @Autowired UserRepository usersRepo;    
+    @Autowired UsersRepository usersRepo;    
 
     @Override
     public ResponseEntity<ArrayList<LakeResponse>> getLakes(Long companyId) {
