@@ -28,13 +28,12 @@ import crengine.services.StageUnavailableException;
 
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen")
+
 @RestController
 public class ReservationController implements ReservationApi {
     
     @Autowired ReservationService service;
-    private static final  Logger log = LoggerFactory.getLogger(ReservationController.class);
-    @Autowired
-    private  HttpServletRequest request;
+    @Autowired HttpServletRequest request;
     @Autowired ReservationRepository reservationRepo;
     @Autowired PaymentRepository paymentRepo;
     @Autowired OrderedItemRepository orderedServicesRepo;    

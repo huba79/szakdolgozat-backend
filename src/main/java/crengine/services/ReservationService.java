@@ -25,8 +25,7 @@ import org.springframework.stereotype.Service;
  * @author huba
  */
     @Service
-    public class ReservationService {
- 
+    public class ReservationService { 
 
     @Autowired ReservationRepository reservationRepo;
     @Autowired OrderedItemRepository orderRepo; 
@@ -58,10 +57,9 @@ import org.springframework.stereotype.Service;
         }  
         //if the stage is available for reservation     
         System.out.println("Reservation Validator result:\t"+reservationRepo.isStageTaken( postedReservation.getStageId(), 
-            postedReservation.getDateFrom(), postedReservation.getDateTo() ,null)+"StageId:\t"+postedReservation.getStageId()+"\tDateFrom:"+postedReservation.getDateFrom()+
-              "\tDateTo:"+postedReservation.getDateTo() );
-        
-        
+            postedReservation.getDateFrom(), postedReservation.getDateTo() ,null)
+                +"StageId:\t"+postedReservation.getStageId()+"\tDateFrom:"+postedReservation.getDateFrom()+
+                    "\tDateTo:"+postedReservation.getDateTo() ); 
         
        if( reservationRepo.isStageTaken( postedReservation.getStageId(), 
                postedReservation.getDateFrom(), postedReservation.getDateTo() ,null) == 0L ) {            
@@ -69,10 +67,7 @@ import org.springframework.stereotype.Service;
            Reservation savedReservation = new Reservation();
            Payment savedPayment =  new Payment();           
            ArrayList<OrderedItem> savedOrders = new ArrayList<>();  
-
-            //if there are some ordered items, we can save the reservation
-       // if( !postedOrders.isEmpty()){
-
+           //if there are some ordered items, we can save the reservation       
             try{
                 savedReservation = reservationRepo.save(postedReservation);
                 if( postedOrders !=null && !postedOrders.isEmpty()){
