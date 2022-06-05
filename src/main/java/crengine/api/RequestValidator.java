@@ -22,10 +22,13 @@ public class RequestValidator {
     @Autowired Environment env;
     
     private final HttpServletRequest request;
+    private final CompanyRepository companyRepo;
     private final UserRepository userRepo;
     
-    public RequestValidator(  HttpServletRequest request, UserRepository userRepo) {
+    public RequestValidator(  HttpServletRequest request, UserRepository userRepo,
+            CompanyRepository companyRepo) {
         this.request = request;
+        this.companyRepo = companyRepo;
         this.userRepo = userRepo;
     }    
     
