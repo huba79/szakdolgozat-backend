@@ -19,19 +19,18 @@ import org.springframework.context.annotation.ComponentScan;
  */
 
 public class RequestValidator {
-    @Autowired     
-    Environment env;
+    @Autowired Environment env;
     
     private final HttpServletRequest request;
     private final CompanyRepository companyRepo;
     private final UserRepository userRepo;
     
-    public RequestValidator(  HttpServletRequest request, UserRepository userRepo, CompanyRepository companyRepo) {
+    public RequestValidator(  HttpServletRequest request, UserRepository userRepo,
+            CompanyRepository companyRepo) {
         this.request = request;
         this.companyRepo = companyRepo;
         this.userRepo = userRepo;
-    }
-    
+    }    
     
     public Boolean  isApiKeyValid(){
         System.out.println("Validation of APIKEY..."+request.getHeader("X-API-KEY")+"\n");
@@ -49,6 +48,5 @@ public class RequestValidator {
     public Boolean  acceptsJson(){
             System.out.println("Validation of input structure..."+request.getHeader("Accept")+"\n");
             return request.getHeader("Accept").equals("application/json");
-    }     
-    
+    }   
 }
