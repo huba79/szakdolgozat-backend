@@ -25,7 +25,7 @@ public interface StagesRepository extends JpaRepository<Stage, Long> {
     ArrayList<Stage> findStageByLakeIdNative(Long id);
     
     @Query(
-            value = "SELECT * FROM STAGES S WHERE S.LAKE_ID = ?1", 
+            value = "SELECT * FROM STAGES S WHERE S.LAKE_ID = ?1 ORDER BY STAGE_NAME", 
             nativeQuery = true)
     ArrayList<ArrayList<Stage>> stageScheduleForInterval(Long LakeId);
   

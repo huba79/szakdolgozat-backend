@@ -19,17 +19,17 @@ import org.springframework.data.jpa.repository.Query;
 public interface  RulesRepository extends JpaRepository<RuleOfConduct, Long> {
 
     @Query(
-        value = "SELECT * FROM RULES_OF_CONDUCT R WHERE R.COMPANY_ID = ?1", 
+        value = "SELECT * FROM RULES_OF_CONDUCT R WHERE R.COMPANY_ID = ?1 ORDER BY RULE_ID", 
         nativeQuery = true)
     ArrayList<RuleOfConduct> findRuleByCompanyIdNative(Long companyId); 
     
     @Query(
-        value = "SELECT * FROM RULES_OF_CONDUCT R WHERE R.COMPANY_ID ?1 AND R.LAKE_ID = ?2", 
+        value = "SELECT * FROM RULES_OF_CONDUCT R WHERE R.COMPANY_ID ?1 AND R.LAKE_ID = ?2 ORDER BY RULE_ID", 
         nativeQuery = true)
     ArrayList<RuleOfConduct> findRuleByCompanyAndLakeIdNative(Long companyId,Long lakeId); 
     
     @Query(
-        value = "SELECT * FROM RULES_OF_CONDUCT R WHERE R.LAKE_ID = ?1", 
+        value = "SELECT * FROM RULES_OF_CONDUCT R WHERE R.LAKE_ID = ?1 ORDER BY RULE_ID", 
         nativeQuery = true)
     ArrayList<RuleOfConduct> findRuleByLakeIdNative(Long lakeId);
 }
